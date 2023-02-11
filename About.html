@@ -5,61 +5,64 @@
 <link rel="shortcut icon" href="favicon.ico">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Rat Reviews</title>
-<link href='https://fonts.googleapis.com/css?family=Blaka|Hanken+Grotesk|Syne+Mono' rel='stylesheet'>
+<link href='https://fonts.googleapis.com/css?family=Blaka|Hanken+Grotesk|Abhaya+Libre' rel='stylesheet'>
 <style>
 .title {
-	margin-top: 3% 0 0 0;
 	font-family: 'Blaka';
-	font-size: 7vw;
+	position: absolute;
+	margin: 5% 0;
+	width: 100%;
+	left:0%;
+	cursor: cell;
+	font-size: 15vw;
 	color: #010221;
-	cursor: none;
-	text-shadow: 0px 0px 0px #EDAA25;
+	text-shadow: 0px 0px 0px #C43302;
 	transition: text-shadow 1.5s, color 1s;
-	text-decoration: none
+	text-decoration: none;
   }
-.title:hover {
-	color: #0A7373;
-	text-shadow: 0 0 20px #010221;
-}
-.sub {
-	z-index: -1;
-	padding: 5px 10px;
-	color: #010221;
-	background-color: #ecede6;
-	align-content: left;
-	text-align: left;
-	left: 0;
-	position: fixed;
-	font-family: 'Hanken Grotesk';
-	font-size: 4vw;
-	border-radius: 12px;
-	margin: 8% 17% 2em;
-	width: 0;
-	word-wrap: break-word;
-	font-weight: bold;	
-}
 .prg {
   border: none;
   background-color: #EDAA25;
   box-shadow: 10px 10px #0A7373;
   color: #010221;
-  font-family: 'Syne Mono';
+  font-family: 'Abhaya Libre';
   text-align: center;
   align-content: center;
   padding: 3% 5%;
   font-size: 1.5em;
   border-radius: 12px;
-  margin: 25px 20% 100px;
+  margin: 22% 15% 100px;
+}
+
+.new {
+    opacity: 0;
+}
+
+.old, .new {
+    transition: opacity 0.5s linear;
+}
+
+.wrap:hover .old {
+    opacity: 0;
+}
+.wrap:hover .new {
+    opacity: 1;
 }
 </style>
 </head>
 <body style="text-align:center; background-color: #ecede6;">
-<a href="index.html" class="title">Rat Reviews</a>
-<br>
-<a class="sub">about</a>
+	<p class= "wrap">
+		<a href="https://rat.reviews/" class="title new">Rat Reviews</a>
+		<a href="https://rat.reviews/" class="title old">About</a>
+		</p>
 <br>
 <p class="prg pt">
-Born spiritually during 2022 and coming to fruition in early 2023, two strapping young whipper-snappers bonded over music with a magnetic energy…but in the spirit of magnets this is a case of opposites attracting. While 
+Born spiritually during 2022 (and coming to fruition in early 2023)
+ two strapping young whipper-snappers bonded over music with a magnetic 
+ energy…but in the spirit of magnets this is a case of opposites attracting. 
+ While Ape is more of the Side A, 45s, and Greatest Hits Josey
+ compliments with 33s, deep cuts, and back side. Ape has the sports car at the 
+ service station while Josey's 2+2 is in pieces in the driveway.
 </p>
 
 <br>
