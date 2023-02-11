@@ -9,33 +9,21 @@
 <style>
 .title {
 	font-family: 'Blaka';
-	font-size: 7vw;
+	position: absolute;
+	margin: 5% 0;
+	width: 100%;
+	left:0%;
+	cursor: cell;
+	font-size: 10vw;
 	color: #010221;
-	text-shadow: 0px 0px 0px #EDAA25;
+	text-shadow: 0px 0px 0px #C43302;
 	transition: text-shadow 1.5s, color 1s;
-	text-decoration: none
+	text-decoration: none;
   }
-.title:hover {
-	cursor: none
+.titlew:hover {
+	cursor: cell;
 	color: #0A7373;
-	text-shadow: 0 0 20px #010221;
-}
-.sub {
-	z-index: -1;
-	padding: 5px 10px;
-	color: #010221;
-	background-color: #ecede6;
-	align-content: left;
-	text-align: left;
-	left: 0;
-	position: fixed;
-	font-family: 'Hanken Grotesk';
-	font-size: 4vw;
-	border-radius: 12px;
-	margin: 8% 17% 2em;
-	width: 0;
-	word-wrap: break-word;
-	font-weight: bold;	
+	text-shadow: 0 0 20px #EDAA25;
 }
 .btn {
   border: none;
@@ -43,11 +31,28 @@
   font-family: 'DotGothic16';
   text-align: center;
   align-content: center;
+  margin: 1% 20vw;
   padding: 14px 10%;
   font-size: 1.5em;
   cursor: crosshair;
   border-radius: 12px;
 }
+
+.new {
+    opacity: 0;
+}
+
+.old, .new {
+    transition: opacity 0.5s linear;
+}
+
+.wrap:hover .old {
+    opacity: 0;
+}
+.wrap:hover .new {
+    opacity: 1;
+}
+
 .yt, .yt:any-link {background-color: #babdbf; color: black; text-decoration: none}
 .yt:hover {background-color: #010221; color: white;}
 
@@ -66,40 +71,31 @@
 </head>
 <body style="text-align:center; background-color: #ecede6;">
 
-<a href="index.html" class="title">Rat Reviews</a>
-<br>
-<a class="sub">Tracks</a>
-<br>
-
-<a href="index.html" alt="Coming Soon!" class="btn yt">Coming Soon!</a>
-<br>
-<br>
-<br>
-
-<a href="index.html" alt="Coming Soon!" class="btn pt">Coming Soon!</a>
-<br>
-<br>
-<br>
-  
-<a href="index.html" alt="Coming Soon!" class="btn tw">Coming Soon!</a>
-<br>
-<br>
-<br>
-  
-<a href="index.html" alt="Coming Soon!" class="btn in">Coming Soon!</a>
-<br>
-<br>
-<br>
-  
-<a class="btn tk" style="padding:14px 1%; font-size: 1.4em" alt="All Rights Reserved">&copy; Copyright 2018, Rat Review</a>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-
+<div class= "wrap">
+<a href="https://rat.reviews/" class="title new">Rat Reviews</a>
+<a href="https://rat.reviews/" class="title old">Albums</a>
 </div>
+
+<br>
+
+<p href="https://rat.reviews/" alt="Coming Soon!" class="btn yt" style="margin:20% 20vw 1%">Coming Soon!</p>
+<br>
+
+
+<p href="https://rat.reviews/" alt="Coming Soon!" class="btn pt">Coming Soon!</p>
+<br>
+
+  
+<p href="https://rat.reviews/" alt="Coming Soon!" class="btn tw">Coming Soon!</p>
+<br>
+
+  
+<p href="https://rat.reviews/" alt="Coming Soon!" class="btn in">Coming Soon!</p>
+<br>
+
+  
+<p class="btn tk" style="padding:14px 1%; font-size: 1.4em" alt="All Rights Reserved">&copy; Copyright 2018, Rat Review</p>
+<br>
 
 </body>
 </html>
