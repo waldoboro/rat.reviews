@@ -1,56 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="icon" type="image/x-icon" href="favicon.ico">
-<link rel="shortcut icon" href="favicon.ico">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Rat Reviews</title>
-<link href='https://fonts.googleapis.com/css?family=Blaka|Hanken+Grotesk|Syne+Mono' rel='stylesheet'>
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="shortcut icon" href="favicon.ico">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Rat Reviews</title>
+  <link href='https://fonts.googleapis.com/css?family=Blaka|DotGothic16|Abhaya+Libre' rel='stylesheet'>
 <style>
-.title {
-	margin-top: 3% 0 0 0;
-	font-family: 'Blaka';
-	font-size: 7vw;
-	color: #010221;
-	text-shadow: 0px 0px 0px #EDAA25;
-	transition: text-shadow 1.5s, color 1s;
-	text-decoration: none
-  }
-.title:hover {
-	color: #0A7373;
-	cursor:none;
-	text-shadow: 0 0 20px #010221;
-}
-.sub {
-	z-index: -1;
-	padding: 5px 10px;
-	color: #010221;
-	background-color: #ecede6;
-	align-content: left;
-	text-align: left;
-	left: 0;
-	position: fixed;
-	font-family: 'Hanken Grotesk';
-	font-size: 4vw;
-	border-radius: 12px;
-	margin: 8% 17% 2em;
-	width: 0;
-	word-wrap: break-word;
-	font-weight: bold;	
-}
-.prg {
-  border: none;
-  background-color: #EDAA25;
-  box-shadow: 10px 10px #0A7373;
-  color: #010221;
-  font-family: 'Syne Mono';
-  text-align: center;
-  align-content: center;
-  padding: 3% 5%;
-  font-size: 1.5em;
-  border-radius: 12px;
-  margin: 25px 20% 100px;
-}
 
 @font-face
 	{font-family:"Cambria Math";
@@ -71,14 +27,91 @@
 div.WordSection1
 	{page:WordSection1;}
 
+.bkg{
+	background-color: #ecede6;
+	background-image: url("tiles.png");
+	background-size: 30vw auto;
+background-repeat: repeat;
+}
+
+.topnav {
+  overflow: hidden;
+  background-color: #010221;
+}
+
+.topnav a {
+  font-family: 'DotGothic16';
+  font-weight: 500;
+  float: left;
+  color: #ffffff;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+hr.line {
+  border: 1px solid #0A7373;
+}
+
+.prg {
+  border: solid;
+  background-color: white;
+  box-shadow: 10px 10px #0A7373;
+  color: #010221;
+  font-family: 'Abhaya Libre';
+  text-align: center;
+  align-content: center;
+  padding: 3% 5%;
+  font-size: 1.5em;
+  border-radius: 12px;
+  margin: 10% ;
+}
+
+.link {
+  color: black;
+
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 3vw;
+  margin: 5% 0;
+  width: 90%;
+}
+
+.topnav a:hover {
+  background-color: #EDAA25;
+  color: black;
+}
+
+.topnav a.split {
+  float: right;
+  background-color: #010221;
+  color: #ffffff;
+}
+
+.footer {
+  font-family: 'DotGothic16';
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  text-shadow: 2px 2px 10px #000000;
+  color: white;
+  text-align: center;
+}
 </style>
 </head>
-<body style="text-align:center; background-color: #ecede6;">
-<a href="index.html" class="title">Rat Reviews</a>
-<br>
-<br>
-<div class=WordSection1; style='word-wrap:break-word; background-color: #EDAA25;
-box-shadow: 10px 10px #0A7373; border-radius: 12px;padding: 3% 5%; margin: 3%'>
+<body class="bkg">
+
+<div class="topnav">
+    <a class="active" href="https://rat.reviews/Albums.html"><u>Albums</u></a>
+    <a href="https://rat.reviews/Tracks.html">Tracks</a>
+    <a href="https://rat.reviews/About.html">About</a>
+    <a href="https://rat.reviews" class="split">Home</a>
+</div>
+
+<div class="WordSection1 prg"; style='word-wrap:break-word';>
 
 	<p class=MsoNormal><b><span lang=EN style='font-family:"Times New Roman",serif'>Who
 	Needs the Peace Corps?</span></b></p>
@@ -167,15 +200,10 @@ box-shadow: 10px 10px #0A7373; border-radius: 12px;padding: 3% 5%; margin: 3%'>
 	"Times New Roman",serif'>&nbsp;</span></p>
 	
 	</div>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
 
+
+<div class="footer">
+  <p>&copy; Copyright 2023, Rat Review</p>
 </div>
-
 </body>
 </html>
-   
