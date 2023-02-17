@@ -12,6 +12,7 @@
 	background-size: 30vw auto;
 background-repeat: repeat;
 }
+
 .title {
 	font-family: 'Blaka';
 	position: absolute;
@@ -25,10 +26,28 @@ background-repeat: repeat;
 	transition: text-shadow 1.5s, color 1s;
 	text-decoration: none;
   }
+
+@media screen and (min-width: 600px) {
+.title {
+	font-family: 'Blaka';
+	position: absolute;
+	margin: 2% 0% 5%;
+	width: 100%;
+	left: 0%;
+	cursor: none;
+	font-size: 15vw;
+	color: #010221;
+	text-shadow: 0 0 20px #ffffff;
+	transition: text-shadow 1.5s, color 1s;
+	text-decoration: none;
+}
+}
+
 .title:hover {
 	color: #0A7373;
 	text-shadow: 0 0 20px #010221;
 }
+
 .btn {
   border: solid;
   letter-spacing: 2px;
@@ -44,19 +63,56 @@ background-repeat: repeat;
   border-radius: 12px;
   opacity: 90%;
 }
-.yt, .yt:any-link {background-color: #babdbf; color: black; text-decoration: none}
+
+@media screen and (min-width: 600px) {
+	.btn {
+  border: solid;
+  letter-spacing: 2px;
+  border-width: 3px;
+  color: white;
+  font-family: 'DotGothic16';
+  font-weight: bold;
+  text-align: center;
+  align-content: center;
+  padding: 1% 10%;
+  font-size: 1.5em;
+  cursor: crosshair;
+  border-radius: 12px;
+  opacity: 90%;
+}
+}
+
+.footer {
+  font-family: 'DotGothic16';
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  text-shadow: 2px 2px 10px #000000;
+  color: white;
+  text-align: center;
+}
+
+.ww {margin: 28% 1px 1%;}
+.yt, .yt:any-link {	background-color: #babdbf; color: black; text-decoration: none}
 .yt:hover {background-color: #010221; color: white;}
 
-.pt, .pt:any-link {background-color: #babdbf; color: black; text-decoration: none} 
+@media screen and (min-width: 600px) {
+	.ww {
+		margin:20% 1px 1%;
+	}
+}
+
+.pt, .pt:any-link {margin:1% 1px; background-color: #babdbf; color: black; text-decoration: none} 
 .pt:hover {background: #0A7373; color: white;}
 
-.tw, .tw:any-link {background-color: #babdbf; color: black; text-decoration: none} 
+.tw, .tw:any-link {margin:1% 1px; background-color: #babdbf; color: black; text-decoration: none} 
 .tw:hover {background: #b7bf99;}
 
-.in, .in:any-link {background-color: #babdbf; color: black; text-decoration: none} 
+.in, .in:any-link {margin:1% 1px; background-color: #babdbf; color: black; text-decoration: none} 
 .in:hover {background: #EDAA25;}
 
-.tk, .tk:any-link {background-color: #babdbf; color: black; text-decoration: none}
+.tk, .tk:any-link {margin:1% 1px; background-color: #babdbf; color: black; text-decoration: none}
 .tk:hover {background: #C43302; color: white;}
 </style>
 </head>
@@ -68,44 +124,37 @@ background-repeat: repeat;
 
 <br>
 
-<div style="margin:28% 1px 1%">
+<div class="ww">
 	<p>
-	<a class=" btn yt" href="Albums.html" alt="Album Reviews">ALBUMS</a>
+	<a class="btn yt" href="Albums.html" alt="Album Reviews">ALBUMS</a>
 	</p>
 </div>
 
 <br>
 
-<div style="margin:1% 1px">
+<div>
 	<p>
 <a href="Tracks.html" alt="Track Reviews" class="btn pt">TRACKS</a>
 </p>
 </div>
 <br>
 
-<div style="margin:1% 1px">
+<div>
 	<p>  
 <a href="Archive.html" alt="Review Archives" class="btn tw">ARCHIVE</a>
 </p>
 </div>
 <br>
 
-<div style="margin:1% 1px">
+<div>
 	<p> 
 <a href="About.html" alt="About the Authors" class="btn in">ABOUT</a>
 </p>
 </div>
 <br>
 
-<div style="margin:1% 1px">
-	<p>  
-<a class="btn tk" style="padding: 14px 8%; font-size: 1em" alt="All Rights Reserved">&copy; Copyright 2023, Rat Review</a>
-</p>
-</div>
-<br>
-
-
-
 </body>
+<footer><div class="footer">
+  <p>&copy; Copyright 2023, Rat Review</p>
+</div></footer>
 </html>
-   

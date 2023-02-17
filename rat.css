@@ -28,7 +28,7 @@ hr.line {
 .prg {
   border: solid;
   background-color: white;
-  box-shadow: 10px 10px #0A7373;
+  box-shadow: 10px 10px  #0A7373;
   color: #010221;
   font-family: 'Abhaya Libre';
   text-align: center;
@@ -41,7 +41,7 @@ hr.line {
 
 @media screen and (min-width: 600px) {
 	.prg {
-        margin: 12% 10%;
+        margin: 8% 10%;
         font-size: 1.5em;
     }
 }
@@ -51,9 +51,16 @@ hr.line {
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 1em;
+  font-size: 1.5em;
   margin: 7% 0;
   width: 95%;
+}
+
+@media screen and (min-width: 600px) {
+	.link {
+        font-size: 1.2em;
+        margin: 2.5% 0;
+    }
 }
 
 .topnav a:hover {
