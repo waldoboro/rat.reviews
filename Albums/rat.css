@@ -76,7 +76,7 @@ hr.line {
 
 .footer {
   font-family: 'DotGothic16';
-  position: fixed;
+  position: static;
   left: 0;
   bottom: 0;
   width: 100%;
