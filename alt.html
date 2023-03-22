@@ -39,6 +39,9 @@
   cursor: crosshair;
   opacity: 90%;
   margin: 0% 2% 0% 8%;
+  border-radius: 0px;
+  border-width: 5px;
+  border-bottom-style: solid;
 }
 
 .xx {
@@ -65,38 +68,45 @@ text-align: center;
   z-index: -1;
 }
 
+/* LINK FORMATTING */
+
 .al, .al:any-link {
-    background-color: 
-    #babdbf; 
+    background-color: #babdbf; 
     color: black; 
     text-decoration: none;
     transition: background-color .7s, color .7s;
+    border-color: #0A7373;
 } 
-.al:hover {background: #0A7373; color: white;}
+.al:hover {background: #0A7373; color: white; border-color: #000000;}
 
 .tr, .tr:any-link {
     background-color: #babdbf; 
     color: black; 
     text-decoration: none;
-    transition: background-color .7s, color .7s;
+    transition: background-color .7s, color .7s, border-color .7s;
+    border-color: #b7bf99;
 } 
-.tr:hover {background: #b7bf99;}
+.tr:hover {background: #b7bf99; border-color: #000000;}
 
 .ar, .ar:any-link {
     background-color: #babdbf; 
     color: black; 
     text-decoration: none;
-    transition: background-color .7s, color .7s;
+    transition: background-color .7s, color .7s, border-color .7s;
+    border-color: #EDAA25;
 } 
-.ar:hover {background: #EDAA25;}
+.ar:hover {background: #EDAA25; border-color: #000000;}
 
 .ab, .ab:any-link {
     background-color: #babdbf; 
     color: black; 
     text-decoration: none;
-    transition: background-color .7s, color .7s;
+    transition: background-color .7s, color .7s, border-color .7s;
+    border-color: #C43302;
 }
-.ab:hover {background: #C43302; color: white;}
+.ab:hover {background: #C43302; color: white; border-color: #000000;}
+
+/* END LINK FORMATTING */
 
 @media screen and (min-width: 600px) {
 .title {
