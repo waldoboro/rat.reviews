@@ -4,13 +4,10 @@
 <link rel="shortcut icon" href="favicon.ico">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Rat Reviews</title>
-<link href='https://fonts.googleapis.com/css?family=Blaka|DotGothic16' rel='stylesheet'>
+<link href='https://fonts.googleapis.com/css?family=Blaka|DotGothic16|Roboto+Mono' rel='stylesheet'>
 <style>
 .bkg{
-	background-color: #ecede6;
-	background-image: url("tiles.png");
-	background-size: 30vw auto;
-background-repeat: repeat;
+	background-color: #2798ac;
 }
 
 .title {
@@ -43,16 +40,20 @@ background-repeat: repeat;
 }
 }
 
+.txxt {
+    color:aliceblue;
+    font-family: 'Roboto Mono';
+
+}
+
 .title:hover {
 	color: #0A7373;
 	text-shadow: 0 0 20px #010221;
 }
 
 .btn {
-  border: solid;
   letter-spacing: 2px;
   border-width: 3px;
-  color: white;
   font-family: 'DotGothic16';
   font-weight: bold;
   text-align: center;
@@ -66,10 +67,7 @@ background-repeat: repeat;
 
 @media screen and (min-width: 600px) {
 	.btn {
-  border: solid;
   letter-spacing: 2px;
-  border-width: 3px;
-  color: white;
   font-family: 'DotGothic16';
   font-weight: bold;
   text-align: center;
@@ -77,7 +75,6 @@ background-repeat: repeat;
   padding: 1% 10%;
   font-size: 1.5em;
   cursor: crosshair;
-  border-radius: 12px;
   opacity: 90%;
 }
 }
@@ -97,16 +94,38 @@ background-repeat: repeat;
 .yt, .yt:any-link {	background-color: #babdbf; color: black; text-decoration: none}
 .yt:hover {background-color: #010221; color: white;}
 
+.centre {
+    position: absolute;
+    margin: auto;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 50%;
+}
+
 @media screen and (min-width: 600px) {
 	.ww {
 		margin:20% 1px 1%;
 	}
+    .centre {
+    position: absolute;
+    margin: auto;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 30%;
 }
+}
+
+
 
 .pt, .pt:any-link {margin:1% 1px; background-color: #babdbf; color: black; text-decoration: none} 
 .pt:hover {background: #0A7373; color: white;}
 
-.tw, .tw:any-link {margin:1% 1px; background-color: #babdbf; color: black; text-decoration: none} 
+.tw, .tw:any-link {margin:1% 1px; 
+     color: black; text-decoration: none} 
 .tw:hover {background: #b7bf99;}
 
 .in, .in:any-link {margin:1% 1px; background-color: #babdbf; color: black; text-decoration: none} 
@@ -118,40 +137,16 @@ background-repeat: repeat;
 </head>
 <body style="text-align:center;" class="bkg">
 
-<div><p>
-<a class="title">Rat Reviews</a>
-</p></div>
-
-<br>
-
-<div class="ww">
-	<p>
-	<a class="btn yt" href="Albums" alt="Album Reviews">ALBUMS</a>
-	</p>
-</div>
-
-<br>
-
-<div>
-	<p>
-<a href="Tracks" alt="Track Reviews" class="btn pt">TRACKS</a>
-</p>
-</div>
-<br>
+<img src="walkin.gif" alt="A Day To Remember" class="centre">
 
 <div>
 	<p>  
+        <p class="txxt"><i>The Rat is on hiatus. I do hope he returns. - Ape</i></p>
 <a href="Archive" alt="Review Archives" class="btn tw">ARCHIVE</a>
 </p>
 </div>
 <br>
 
-<div>
-	<p> 
-<a href="About" alt="About the Authors" class="btn in">ABOUT</a>
-</p>
-</div>
-<br>
 
 </body>
 <footer><div class="footer">
