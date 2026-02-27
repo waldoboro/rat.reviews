@@ -490,4 +490,26 @@ tk.Label(btn_frame,
          text=f"Exports to: Content/[type]/[year]/[MM]/album.html\nAssets copied from: {SCRIPT_DIR.name}/",
          bg=BG, fg="#666666", font=("Courier New", 8), justify="left").pack(side="left")
 
+def clear_fields():
+    title_entry.delete(0, tk.END)
+    artist_entry.delete(0, tk.END)
+    album_entry.delete(0, tk.END)
+    year_entry.delete(0, tk.END)
+    type_entry.delete(0, tk.END)
+    author_entry.delete(0, tk.END)
+    review_text.delete("1.0", tk.END)
+    override_date_var.set(False)
+    toggle_date_entry()
+
+clear_btn = tk.Button(
+    btn_frame, text="✕  CLEAR",
+    command=clear_fields,
+    bg=BG2, fg=FG,
+    font=("Courier New", 12, "bold"),
+    relief="flat", cursor="hand2",
+    padx=24, pady=8,
+    activebackground=BORDER, activeforeground=FG
+)
+clear_btn.pack(side="right", padx=(0, 10))
+
 root.mainloop()
