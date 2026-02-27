@@ -22,7 +22,7 @@ MARKDOWN_HINTS = (
     "Markdown hints:  "
     "**bold**  |  *italic*  |  # H1 / ## H2  |  "
     "[text](url)  |  ![alt](img.jpg)  |  > quote  |  "
-    "- list item  |  `code`  |  \\\ <br> | ~~strike~~"
+    "- list item  |  `code`  |  +++ <br> | ~~strike~~"
 )
 
 # ── Review HTML template ────────────────── ##### ──────────────────── ##### ──────────────── ##### ───────────── ##### ────────────────
@@ -42,7 +42,7 @@ def generate_html(title, artist, album, release_year, review_type, pub_date, rev
 <body class="bkg" style="background-image: url(tiles.png)">
 
 <div class="topnav">
-  <a class="active" href="https://rat.reviews/Recent"><u>Recent</u></a>
+  <a href="https://rat.reviews/Recent">Recent</a>
   <a href="https://rat.reviews/Archive">Archive</a>
   <a href="https://rat.reviews/About">About</a>
   <a href="https://rat.reviews" class="split">Home</a>
@@ -130,8 +130,9 @@ def publish_review():
     # nl2br turns single newlines into <br> so paragraph breaks are preserved
     rendered = markdown.markdown(content, extensions=["extra", "nl2br"])
     rendered = rendered.replace("<p>", '<p class="MsoNormal">')
-    # Add <br> when \\ is entered
-    rendered = re.sub(r'<p[^>]*>\\</p>', '<br>', rendered)
+    # Add <br> when +++ is entered
+    content = content.replace('\n+++\n', '\n<br>\n')
+    rendered = markdown.markdown(content, extensions=["extra", "nl2br"])
     # Use <i>/<b> instead of semantic <em>/<strong> to match site style
     rendered = rendered.replace("<em>", "<i>").replace("</em>", "</i>")
     rendered = rendered.replace("<strong>", "<b>").replace("</strong>", "</b>")
@@ -246,7 +247,7 @@ def update_archive():
 </head>
 <body class="bkg">
 <div class="topnav">
-  <a class="active" href="https://rat.reviews/Reviews">Reviews</a>
+  <a class="active" href="https://rat.reviews/Recent">Reviews</a>
   <a href="https://rat.reviews/About">About</a>
   <a href="https://rat.reviews/Contact">Contact</a>
   <a href="https://rat.reviews" class="split">Home</a>
@@ -271,51 +272,47 @@ def update_recent(title, artist, album, release_year, review_type, pub_date, aut
     recent_path = SCRIPT_DIR / "Recent.html"
     current_year = datetime.date.today().year
 
-    # ── Parse existing entries from the file if it exists ─────────────────
+    # ── Read all entries from metadata comments in Content/ ───────────────
     entries = []
-    if recent_path.exists():
-        text = recent_path.read_text(encoding="utf-8")
-        # Each entry is an <a class="link"> block
-        blocks = re.findall(r'<a class="link"(.*?)</a>', text, re.DOTALL)
-        for block in blocks:
-            href_match = re.search(r'href="([^"]+)"', block)
-            type_match = re.search(r'<i[^>]*>(.*?)\s*\|', block)
-            date_match = re.search(r'\|\s*([\d.]+)\s*\|', block)
-            auth_match = re.search(r'\|\s*[\d.]+\s*\|\s*(\w+)', block)
-            bold_match = re.search(r'<b>(.*?)</b>', block)
-            title_match = re.search(r'</b></i>\s*<br>\s*\n?\s*(.*?)(?=</a>)', block, re.DOTALL)
+    for html_file in CONTENT_DIR.rglob("*.html"):
+        try:
+            text = html_file.read_text(encoding="utf-8")
+        except Exception:
+            continue
+        if "<!--" not in text:
+            continue
+        meta_block = text.split("<!--")[1].split("-->")[0]
+        meta = {}
+        for line in meta_block.strip().splitlines():
+            if ":" in line:
+                k, v = line.split(":", 1)
+                meta[k.strip()] = v.strip()
+        if "DATE" not in meta or "ALBUM" not in meta:
+            continue
+        try:
+            date_obj = datetime.datetime.strptime(meta["DATE"], "%Y-%m-%d").date()
+        except ValueError:
+            continue
+        file_rel = str(html_file.relative_to(SCRIPT_DIR)).replace("\\", "/")
+        entries.append({
+            "href":       f"/{file_rel}",
+            "type":       meta.get("TYPE", "General"),
+            "date":       date_obj,
+            "date_str":   f"{date_obj.day}.{date_obj.month}.{date_obj.year}",
+            "author":     meta.get("AUTHOR", ""),
+            "bold":       f"{meta.get('ALBUM','')} - {meta.get('ARTIST','')} ({meta.get('YEAR','')})",
+            "link_title": meta.get("TITLE", ""),
+        })
 
-            if href_match and bold_match:
-                entries.append({
-                    "href":      href_match.group(1).strip(),
-                    "type":      type_match.group(1).strip() if type_match else "",
-                    "date":      date_match.group(1).strip() if date_match else "",
-                    "author":    auth_match.group(1).strip() if auth_match else "",
-                    "bold":      bold_match.group(1).strip(),
-                    "link_title": title_match.group(1).strip() if title_match else "",
-                })
-
-    # ── Build the new entry ────────────────────────────────────────────────
-    formatted_date = f"{pub_date.day}.{pub_date.month}.{pub_date.year}"
-
-    new_entry = {
-        "href":       f"/{rel_path}",
-        "type":       review_type,
-        "date":       formatted_date,
-        "author":     author,
-        "bold":       f"{album} - {artist} ({release_year})",
-        "link_title": title,
-    }
-
-    # ── Prepend new, trim to MAX_RECENT ───────────────────────────────────
-    entries.insert(0, new_entry)
+    # ── Sort newest first, keep only MAX_RECENT ───────────────────────────
+    entries.sort(key=lambda x: x["date"], reverse=True)
     entries = entries[:MAX_RECENT]
 
     # ── Render entry blocks ────────────────────────────────────────────────
     def render_entry(e):
         return (
             f'  <a class="link" href="{e["href"]}">\n'
-            f'    <i style="font-size: 0.7em;">{e["type"]} | {e["date"]} | {e["author"]}<br>\n'
+            f'    <i style="font-size: 0.7em;">{e["type"]} | {e["date_str"]} | {e["author"]}<br>\n'
             f'    <b>{e["bold"]}</b></i> <br>\n'
             f'    {e["link_title"]}</a>\n'
         )
@@ -335,7 +332,7 @@ def update_recent(title, artist, album, release_year, review_type, pub_date, aut
 <body class="bkg">
 
 <div class="topnav">
-  <a class="active" href="https://rat.reviews/Archive"><u>Archive</u></a>
+  <a href="https://rat.reviews/Archive">Archive</a>
   <a href="https://rat.reviews/About">About</a>
   <a href="https://rat.reviews/Contact">Contact</a>
   <a href="https://rat.reviews" class="split">Home</a>
