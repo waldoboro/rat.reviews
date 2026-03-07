@@ -2,7 +2,9 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="shortcut icon" href="favicon.ico">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   <title>Rat Reviews</title>
   <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Bebas+Neue&family=DM+Mono:wght@500&display=swap" rel="stylesheet">
   <style>
@@ -19,16 +21,22 @@
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow-x: hidden;
+      overscroll-behavior: none; /* prevents rubber-band drag on mobile */
+    }
+
     body {
       background-color: var(--white);
       color: var(--black);
       font-family: 'Space Mono', monospace;
       min-height: 100vh;
-      overflow-x: hidden;
       cursor: crosshair;
     }
 
-    /* GRID OVERLAY — Mondrian/Neo-Plasticism soul */
+    /* GRID OVERLAY */
     body::before {
       content: '';
       position: fixed;
@@ -44,7 +52,7 @@
 
     /* ── HEADER ── */
     header {
-      position: center;
+      position: relative;
       z-index: 1;
       padding: 40px 40px 0;
       display: flex;
@@ -59,6 +67,10 @@
       padding: 12px 24px;
       transform: rotate(-1deg);
       transition: transform 0.2s, box-shadow 0.2s;
+      /* Prevent text selection on click */
+      user-select: none;
+      -webkit-user-select: none;
+      cursor: pointer;
     }
     .logo-block:hover {
       transform: rotate(0deg) scale(1.02);
@@ -72,6 +84,8 @@
       letter-spacing: 4px;
       color: var(--black);
       text-transform: uppercase;
+      /* belt-and-suspenders against selection */
+      pointer-events: none;
     }
 
     .rat-tag {
@@ -84,6 +98,7 @@
       padding: 4px 10px;
       display: inline-block;
       margin-bottom: 6px;
+      pointer-events: none;
     }
 
     /* ── MAIN ── */
@@ -111,7 +126,6 @@
       color: var(--black);
       padding: 20px 32px;
       background: var(--white);
-      box-shadow: none;
       transition: background 0.15s, transform 0.15s, box-shadow 0.15s;
       position: relative;
       overflow: hidden;
@@ -125,7 +139,6 @@
       transition: transform 0.2s;
       opacity: 0;
     }
-
     .nav-btn:hover .arrow { opacity: 1; transform: translateX(6px); }
 
     .nav-btn .num {
@@ -138,30 +151,14 @@
       margin-bottom: 8px;
     }
 
-    /* Per-button color accents */
-    .btn-albums {
-      --accent: var(--teal);
-      border-left: 14px solid var(--teal);
-    }
-    .btn-albums:hover { background: var(--teal); color: var(--white); }
-
-    .btn-tracks {
-      --accent: var(--sage);
-      border-left: 14px solid var(--sage);
-    }
-    .btn-tracks:hover { background: var(--sage); color: var(--black); }
-
-    .btn-archive {
-      --accent: var(--yellow);
-      border-left: 14px solid var(--yellow);
-    }
+    .btn-albums  { border-left: 14px solid var(--teal); }
+    .btn-albums:hover  { background: var(--teal);   color: var(--white); }
+    .btn-tracks  { border-left: 14px solid var(--sage); }
+    .btn-tracks:hover  { background: var(--sage);   color: var(--black); }
+    .btn-archive { border-left: 14px solid var(--yellow); }
     .btn-archive:hover { background: var(--yellow); color: var(--black); }
-
-    .btn-about {
-      --accent: var(--orange);
-      border-left: 14px solid var(--orange);
-    }
-    .btn-about:hover { background: var(--orange); color: var(--white); }
+    .btn-about   { border-left: 14px solid var(--orange); }
+    .btn-about:hover   { background: var(--orange); color: var(--white); }
 
     /* ── FOOTER STRIP ── */
     footer {
@@ -177,19 +174,24 @@
       font-size: 0.65rem;
       letter-spacing: 3px;
       text-transform: uppercase;
-      padding: 8px 40px;
-      display: flex;
-      gap: 40px;
+      padding: 8px 0;
       overflow: hidden;
+      white-space: nowrap;
     }
 
-    .ticker {
-      white-space: nowrap;
-      animation: ticker 375s linear infinite;
+    /* Two identical spans side by side — seamless loop */
+    .ticker-track {
+      display: inline-block;
+      animation: ticker 200s linear infinite;
+    }
+
+    /* Second span starts exactly where the first ends */
+    .ticker-track:nth-child(2) {
+      animation-delay: -45s; /* half the duration = perfectly offset */
     }
 
     @keyframes ticker {
-      from { transform: translateX(100vw); }
+      from { transform: translateX(0); }
       to   { transform: translateX(-100%); }
     }
 
@@ -204,10 +206,7 @@
       flex-direction: column;
       z-index: 5;
     }
-    .deco-col div {
-      flex: 1;
-      border-left: 4px solid var(--black);
-    }
+    .deco-col div { flex: 1; border-left: 4px solid var(--black); }
     .deco-col div:nth-child(1) { background: var(--teal); }
     .deco-col div:nth-child(2) { background: var(--yellow); }
     .deco-col div:nth-child(3) { background: var(--orange); }
@@ -216,16 +215,14 @@
     /* ── RESPONSIVE ── */
     @media (max-width: 600px) {
       header { padding: 24px 20px 0; }
-      main { padding: 40px 20px; }
+      main   { padding: 40px 20px; }
       .nav-btn { padding: 16px 20px; letter-spacing: 3px; }
-      .header-accent { width: 50px; height: 50px; }
-      footer { padding: 8px 20px; }
+      footer { padding: 6px 0; }
     }
   </style>
 </head>
 <body>
 
-  <!-- Mondrian right-edge column -->
   <div class="deco-col">
     <div></div><div></div><div></div><div></div>
   </div>
@@ -235,33 +232,6 @@
       <div class="rat-tag">★ UNQUALIFIED ★</div>
       <h1 id="glitchNum">Rat Reviews</h1>
     </div>
-    <script>
-  // ── GLITCH on click ─────────────────────────────────────────────────────
-  const glitchNum = document.getElementById('glitchNum');
-  const logoBlock = document.getElementById('logoBlock');
-  let glitching = false;
-
-  logoBlock.addEventListener('click', () => {
-    if (glitching) return;
-    glitching = true;
-
-    const duration = 1000;
-    const interval = 55;
-    let elapsed = 0;
-
-    const scramble = setInterval(() => {
-      const r = () => Math.floor(Math.random() * 10);
-      glitchNum.textContent = `${r()}${r()}${r()}${r()}${r()}${r()}${r()}${r()}${r()}${r()}`;
-      elapsed += interval;
-      if (elapsed >= duration) {
-        clearInterval(scramble);
-        glitchNum.textContent = 'Rat Reviews';
-        setTimeout(() => { glitchNum.textContent = 'TAR SWEIVER'; }, 80);
-        setTimeout(() => { glitchNum.textContent = 'Rat Reviews'; glitching = false; }, 180);
-      }
-    }, interval);
-  });
-  </script>
   </header>
 
   <main>
@@ -287,36 +257,71 @@
     </a>
   </main>
 
+  <!-- Two identical tracks for seamless loop — JS fills both -->
   <footer>
-  <span class="ticker" id="ticker"></span>
-</footer>
+    <span class="ticker-track" id="ticker1"></span>
+    <span class="ticker-track" id="ticker2"></span>
+  </footer>
 
 <script>
+  // ── GLITCH on click/tap ────────────────────────────────────────────────
+  const glitchNum = document.getElementById('glitchNum');
+  const logoBlock = document.getElementById('logoBlock');
+  let glitching = false;
+
+  // Use pointerdown so it fires on both mouse and touch
+  logoBlock.addEventListener('pointerdown', (e) => {
+    e.preventDefault(); // stops text selection on mobile tap
+    if (glitching) return;
+    glitching = true;
+
+    const duration = 1000;
+    const interval = 55;
+    let elapsed = 0;
+
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%';
+    const r = () => chars[Math.floor(Math.random() * chars.length)];
+
+    const scramble = setInterval(() => {
+      glitchNum.textContent = Array.from({length: 10}, r).join('');
+      elapsed += interval;
+      if (elapsed >= duration) {
+        clearInterval(scramble);
+        glitchNum.textContent = 'Rat Reviews';
+        setTimeout(() => { glitchNum.textContent = 'TAR SWEIVER'; }, 80);
+        setTimeout(() => { glitchNum.textContent = 'Rat Reviews'; glitching = false; }, 180);
+      }
+    }, interval);
+
+    // Always restore tilt after interaction
+    logoBlock.style.transform = 'rotate(-1deg)';
+  });
+
+  // ── SEAMLESS TICKER ────────────────────────────────────────────────────
   const phrases = [
-    "RAT REVIEWS",   "AUDIT",   "PROTOCOL",   "ANALYTICS",   "OPERATIONAL THEATRE",   "RAT REVIEWS", 
-  "EXHAUSTION",   "DISMISSAL",   "ABSENCE",   "SECURITY APPARATUS",  "RAT REVIEWS",
-  "DISLOCATION",   "ATTRITION",   "VIRALITY",   "EROSION", "🌭",
-  "CONTRACTS",   "PROVISIONARY",   "LIQUIDATION",   "ASSESSMENTS",   "AUTHORIZATION", 
-  "RAT REVIEWS",   "SUBSCRIPTION",   "AUTOMATION",   "PIPELINE",   "SCALABILITY", 
-  "RAT REVIEWS",   "COMPLIANCE",   "TERMINATION",   "MANDATES",   "DIVESTMENT", 
-  "RAT REVIEWS",   "FORCE MULTIPLIER",   "ADAPTIVE SUPPRESSION",   "BLACK SITE",   "APATHY", 
-  "RAT REVIEWS",   "KINETIC",   "ENTROPY",   "OVERSIGHT",   "ESCALATION PROTOCOL", 
-  "RAT REVIEWS",   "LAUGHTER",   "VACANCY",  "PLACEBO",   "ISOLATE", 
-  "RAT REVIEWS",   "LEVERAGE",   "FIDELITY",   "ECONOMIC HARM",   "SPOLIATION", 
-  "RAT REVIEWS",   "COMPOUND",  "RESIDUE",   "CONTAINMENT",   "METRIC", 
-  "RAT REVIEWS",   "TITRATION",   "PERMANENCE",   "DETACHMENT",   "SEVERANCE", 
-  "REDUNDANCY",   "EXPANSION",   "SPADES",   "OUTREACH",   "ARBITRATION", 
-  "RAT REVIEWS",   "CREATINE",   "DECAY",   "GOOD FAITH",   "CAFFEINE", 
-  "RAT REVIEWS",   "EXTRACTION",   "MARGINS",   "CAPITAL",   "DEPRECIATION", 
-  "RAT REVIEWS",   "OBSOLESCENCE",  "REDUCTION",   "INERTIA",   "COLLAPSE", 
-  "ENGAGEMENT",  "VALUATION",   "INDEX",   "EQUITY",   "COLLATERAL", 
-  "RAT REVIEWS",   "MONETIZATION",   "SPECULATIVE",   "INSOLVENCY",   "LIABILITY", 
-  "RAT REVIEWS",   "DOSAGE",  "INTERVENTION", "© COPYRIGHT 2026",
-  "REGRESSIVE",  "SATURATION" ,    "RAT REVIEWS",    "ALBUMS",    "TRACKS",    "ARCHIVE",    "🍒",
-  "SOUNDS GOOD",    "CRITICAL EARS",    "RECOMMENDED LISTENING",    "NO SKIPS",
+    "RAT REVIEWS","AUDIT","PROTOCOL","ANALYTICS","OPERATIONAL THEATRE","RAT REVIEWS",
+    "EXHAUSTION","DISMISSAL","ABSENCE","SECURITY APPARATUS","RAT REVIEWS",
+    "DISLOCATION","ATTRITION","VIRALITY","EROSION","🌭",
+    "CONTRACTS","PROVISIONARY","LIQUIDATION","ASSESSMENTS","AUTHORIZATION",
+    "RAT REVIEWS","SUBSCRIPTION","AUTOMATION","PIPELINE","SCALABILITY",
+    "RAT REVIEWS","COMPLIANCE","TERMINATION","MANDATES","DIVESTMENT",
+    "RAT REVIEWS","FORCE MULTIPLIER","ADAPTIVE SUPPRESSION","BLACK SITE","APATHY",
+    "RAT REVIEWS","KINETIC","ENTROPY","OVERSIGHT","ESCALATION PROTOCOL",
+    "RAT REVIEWS","LAUGHTER","VACANCY","PLACEBO","ISOLATE",
+    "RAT REVIEWS","LEVERAGE","FIDELITY","ECONOMIC HARM","SPOLIATION",
+    "RAT REVIEWS","COMPOUND","RESIDUE","CONTAINMENT","METRIC",
+    "RAT REVIEWS","TITRATION","PERMANENCE","DETACHMENT","SEVERANCE",
+    "REDUNDANCY","EXPANSION","SPADES","OUTREACH","ARBITRATION",
+    "RAT REVIEWS","CREATINE","DECAY","GOOD FAITH","CAFFEINE",
+    "RAT REVIEWS","EXTRACTION","MARGINS","CAPITAL","DEPRECIATION",
+    "RAT REVIEWS","OBSOLESCENCE","REDUCTION","INERTIA","COLLAPSE",
+    "ENGAGEMENT","VALUATION","INDEX","EQUITY","COLLATERAL",
+    "RAT REVIEWS","MONETIZATION","SPECULATIVE","INSOLVENCY","LIABILITY",
+    "RAT REVIEWS","DOSAGE","INTERVENTION","© COPYRIGHT 2026",
+    "REGRESSIVE","SATURATION","RAT REVIEWS","ALBUMS","TRACKS","ARCHIVE","🍒",
+    "SOUNDS GOOD","CRITICAL EARS","RECOMMENDED LISTENING","NO SKIPS",
   ];
 
-  // Shuffle using Fisher-Yates
   function shuffle(arr) {
     const a = [...arr];
     for (let i = a.length - 1; i > 0; i--) {
@@ -326,9 +331,10 @@
     return a;
   }
 
-  // Build ticker text — repeat shuffled set a few times so it fills the scroll
-  const run = [...shuffle(phrases), ...shuffle(phrases), ...shuffle(phrases)];
-  document.getElementById("ticker").textContent = run.join("  ·  ");
+  // Same shuffled content in both spans — they leapfrog each other
+  const text = shuffle(phrases).join('  ·  ') + '  ·  ';
+  document.getElementById('ticker1').textContent = text;
+  document.getElementById('ticker2').textContent = text;
 </script>
 
 </body>
