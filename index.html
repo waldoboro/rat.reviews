@@ -231,10 +231,37 @@
   </div>
 
   <header>
-    <div class="logo-block">
+    <div class="logo-block" id="logoBlock">
       <div class="rat-tag">★ UNQUALIFIED ★</div>
-      <h1>Rat Reviews</h1>
+      <h1 id="glitchNum">Rat Reviews</h1>
     </div>
+    <script>
+  // ── GLITCH on click ─────────────────────────────────────────────────────
+  const glitchNum = document.getElementById('glitchNum');
+  const logoBlock = document.getElementById('logoBlock');
+  let glitching = false;
+
+  logoBlock.addEventListener('click', () => {
+    if (glitching) return;
+    glitching = true;
+
+    const duration = 1000;
+    const interval = 55;
+    let elapsed = 0;
+
+    const scramble = setInterval(() => {
+      const r = () => Math.floor(Math.random() * 10);
+      glitchNum.textContent = `${r()}${r()}${r()}${r()}${r()}${r()}${r()}${r()}${r()}${r()}`;
+      elapsed += interval;
+      if (elapsed >= duration) {
+        clearInterval(scramble);
+        glitchNum.textContent = 'Rat Reviews';
+        setTimeout(() => { glitchNum.textContent = 'TAR SWEIVER'; }, 80);
+        setTimeout(() => { glitchNum.textContent = 'Rat Reviews'; glitching = false; }, 180);
+      }
+    }, interval);
+  });
+  </script>
   </header>
 
   <main>
