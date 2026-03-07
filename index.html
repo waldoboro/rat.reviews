@@ -10,9 +10,9 @@
       --black: #0a0a0a;
       --white: #f5f0e8;
       --yellow: #FFE500;
-      --teal: #0A7373;
-      --orange: #C43302;
-      --sage: #b7bf99;
+      --teal: #0f2cc1;
+      --orange: #cf0a0a;
+      --sage: #0ead25;
       --shadow: 5px 5px 0px var(--black);
       --shadow-lg: 8px 8px 0px var(--black);
     }
@@ -34,23 +34,22 @@
       position: fixed;
       inset: 0;
       background-image:
-        linear-gradient(var(--black) 1px, transparent 1px),
+        linear-gradient(var(--teal) 1px, transparent 1px),
         linear-gradient(90deg, var(--black) 1px, transparent 1px);
       background-size: 60px 60px;
-      opacity: 0.04;
+      opacity: 0.4;
       pointer-events: none;
       z-index: 0;
     }
 
     /* ── HEADER ── */
     header {
-      position: relative;
+      position: center;
       z-index: 1;
       padding: 40px 40px 0;
       display: flex;
       align-items: flex-start;
-      justify-content: space-between;
-      border-bottom: 4px solid var(--black);
+      justify-content: center;
     }
 
     .logo-block {
@@ -85,16 +84,6 @@
       padding: 4px 10px;
       display: inline-block;
       margin-bottom: 6px;
-    }
-
-    .header-accent {
-      width: 80px;
-      height: 80px;
-      background: var(--orange);
-      border: 4px solid var(--black);
-      box-shadow: var(--shadow);
-      align-self: center;
-      flex-shrink: 0;
     }
 
     /* ── MAIN ── */
@@ -245,7 +234,6 @@
       <div class="rat-tag">★ UNQUALIFIED ★</div>
       <h1>Rat Reviews</h1>
     </div>
-    <div class="header-accent"></div>
   </header>
 
   <main>
