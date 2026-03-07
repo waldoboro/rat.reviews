@@ -1,3 +1,16 @@
+ :root {
+      --black: #0a0a0a;
+      --white: #f5f0e8;
+      --yellow: #FFE500;
+      --teal: #0f2cc1;
+      --orange: #cf0a0a;
+      --sage: #0ead25;
+      --shadow: 5px 5px 0px var(--black);
+      --shadow-lg: 8px 8px 0px var(--black);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
 .bkg{
 	background-color: #ecede6;
 	background-image: url("tiles.png");
