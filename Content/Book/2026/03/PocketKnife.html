@@ -1,0 +1,303 @@
+<!--
+TITLE: I Want A Motorcycle
+ARTIST: Jo Mutt
+ALBUM: Pocket Knife
+YEAR: 2026
+TYPE: Book
+AUTHOR: Ape
+DATE: 2026-03-07
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="shortcut icon" href="favicon.ico">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>I Want A Motorcycle \\ RAT REVIEWS</title>
+  <style>
+    :root {
+      --bg-void: #fcfcf9;
+      --shard-base: rgba(255, 255, 255, 0.7);
+      --shard-alt: rgba(235, 235, 235, 0.5);
+      --text-color: #1a1a1a;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-void);
+      font-family: 'Courier New', Courier, monospace;
+      color: var(--text-color);
+      min-height: 200vh;
+      /* Ensures there is room to scroll */
+    }
+
+    /* --- FIXED BACKGROUND LAYER --- */
+    #background-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      /* Keeps it behind the text */
+      overflow: hidden;
+      pointer-events: none;
+      /* Allows clicking "through" the background */
+    }
+
+    .shard {
+      position: absolute;
+      background: var(--shard-base);
+      filter: url(#animatedNoise);
+      will-change: clip-path, transform;
+      backdrop-filter: blur(1px);
+    }
+
+    .shard-alt {
+      background: var(--shard-alt);
+    }
+
+    /* --- SCROLLABLE CONTENT LAYER --- */
+    .content-wrapper {
+      position: relative;
+      z-index: 1;
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 40px 20px;
+      line-height: 1.6;
+
+    }
+
+    .footer {
+      position: static;
+      align-items: center;
+      padding: 5px;
+      width: 100%;
+      text-shadow: 2px 2px 10px #000000;
+      color: rgb(53, 56, 37);
+      text-align: center;
+    }
+
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #232123;
+      padding: 5px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav a {
+
+      font-weight: 500;
+      color: #ffffff;
+      text-transform: uppercase;
+      font-size: 20px;
+      text-decoration: none;
+    }
+
+    section {
+      margin-bottom: 100vh;
+    }
+
+    /* Spacing out text to see the background */
+
+    h1 {
+      margin-top: 0;
+      filter: url(#dist);
+      font-size: 3rem;
+      text-transform: uppercase;
+      display: inline-block;
+      font-size: 2.5rem;
+      margin-bottom: 2rem;
+      letter-spacing: -1px;
+    }
+
+    .subtitle {
+      text-align: right;
+    }
+
+    p {
+      font-size: 1.1rem;
+      text-shadow: 2px 2px 10px #00000065;
+      margin-bottom: 1.5rem;
+    }
+
+    /* --- SVG FILTER --- */
+    .svg-defs {
+      position: absolute;
+      width: 0;
+      height: 0;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="nav">
+    <a href="https://rat.reviews/Recent">[RECENT]</a>
+    <a href="https://rat.reviews/Archive">[ARCHIVE]</a>
+    <a href="https://rat.reviews">[HOME]</a>
+  </div>
+
+  <svg class="svg-defs">
+    <filter id="animatedNoise">
+      <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" result="noise">
+        <animate attributeName="seed" from="0" to="1000" dur="60s" repeatCount="indefinite" />
+      </feTurbulence>
+      <feColorMatrix type="matrix" values="0 0 0 0 0 
+                                           0 0 0 0 0 
+                                           0 0 0 0 0 
+                                           0 0 0 0.12 0" />
+      <feComposite operator="in" in2="SourceGraphic" />
+    </filter>
+  </svg>
+
+  <svg width="0" height="0" style="position:absolute;">
+    <filter id="dist">
+      <feTurbulence type="turbulence" baseFrequency=".022" numOctaves="2" result="warp">
+        <animate attributeName="baseFrequency" dur=".28s" values=".022;.05;.022" repeatCount="indefinite" />
+      </feTurbulence>
+      <feDisplacementMap in="SourceGraphic" in2="warp" scale="3" />
+    </filter>
+  </svg>
+
+  <div id="background-canvas"></div>
+
+  <div class="content-wrapper">
+    <header>
+      <h1>I Want A Motorcycle</h1>
+      <div class="subtitle"><b>[TITLE]:</b> POCKET KNIFE</div>
+      <div class="subtitle"><b>[ARTIST]:</b> JO MUTT</div>
+      <div class="subtitle"><b>[YEAR]:</b>2026</div>
+    </header>
+    <br>
+    <p>The page numbers are off. Very first thing I noticed. Open the cover, blank page, front matter, copyright,
+      bastard title, preliminaries, index...pure chaos. 88 pages, but 6 of them don't get a name. Makes the reader
+      wonder what else in this binding is left untitled.</p>
+    <p>As a matter of holding something in your hand, the book itself is fine. The cover has a wax-like feel. Wax for
+      the poetry...<i>hmm</i>. Glue binding holds this collection well under an inch thick, but that's alright. The
+      cover itself pulls; what I don't know. The cover itself is a depiction of a shuck'd oyster. I believe, with great
+      certainty, that the author <i>Mr. Mutt</i> is trying to make a statement that the book, <i>Pocket Knife</i>, is
+      the shuck to find your own damn pearl because I ain't seeing it on the artwork. Did the author put it inside the
+      pages because I ain't opening this smut.</p>
+    <p>Or maybe there just wasn't a pearl to begin with. Maybe <b>I</b> am the pearl.</p>
+    
+    <p>Dr. Mutt gave a subtitle of <i>Jokes I Told The Earth</i> but this ain't funny. I worry the author has that
+      antiquated definition of 'comedy'.</p>
+    
+    <p>When I turn to the index, I can't help but love the unevenness of the type weight. A not-so-subtle wave giving
+      the ghost of a screen-printed sea. The Zoroaster reference jumps to me so I jump straight to page 15; however, I
+      quickly realize I am unacquainted with some of the characters mentioned, so a trip from <i>The man calling himself
+        zarathustra</i> to <i>Slightliness behold</i> welcomes me with a lovely graphic of something. It's blue. And so
+      are my feelings once I hit my first unfamiliar word. I don't know what 'Matryoshka' means, and I might need to,
+      but today isn't that day. </p>
+    
+    <p>I made it through the first poem, closed the book, and worked the binding through my fingers. Here I am realizing
+      I have no idea how to read poetry. The book feels good in hand but puts gentle pressure around my neck once
+      opened. Will I find out who is the man calling himself Zarathushtra? Could it be the man himself because sometimes
+      I call myself Ape but I just might be one. I was told some instruction if I ever came across someone calling
+      themselves The Buddha?</p>
+    
+    <p>I thumb to page 6 and make it a couple more pages. Why does Senator Mutt have such a bleak outlook on painters? I
+      swear, I swear I constantly hear that living life is somehow the antithesis of living life. </p>
+    
+    <p>It was on page 26 once did I realize the author doesn't smoke<i>...but wants to.</i></p>
+    
+    <p>It was on page 41 once did I realize the author doesn't have a motorcycle<i>...but wants one.</i></p>
+    
+    <p>...or maybe it's me who wants these things? I am, after all, still without my pearl.</p>
+    
+    <p>By the end of the book I wonder if knowing the author would help in some way. I believe this is a pen-name so
+      probably not. There are many words I don't know. <i>When the revolution ends</i> would be the pearl if I had to
+      choose so. The book still feels good in-hand. I didn't read between the lines. I don't know if an asterisk is some
+      notation on pacing. Do I release the sustain pedal?</p>
+    <p style="text-align: right;">-Ape, 2026.03.07</p>
+  </div>
+
+  <script>
+    const canvas = document.getElementById('background-canvas');
+    const shards = [];
+
+    // Check if the screen is mobile sized
+    const isMobile = window.innerWidth < 768;
+    const shardCount = isMobile ? 4 : 7; // Fewer shapes on mobile to keep it clean
+
+    function createShard() {
+      const el = document.createElement('div');
+      el.className = `shard ${Math.random() > 0.5 ? 'shard-alt' : ''}`;
+
+      // MOBILE SCALING LOGIC:
+      // We make shapes wider and taller on mobile (relative to screen)
+      const minSize = isMobile ? 60 : 30;
+      const maxSize = isMobile ? 90 : 60;
+
+      const shard = {
+        el: el,
+        x: Math.random() * 70,
+        y: Math.random() * 70,
+        w: minSize + Math.random() * (maxSize - minSize),
+        h: minSize + Math.random() * (maxSize - minSize),
+        points: [
+          { x: 0, y: 0, sx: Math.random() * 10, sy: Math.random() * 10 },
+          { x: 100, y: 0, sx: Math.random() * 10, sy: Math.random() * 10 },
+          { x: 100, y: 100, sx: Math.random() * 10, sy: Math.random() * 10 },
+          { x: 0, y: 100, sx: Math.random() * 10, sy: Math.random() * 10 }
+        ],
+        speed: 0.0008 + Math.random() * 0.0015 // Slower drift for a calmer feel
+      };
+
+      el.style.width = shard.w + (isMobile ? 'vw' : 'vw');
+      el.style.height = shard.h + (isMobile ? 'vh' : 'vh');
+      el.style.left = shard.x + 'vw';
+      el.style.top = shard.y + 'vh';
+
+      canvas.appendChild(el);
+      return shard;
+    }
+
+    function update() {
+      const time = Date.now() * 0.001;
+
+      shards.forEach(s => {
+        // Morphing the clip-path vertices
+        const morph = s.points.map(p => {
+          const dx = p.x + Math.sin(time * s.speed * 12 + p.sx) * (isMobile ? 12 : 8);
+          const dy = p.y + Math.cos(time * s.speed * 12 + p.sy) * (isMobile ? 12 : 8);
+          return `${dx}% ${dy}%`;
+        }).join(', ');
+
+        s.el.style.clipPath = `polygon(${morph})`;
+
+        // Global drift
+        const globalX = Math.sin(time * s.speed) * (isMobile ? 30 : 50);
+        const globalY = Math.cos(time * s.speed * 0.7) * (isMobile ? 30 : 50);
+        s.el.style.transform = `translate(${globalX}px, ${globalY}px)`;
+      });
+
+      requestAnimationFrame(update);
+    }
+
+    for (let i = 0; i < shardCount; i++) {
+      shards.push(createShard());
+    }
+    update();
+  </script>
+
+  <footer>
+    <div class="footer">
+      <p>&copy; Copyright 2026 \\ Rat Reviews</p>
+    </div>
+  </footer>
+</body>
+
+</html>

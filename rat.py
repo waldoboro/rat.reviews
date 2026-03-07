@@ -512,4 +512,5 @@ clear_btn = tk.Button(
 )
 clear_btn.pack(side="right", padx=(0, 10))
 
+
 root.mainloop()
