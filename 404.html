@@ -6,7 +6,27 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta charset="UTF-8">
   <link rel="stylesheet" href="rat.css">
-  <title>404 — Rat Reviews</title>
+  <title>404 Rat Reviews</title>
+ <!-- Title Changer -->
+  <script>
+    // 1. Define the characters you want to cycle through
+    const symbols = [
+  "★", "☆", "✦", "✧", "✩", "✪", "✫", "✬", // Stars & Sparkles
+  "☀", "☁", "☾", "☄", "⚡", "❄", "❅", "❆", // Nature & Weather
+  "⌬", "⏍", "⏏", "⧉", "⧇", "⧅", "⧄", "⍈", // Geometric & Tech
+  "⚓", "⚔", "⚙", "⚗", "⚖", "⚰"              // Miscellaneous Objects
+];
+    let index = 0;
+
+    // 2. Set a timer to update the title
+    setInterval(() => {
+      // Update the title with the current symbol
+      document.title = `4${symbols[index]}4`;
+      
+      // Move to the next index, or loop back to 0
+      index = (index + 1) % symbols.length;
+    }, 100); // 200ms = 5 times per second
+  </script>
   <link href='https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Special+Elite&family=DM+Mono:wght@500&display=swap' rel='stylesheet'>
   <style>
     :root {
