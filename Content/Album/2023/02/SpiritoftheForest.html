@@ -12,40 +12,303 @@ DATE: 2023-02-10
 <head>
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link rel="shortcut icon" href="favicon.ico">
-  <link rel="stylesheet" href="rat.css">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Who Needs the Peace Corps? — Rat Reviews</title>
-  <link href='https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Blaka&family=DotGothic16&family=Abhaya+Libre&display=swap' rel='stylesheet'>
-</head>
-<body class="bkg" style="background-image: url(tiles.png)">
+  <title>Who Needs the Peace Corps? \\ Rat Reviews</title>
+  <link href='https://fonts.googleapis.com/css2?family=VT323&family=Share+Tech+Mono&display=swap' rel='stylesheet'>
 
-<div class="topnav">
+  <style>
+
+    /* ═══════════════════════════════════════════════
+       TWEAK ZONE
+    ═══════════════════════════════════════════════ */
+    :root {
+      --nav-hover-color:  #c8ff00;   /* ← change this */
+      --nav-hover-offset: 5px;
+    }
+    /* ═══════════════════════════════════════════════ */
+
+    :root {
+      --bg:       #0d0d0d;
+      --border:   #2a2a2a;
+      --dim:      #3a3a3a;
+      --mid:      #777777;
+      --bright:   #c8c8c8;
+      --white:    #e8e8e8;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html, body {
+      background: var(--bg);
+      color: var(--bright);
+      min-height: 100vh;
+    }
+
+    body {
+      font-family: 'VT323', 'Courier New', monospace;
+      font-size: 20px;
+      line-height: 1.6;
+      position: relative;
+      overflow-x: hidden;
+      cursor: crosshair;
+    }
+
+    /* scanlines */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      pointer-events: none;
+      background: repeating-linear-gradient(
+        to bottom,
+        transparent 0px,
+        transparent 3px,
+        rgba(0,0,0,0.04) 3px,
+        rgba(0,0,0,0.04) 4px
+      );
+    }
+
+    /* phosphor vignette */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: 9998;
+      pointer-events: none;
+      background: radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,0.55) 100%);
+    }
+
+    /* ════════════ NAV ════════════ */
+    .topnav {
+      display: flex;
+      align-items: stretch;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+      z-index: 100;
+    }
+
+    .topnav a {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--mid);
+      text-decoration: none;
+      padding: 1.1rem 1.7rem;
+      position: relative;
+      transition: color 0.08s;
+      z-index: 1;
+    }
+
+    .topnav a.split { margin-left: auto; }
+
+    /* offset polygon */
+    .topnav a::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--nav-hover-color);
+      clip-path: polygon(
+        var(--nav-hover-offset) 0%,
+        100% 0%,
+        calc(100% - var(--nav-hover-offset)) 100%,
+        0% 100%
+      );
+      transform: translate(
+        calc(var(--nav-hover-offset) * -1),
+        calc(var(--nav-hover-offset) * 0.5)
+      );
+      opacity: 0;
+      transition: opacity 0.1s ease;
+      z-index: -1;
+    }
+
+    .topnav a:hover::before { opacity: 1; }
+    .topnav a:hover { color: #000; }
+
+    /* ════════════ HEADER ════════════ */
+    .review-header-wrap {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 4rem 2.5rem 2.8rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .prompt-line {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+      color: var(--dim);
+      margin-bottom: 1.4rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .prompt-line::before { content: 'C:\\RAT\\REVIEWS>'; }
+
+    .cursor-blink {
+      display: inline-block;
+      width: 8px;
+      height: 1em;
+      background: var(--bright);
+      animation: blink 1.1s step-end infinite;
+      vertical-align: middle;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0; }
+    }
+
+    h1 {
+      font-family: 'VT323', monospace;
+      font-size: clamp(3rem, 7vw, 5.5rem);
+      font-weight: 400;
+      line-height: 1;
+      letter-spacing: 0.03em;
+      color: var(--white);
+      margin-bottom: 1rem;
+      text-shadow: 0 0 18px rgba(232,232,232,0.15), 0 0 2px rgba(232,232,232,0.07);
+    }
+
+    .sub {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.18em;
+      color: var(--mid);
+      text-transform: uppercase;
+    }
+
+    /* ════════════ BODY ════════════ */
+    .prg {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 3rem 2.5rem 5rem;
+    }
+
+    .prg p {
+      font-family: 'VT323', monospace;
+      font-size: 1.22rem;
+      line-height: 1.72;
+      color: var(--bright);
+      margin-bottom: 2.4rem;
+      max-width: 70ch;
+    }
+
+    .prg p i {
+      color: var(--white);
+      font-style: normal;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      text-decoration-color: var(--dim);
+    }
+
+    .para-rule {
+      max-width: 70ch;
+      border: none;
+      border-top: 1px dashed var(--border);
+      margin: 0 0 2.4rem 0;
+    }
+
+    /* ════════════ SIGNATURE ════════════ */
+    .review-signature {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      border-top: 1px solid var(--border);
+      padding-top: 1.5rem;
+      margin-top: 0.5rem;
+      max-width: 70ch;
+    }
+
+    .sig-name {
+      font-family: 'VT323', monospace;
+      font-size: 1.2rem;
+      color: var(--white);
+      letter-spacing: 0.08em;
+    }
+
+    .sig-meta {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.63rem;
+      letter-spacing: 0.15em;
+      color: var(--dim);
+    }
+
+    /* ════════════ FOOTER ════════════ */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 1.4rem 2.5rem;
+    }
+
+    footer p {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      color: var(--dim);
+      text-align: center;
+    }
+
+    /* ════════════ LOAD ANIMATION ════════════ */
+    .fade-in {
+      opacity: 0;
+      animation: fadeUp 0.65s ease forwards;
+    }
+    .d1 { animation-delay: 0.05s; }
+    .d2 { animation-delay: 0.15s; }
+    .d3 { animation-delay: 0.25s; }
+    .d4 { animation-delay: 0.35s; }
+    .d5 { animation-delay: 0.45s; }
+    .d6 { animation-delay: 0.55s; }
+    .d7 { animation-delay: 0.65s; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+
+<body>
+
+<nav class="topnav">
   <a href="https://rat.reviews/Recent">Recent</a>
   <a href="https://rat.reviews/Archive">Archive</a>
   <a href="https://rat.reviews/About">About</a>
   <a href="https://rat.reviews" class="split">Home</a>
-</div>
+</nav>
 
 <div class="review-header-wrap">
-  <div class="review-title-block">
+  <div class="prompt-line"><span class="cursor-blink"></span></div>
+  <div class="fade-in d1">
     <h1>Who Needs the Peace Corps?</h1>
-    <p class="sub">Baka Beyond, <i>Spirit of the Forest</i> (1993)</p>
+    <p class="sub">Baka Beyond &nbsp;/&nbsp; Spirit of the Forest &nbsp;/&nbsp; 1993</p>
   </div>
 </div>
 
 <div class="WordSection1 prg" style="word-wrap:break-word;">
-<br>
-<p class="MsoNormal">This is the type of recording middle-class whites might have reliably found in the checkout display at World Market in the mid-nineties. Appropriately so. Listening to this release is kind of like decorating one’s midwestern suburban bungalow with African tribal paraphernalia manufactured in one of the Asian tigers. Blame Paul Simon and Warner Brothers for whetting the yuppie commercial appetite for so-called world music, which is, at bottom, a scantily clad Western pop form with a somewhat indiscriminate dash of exotic, usually African, flourish. (To be sure, <i>Graceland</i> is a unanimously good album. But one that gets by primarily on the strength of Simon’s songwriting and his conspicuous intelligence.)<br />
-<br />
-<i>Spirit of the Forest</i> was Baka Beyond’s first effort, and the first release to feature the talents of guitarist and multi-instrumentalist Martin Craddick since the disbanding of his previous group, Outback. Seeking fresh inspiration and a new lease on life, Craddick and his partner Su Hart, a vocalist, decamped to the Cameroonian rainforest to embed with the natives and learn their culture. <i>Spirit</i> is their first attempt to synthesize the indigenous music of the Baka peoples with traditional Anglo folkways. What results is a sometimes pretty, more often innocuous ‘world’ record.<br />
-<br />
-The title track opens with the purr of nighttime insects and painstakingly crescendos into a heterogeneity of varied sound elements, including but not limited to ethereal hybrid yodeling, shanty fiddling, and traditional African hand percussion. This track sets the model for everything which is to follow. Swelling, undulating instrumentals that are pleasant to the ear but wont to glaze over well before the track concludes. Even pleasantness can prove fatiguing. The conventions in <i>Spirit</i> are nicely arranged but boring. And by the studio production we lose the primal verve of the indigenous music which can probably only be truly appreciated in the flesh, or, in the very least, bereft of pop-colonial accompaniment.<br />
-<br />
-Craddick’s deft fingerstyle maneuverings figure prominently on more compelling tracks like ‘The Man Who Danced Too Slowly’ and ‘Baka Play Baka’. A point of interest is how the finger patterns of Anglo and Celtic folk guitar find similarities in West African guitar music, especially those of the palm-wine variety. Still, I cannot help but think the playing, for all its skill and intent, verges on the obvious. Others have done this much more convincingly. Ry Cooder in his contemporaneous work with Malian guitarist Ali Farka Touré. More recently, Khruangbin’s Mark Speer, who routinely cites Nigerian and Ghanaian highlife when asked about his musical references.<br />
-<br />
-On ‘Ngobi’, a consummate Baka track, Craddick is joined by former Outback bandmate Paddy LeMercier, whose fiddle playing, indeed less than intuitive in this context, has the effect of transforming the feel of the composition into something akin to an Irish jig. The song partakes of the shapeless, ahistorical tuneage associated with the artificial landscapes of a Nintendo title. This music is well-suited to that purpose. If that were, of course, its purpose. Frankly, if you insist upon listening in this vein of music, listen instead to a group like Poi Dog Pondering. Start with <i>Volo Volo</i> or <i>Pomegranate</i>. Their output is more consistently original, and more honest about its ethnocentricity, than Baka’s.</p>
 
-<div class="review-signature">
+<p class="MsoNormal fade-in d2">This is the type of recording middle-class whites might have reliably found in the checkout display at World Market in the mid-nineties. Appropriately so. Listening to this release is kind of like decorating one's midwestern suburban bungalow with African tribal paraphernalia manufactured in one of the Asian tigers. Blame Paul Simon and Warner Brothers for whetting the yuppie commercial appetite for so-called world music, which is, at bottom, a scantily clad Western pop form with a somewhat indiscriminate dash of exotic, usually African, flourish. (To be sure, <i>Graceland</i> is a unanimously good album. But one that gets by primarily on the strength of Simon's songwriting and his conspicuous intelligence.)</p>
+
+<hr class="para-rule">
+
+<p class="MsoNormal fade-in d3"><i>Spirit of the Forest</i> was Baka Beyond's first effort, and the first release to feature the talents of guitarist and multi-instrumentalist Martin Craddick since the disbanding of his previous group, Outback. Seeking fresh inspiration and a new lease on life, Craddick and his partner Su Hart, a vocalist, decamped to the Cameroonian rainforest to embed with the natives and learn their culture. <i>Spirit</i> is their first attempt to synthesize the indigenous music of the Baka peoples with traditional Anglo folkways. What results is a sometimes pretty, more often innocuous 'world' record.</p>
+
+<hr class="para-rule">
+
+<p class="MsoNormal fade-in d4">The title track opens with the purr of nighttime insects and painstakingly crescendos into a heterogeneity of varied sound elements, including but not limited to ethereal hybrid yodeling, shanty fiddling, and traditional African hand percussion. This track sets the model for everything which is to follow. Swelling, undulating instrumentals that are pleasant to the ear but wont to glaze over well before the track concludes. Even pleasantness can prove fatiguing. The conventions in <i>Spirit</i> are nicely arranged but boring. And by the studio production we lose the primal verve of the indigenous music which can probably only be truly appreciated in the flesh, or, in the very least, bereft of pop-colonial accompaniment.</p>
+
+<hr class="para-rule">
+
+<p class="MsoNormal fade-in d5">Craddick's deft fingerstyle maneuverings figure prominently on more compelling tracks like 'The Man Who Danced Too Slowly' and 'Baka Play Baka'. A point of interest is how the finger patterns of Anglo and Celtic folk guitar find similarities in West African guitar music, especially those of the palm-wine variety. Still, I cannot help but think the playing, for all its skill and intent, verges on the obvious. Others have done this much more convincingly. Ry Cooder in his contemporaneous work with Malian guitarist Ali Farka Touré. More recently, Khruangbin's Mark Speer, who routinely cites Nigerian and Ghanaian highlife when asked about his musical references.</p>
+
+<hr class="para-rule">
+
+<p class="MsoNormal fade-in d6">On 'Ngobi', a consummate Baka track, Craddick is joined by former Outback bandmate Paddy LeMercier, whose fiddle playing, indeed less than intuitive in this context, has the effect of transforming the feel of the composition into something akin to an Irish jig. The song partakes of the shapeless, ahistorical tuneage associated with the artificial landscapes of a Nintendo title. This music is well-suited to that purpose. If that were, of course, its purpose. Frankly, if you insist upon listening in this vein of music, listen instead to a group like Poi Dog Pondering. Start with <i>Volo Volo</i> or <i>Pomegranate</i>. Their output is more consistently original, and more honest about its ethnocentricity, than Baka's.</p>
+
+<div class="review-signature fade-in d7">
   <span class="sig-name">— Josey</span>
   <span class="sig-meta">2023-02-10</span>
 </div>
@@ -57,5 +320,6 @@ On ‘Ngobi’, a consummate Baka track, Craddick is joined by former Outback ba
     <p>&copy; Copyright 2026, Rat Reviews</p>
   </div>
 </footer>
+
 </body>
 </html>

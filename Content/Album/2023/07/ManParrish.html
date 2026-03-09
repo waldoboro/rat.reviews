@@ -12,280 +12,454 @@ DATE: 2023-07-23
 <head>
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link rel="shortcut icon" href="favicon.ico">
-  <link rel="stylesheet" href="rat.css">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Hey What Year Is This From? — Rat Reviews</title>
-  <link href='https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Blaka&family=DotGothic16&family=Abhaya+Libre&display=swap' rel='stylesheet'>
+  <title>Hey What Year Is This From? // Rat Reviews</title>
+  <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+
+  <style>
+
+    :root {
+      --black:      #000000;
+      --dark:       #1a1a1a;
+      --rule:       #555555;
+      --mid:        #888888;
+      --light:      #cccccc;
+      --near-white: #f2f2f0;
+      --white:      #ffffff;
+      --desktop:    #a8a8a8;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    /* hatched desktop — hallmark Visi On look */
+    html {
+      min-height: 100%;
+      background-color: var(--desktop);
+      background-image:
+        repeating-linear-gradient(
+          45deg,
+          transparent 0px, transparent 2px,
+          rgba(255,255,255,0.3) 2px, rgba(255,255,255,0.3) 3px
+        );
+    }
+
+    body {
+      font-family: 'Courier Prime', 'Courier New', monospace;
+      background: transparent;
+      padding: 2.8rem 1.5rem 4rem;
+      cursor: default;
+    }
+
+    /* ── WINDOW CHROME ── */
+    .window {
+      max-width: 880px;
+      margin: 0 auto;
+      background: var(--white);
+      border: 2px solid var(--black);
+      box-shadow: 5px 5px 0 rgba(0,0,0,0.4);
+      animation: winOpen 0.2s ease-out both;
+    }
+
+    @keyframes winOpen {
+      from { opacity: 0; transform: scale(0.975); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+
+    .win-titlebar {
+      background: var(--black);
+      color: var(--white);
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      padding: 0.42rem 0.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      user-select: none;
+    }
+
+    .win-controls {
+      display: flex;
+      gap: 4px;
+    }
+
+    .win-btn {
+      width: 13px; height: 13px;
+      border: 1px solid var(--white);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.45rem;
+      color: var(--white);
+    }
+
+    /* ── MENU BAR / NAV ── */
+    .topnav {
+      display: flex;
+      align-items: stretch;
+      border-bottom: 2px solid var(--black);
+      background: var(--near-white);
+    }
+
+    .topnav a {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.63rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--dark);
+      text-decoration: none;
+      padding: 0.58rem 1.1rem;
+      border-right: 1px solid var(--light);
+      transition: background 0.07s, color 0.07s;
+    }
+
+    .topnav a.split { margin-left: auto; border-right: none; border-left: 1px solid var(--light); }
+    .topnav a:hover { background: var(--black); color: var(--white); }
+
+    /* ── BODY: content + scrollbar ── */
+    .doc { display: flex; }
+
+    .content {
+      flex: 1;
+      min-width: 0;
+      padding: 4rem 4.2rem 4.5rem 3.8rem;
+    }
+
+    /* decorative scrollbar */
+    .scrollbar {
+      width: 20px;
+      border-left: 2px solid var(--black);
+      background: var(--near-white);
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+      align-items: center;
+    }
+
+    .sb-arrow {
+      width: 100%;
+      height: 20px;
+      border-bottom: 1px solid var(--light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.45rem;
+      color: var(--rule);
+      user-select: none;
+    }
+
+    .sb-track {
+      flex: 1;
+      width: 100%;
+      background: repeating-linear-gradient(
+        0deg, transparent 0px, transparent 2px,
+        rgba(0,0,0,0.07) 2px, rgba(0,0,0,0.07) 3px
+      );
+      position: relative;
+    }
+
+    .sb-thumb {
+      position: absolute;
+      top: 8%;
+      left: 1px; right: 1px;
+      height: 26px;
+      background: var(--dark);
+    }
+
+    .sb-arrow-bot {
+      width: 100%;
+      height: 20px;
+      border-top: 1px solid var(--light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.45rem;
+      color: var(--rule);
+      user-select: none;
+    }
+
+    /* ── HEADER ── */
+    .review-header-wrap {
+      margin-bottom: 4rem;
+      padding-bottom: 2.2rem;
+      border-bottom: 1px solid var(--light);
+    }
+
+    .doc-label {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.58rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--mid);
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .doc-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--light);
+    }
+
+    h1 {
+      font-family: 'Courier Prime', monospace;
+      font-weight: 700;
+      font-size: clamp(1.9rem, 4.5vw, 3.1rem);
+      line-height: 1.08;
+      color: var(--black);
+      margin-bottom: 1rem;
+    }
+
+    .sub {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      color: var(--mid);
+      text-transform: uppercase;
+    }
+
+    /* ── BODY PARAGRAPHS ── */
+    .prg p {
+      font-size: 1rem;
+      line-height: 1.9;
+      color: var(--dark);
+      margin-bottom: 2.8rem;
+      max-width: 55ch;
+    }
+
+    /* alternating justification */
+    .prg p:nth-of-type(odd)  { text-align: left;   margin-left: 0;    margin-right: auto; }
+    .prg p:nth-of-type(even) { text-align: right;  margin-left: auto; margin-right: 0;    }
+
+    .prg p em { font-style: italic; }
+
+    /* links */
+    .prg a { color: var(--black); text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+    .prg a:hover { background: var(--black); color: var(--white); }
+
+    /* blockquotes — always centered */
+    .prg blockquote {
+      margin: 0 auto 2.8rem;
+      padding: 2rem 1rem;
+      max-width: 44ch;
+      text-align: center;
+      font-style: italic;
+      font-size: 0.95rem;
+      line-height: 1.85;
+      color: var(--dark);
+      border-top: 1px solid var(--light);
+      border-bottom: 1px solid var(--light);
+    }
+
+    .prg blockquote a { color: var(--dark); }
+
+    /* lyrics block */
+    .lyrics {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.78rem;
+      line-height: 2.1;
+      color: var(--rule);
+      margin: 0 auto 2.8rem;
+      width: fit-content;
+      padding-left: 1.6rem;
+      border-left: 2px solid var(--black);
+    }
+
+    /* ── SIGNATURE ── */
+    .review-signature {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      border-top: 2px solid var(--black);
+      padding-top: 1.8rem;
+      margin-top: 0.5rem;
+    }
+
+    .sig-name {
+      font-family: 'Courier Prime', monospace;
+      font-style: italic;
+      font-size: 1rem;
+      color: var(--dark);
+    }
+
+    .sig-meta {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.18em;
+      color: var(--mid);
+    }
+
+    /* ── STATUS BAR ── */
+    .statusbar {
+      border-top: 2px solid var(--black);
+      background: var(--near-white);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.38rem 0.85rem;
+    }
+
+    .statusbar p {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.56rem;
+      letter-spacing: 0.14em;
+      color: var(--mid);
+    }
+
+    .status-ind {
+      display: flex;
+      gap: 4px;
+    }
+
+    .s-dot {
+      width: 6px; height: 6px;
+      border: 1px solid var(--rule);
+    }
+
+    .s-dot.on { background: var(--dark); }
+
+    /* staggered fade-in for content children */
+    .content > * {
+      opacity: 0;
+      animation: rise 0.45s ease forwards;
+    }
+
+    .content > *:nth-child(1) { animation-delay: 0.18s; }
+    .content > *:nth-child(2) { animation-delay: 0.28s; }
+
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(7px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+  </style>
 </head>
-<body class="bkg" style="background-image: url(tiles.png)">
+<body>
 
-<div class="topnav">
-  <a href="https://rat.reviews/Recent">Recent</a>
-  <a href="https://rat.reviews/Archive">Archive</a>
-  <a href="https://rat.reviews/About">About</a>
-  <a href="https://rat.reviews" class="split">Home</a>
-</div>
+<div class="window">
 
-<div class="review-header-wrap">
-  <div class="review-title-block">
-    <h1>Hey What Year Is This From?</h1>
-    <p class="sub">Man Parrish, <i>Man Parrish</i> (1982)</p>
+  <!-- TITLE BAR -->
+  <div class="win-titlebar">
+    <span>\RATREVIEWS\untitled.md</span>
+    <div class="win-controls">
+      <span class="win-btn">▲</span>
+      <span class="win-btn">■</span>
+      <span class="win-btn">▼</span>
+    </div>
   </div>
-</div>
 
-<div class="WordSection1 prg"; style='word-wrap:break-word';>
-    
-    <p class=MsoNormal style='margin-top:8.0pt;margin-right:0in;margin-bottom:8.0pt;
-    margin-left:0in;line-height:150%;background:white'><span lang=EN
-    style='font-family:Consolas;color:black'>To the irritation of my friends, this
-    is always the first question I ask when they show me a song. And for some
-    reason I continue to be surprised when they have to open their phones to check.
-    <i>“You aren’t as obsessed with the chronology of music as I am?”</i> I wonder
-    to myself. <i>“Good for you. Good for you.”</i></span></p>
-    
-    <p class=MsoNormal style='margin-top:8.0pt;margin-right:0in;margin-bottom:8.0pt;
-    margin-left:0in;line-height:150%;background:white'><span lang=EN
-    style='font-family:Consolas;color:black'>I don’t know why exactly, but
-    listening to an album that was the “first” of its kind has always been more
-    interesting to me than listening to its magnum opus. Probably because you can
-    almost put yourself in a room with the musician, imagining the thought process
-    that brought this strange confluence of influences together. These albums are
-    usually a lot more playful; unencumbered by genre boundaries, or worries of
-    commercial appeal. They can follow whatever strange or silly impulses come to
-    their creator’s mind(s).</span></p>
-    
-    <p class=MsoNormal style='margin-top:8.0pt;margin-right:0in;margin-bottom:8.0pt;
-    margin-left:0in;line-height:150%;background:white'><span lang=EN
-    style='font-family:Consolas;color:black'>Nothing is a better example of this
-    than Man Parrish’s 1982 debut album. It’s a pioneering album in the genre of
-    “Electro,” but that statement alone doesn’t really do it justice. It came at a
-    time when dance music was broadly expanding its horizon. New technology
-    advances like the Roland TR-808 meant that electronic instruments weren’t
-    merely imitating their analog counterparts. And hip-hop culture was discovering
-    a far dirtier, edgier application of the synthesizer than Kraftwerk ever could
-    have imagined.</span></p>
-    
-    <p class=MsoNormal style='margin-top:8.0pt;margin-right:0in;margin-bottom:8.0pt;
-    margin-left:0in;line-height:150%;background:white'><span lang=EN
-    style='font-family:Consolas;color:black'>Man Parrish certainly isn’t the first
-    all-electronic dance album, nor is it the first hip-hop one. But it combined
-    all these brand new movements into something so much more exciting. Listening
-    to lead single “</span><span lang=EN style='color:black'><a
-    href="https://www.youtube.com/watch?v=00Hc9awDXww"><span style='font-family:
-    Consolas;color:#1155CC'>Hip Hop Be Bop (Don’t Stop)</span></a></span><span
-    lang=EN style='font-family:Consolas;color:black'>”, you feel totally immersed
-    in a sparse electronic landscape. It’s groovy and enthralling, but also
-    pensive. The chord progression here sounds more like melancholy Aphex Twin than</span><span
-    lang=EN style='color:black'><a
-    href="https://www.youtube.com/watch?v=GHhD4PD75zY"><span style='font-family:
-    Consolas;color:black;text-decoration:none'> </span></a><a
-    href="https://www.youtube.com/watch?v=GHhD4PD75zY"><span style='font-family:
-    Consolas;color:#1155CC'>what most of us think of as 80s dance</span></a></span><span
-    lang=EN style='font-family:Consolas;color:black'>.</span></p>
-    
-    <p class=MsoNormal style='margin-top:8.0pt;margin-right:0in;margin-bottom:8.0pt;
-    margin-left:0in;line-height:150%;background:white'><span lang=EN
-    style='font-family:Consolas;color:black'>But let’s take a step back. “Electro.”
-    What actually is this? I always assumed it just meant “electronic” with the
-    second half of the word cut-off. But no. Lo and behold, Electro is absolutely
-    its own thing. It’s come to define the period in the early 80s when funk,
-    hip-hop and electronic music converged to create the replacement for disco that
-    dance clubs were sorely craving. The most commonly cited example of Electro is
-    Afrika Bambaataa’s “</span><span lang=EN style='color:black'><a
-    href="https://www.youtube.com/watch?v=9J3lwZjHenA"><span style='font-family:
-    Consolas;color:#1155CC'>Planet Rock</span></a></span><span lang=EN
-    style='font-family:Consolas;color:black'>.”</span></p>
-    
-    <p class=MsoNormal style='margin-top:8.0pt;margin-right:0in;margin-bottom:8.0pt;
-    margin-left:0in;line-height:150%;background:white'><span lang=EN
-    style='font-family:Consolas;color:black'>Around the same time as “Planet Rock”
-    a 20-something Manny Parrish was building a collection of synths and recording
-    equipment in his parent’s Brooklyn home, tracking demos for friends, and
-    picking up odd recording gigs, including an offer to score a</span><span
-    lang=EN style='color:black'><a
-    href="https://www.facebook.com/DarkEntriesRecords/videos/man-parrish-heatstroke-original-version/531913833883642/"><span
-    style='font-family:Consolas;color:black;text-decoration:none'> </span></a><a
-    href="https://www.facebook.com/DarkEntriesRecords/videos/man-parrish-heatstroke-original-version/531913833883642/"><span
-    style='font-family:Consolas;color:#1155CC'>porno flick</span></a></span><span
-    lang=EN style='font-family:Consolas;color:black'> (<i>don’t worry, this link is
-    SFW</i>). This wasn’t shocking to Man Parrish. Like many gay youth of his
-    generation, he ran away from home during his teenage years. He started going to
-    Studio 54 and Max’s Kansas City, soaking up the city’s new wave and club scenes</span><span
-    lang=EN style='color:black'><a
-    href="https://www.youtube.com/watch?v=9MhYI1DtCIo"><span style='font-family:
-    Consolas;color:black;text-decoration:none'> </span></a><a
-    href="https://www.youtube.com/watch?v=9MhYI1DtCIo"><span style='font-family:
-    Consolas;color:#1155CC'>in all its bizarre glory</span></a></span><span
-    lang=EN style='font-family:Consolas;color:black'>.</span></p>
-    
-    <p class=MsoNormal style='margin-top:8.0pt;margin-right:0in;margin-bottom:8.0pt;
-    margin-left:0in;line-height:150%;background:white'><span lang=EN
-    style='font-family:Consolas;color:black'>One day, Parrish got wind that</span><span
-    lang=EN style='color:black'><a
-    href="https://www.youtube.com/watch?v=N0mzbyVwo90"><span style='font-family:
-    Consolas;color:black;text-decoration:none'> </span></a><a
-    href="https://www.youtube.com/watch?v=N0mzbyVwo90"><span style='font-family:
-    Consolas;color:#1155CC'>the track</span></a></span><span lang=EN
-    style='font-family:Consolas;color:black'> he created for that porno film was
-    playing at New York’s Anvil Club. <i>“WTF”</i> he thought, <i>“how did they
-    even get a copy?”</i> But upon arriving and confronting the DJ, it was all good
-    news. The DJ immediately hooked him up with a recording contract.</span></p>
-    
-    <p class=MsoNormal style='margin-top:8.0pt;margin-right:0in;margin-bottom:8.0pt;
-    margin-left:0in;line-height:150%;background:white'><span lang=EN
-    style='font-family:Consolas;color:black'>Now, “Headtstroke” isn’t exactly a
-    hip-hop track. I mean, it isn’t at all. It’s more like eurodisco in the style
-    of</span><span lang=EN style='color:black'><a
-    href="https://www.youtube.com/watch?v=qTFEyFEu1Fk"><span style='font-family:
-    Consolas;color:black;text-decoration:none'> </span></a><a
-    href="https://www.youtube.com/watch?v=qTFEyFEu1Fk"><span style='font-family:
-    Consolas;color:#1155CC'>Giorgio Moroder</span></a></span><span lang=EN
-    style='font-family:Consolas;color:black'>. Still pretty darn cool. In fact, I’d
-    like to think if I were in that adult theater hearing this song for the first
-    time, I would walk away satisfied in more ways than one.</span></p>
-    
-    <p class=MsoNormal style='margin-top:8.0pt;margin-right:0in;margin-bottom:8.0pt;
-    margin-left:0in;line-height:150%;background:white'><span lang=EN
-    style='font-family:Consolas;color:black'>But it was after Parrish linked up
-    with fellow producer Raul Rodriguez to create his first album that the pair
-    decided to explore this new phenomenon of hip hop.</span></p>
-    
-    <p class=MsoNormal style='margin-top:0in;margin-right:30.0pt;margin-bottom:
-    0in;margin-left:30.0pt;margin-bottom:.0001pt;line-height:150%;background:white'><span
-    lang=EN style='font-family:Consolas;color:black'>“When I started doing music,
-    hip hop was not what it is today. The records that we did were street, but it
-    wasn’t rap. Rap was one thing, and then there was hip hop which was dance
-    music. We were club kids having fun.” – Man Parrish speaking to</span><span
-    lang=EN style='color:black'><a
-    href="https://www.youtube.com/watch?v=jqCc5GmSId0"><span style='font-family:
-    Consolas;color:black;text-decoration:none'> </span></a><a
-    href="https://www.youtube.com/watch?v=jqCc5GmSId0"><span style='font-family:
-    Consolas;color:#1155CC'>Red Bull Music Academy</span></a></span></p>
-    
-    <p class=MsoNormal style='margin-top:8.0pt;margin-right:0in;margin-bottom:8.0pt;
-    margin-left:0in;line-height:150%;background:white'><span lang=EN
-    style='font-family:Consolas;color:black'>With the introduction of the Roland
-    TR-808, Parrish was no longer limited to using those cheesy pre-programmed drum
-    beats that come preloaded on your Casio. The pair could craft them however they
-    liked. And, inspired by what was going on in the streets, they opted for a
-    funkier, more active, and more hypnotic rhythm.</span></p>
-    
-    <p class=MsoNormal style='margin-top:8.0pt;margin-right:0in;margin-bottom:8.0pt;
-    margin-left:0in;line-height:150%;background:white'><span lang=EN
-    style='font-family:Consolas;color:black'>The album begins with the
-    aforementioned “Hip Hop Be Bop (Don’t Stop)” perfectly encapsulating this new
-    creation. It’s quickly followed up with</span><span lang=EN style='color:black'><a
-    href="https://www.youtube.com/watch?v=JivYlUexPa0"><span style='font-family:
-    Consolas;color:black;text-decoration:none'> </span></a><a
-    href="https://www.youtube.com/watch?v=JivYlUexPa0"><span style='font-family:
-    Consolas;color:#1155CC'>Man Made</span></a></span><span lang=EN
-    style='font-family:Consolas;color:black'>, another nihilistic “street” track,
-    but this time with a more traditional verse-chorus structure, presented via
-    Parrish’s patented vocoder.</span></p>
-    
-    <p class=MsoNormal style='margin-top:8.0pt;margin-right:0in;margin-bottom:8.0pt;
-    margin-left:0in;line-height:150%;background:white'><span lang=EN
-    style='font-family:Consolas;color:black'>Now, remember what I said earlier
-    about how these pioneering albums tend to follow “whatever strange or silly
-    impulses come to their creator’s mind(s),” and that’s part of what makes them
-    so fun? Well the next track</span><span lang=EN style='color:black'><a
-    href="https://www.youtube.com/watch?v=7_9KFfbQ5e0"><span style='font-family:
-    Consolas;color:black;text-decoration:none'> </span></a><a
-    href="https://www.youtube.com/watch?v=7_9KFfbQ5e0"><span style='font-family:
-    Consolas;color:#1155CC'>Together Again</span></a></span><span lang=EN
-    style='font-family:Consolas;color:black'> couldn’t be more of a left turn. It’s
-    basically bubblegum pop, straight from a sitcom montage. It’s also completely
-    brilliant. If it doesn’t grab you on your first listen, I swear this will pop
-    back into your head 12-36 hours later. (You will either thank me or curse me.)</span></p>
-    
-    <p class=MsoNormal style='margin-top:8.0pt;margin-right:0in;margin-bottom:8.0pt;
-    margin-left:0in;line-height:150%;background:white'><span lang=EN
-    style='font-family:Consolas;color:black'>Beginning side B of the record might
-    just be the greatest–or at least, my personal favorite–track.</span><span
-    lang=EN style='color:black'><a
-    href="https://www.youtube.com/watch?v=dFK5Uayh2lw"><span style='font-family:
-    Consolas;color:black;text-decoration:none'> </span></a><a
-    href="https://www.youtube.com/watch?v=dFK5Uayh2lw"><span style='font-family:
-    Consolas;color:#1155CC'>Six Simple Synthesizers</span></a></span><span lang=EN
-    style='font-family:Consolas;color:black'> is, as the name implies, a simple
-    concept that builds and repeats to epic proportions. If you’ve ever had the
-    pleasure of routing cables in a recording studio, you really have to appreciate
-    these lyrics.</span></p>
-    
-    <p class=MsoNormal style='margin-top:8.0pt;margin-right:0in;margin-bottom:8.0pt;
-    margin-left:0in;line-height:150%;background:white'><span lang=EN
-    style='font-family:Consolas;color:black'>Six simple synthesizers playing on
-    this song<br>
-    Six simple synthesizers playing all along.<br>
-    Five little filters running, doing all their best.<br>
-    Six simple synthesizers doing all the rest.<br>
-    Four funny frequencies passing on the sound.<br>
-    Three thorough sequencers going round and round.<br>
-    …</span></p>
-    
-    <p class=MsoNormal style='margin-top:8.0pt;margin-right:0in;margin-bottom:8.0pt;
-    margin-left:0in;line-height:150%;background:white'><span lang=EN
-    style='font-family:Consolas;color:black'>It’s literally Man Parrish describing
-    his recording set up; nothing more, nothing less. There’s no pretentiousness.
-    There’s not even a metaphor. I find it strangely cathartic and for some reason
-    can’t help blasting this with my windows down whenever it comes on.</span></p>
-    
-    <p class=MsoNormal style='margin-top:8.0pt;margin-right:0in;margin-bottom:8.0pt;
-    margin-left:0in;line-height:150%;background:white'><span lang=EN
-    style='font-family:Consolas;color:black'>The album continues with 2 other great
-    tracks – “Techno Trax” and “Street Clap” before concluding with the porno tune
-    “Heatstroke.” I was surprised to see the word “techno” used in a track name
-    considering this was 3-4 years before the genre even existed. But, as it turns
-    out, “techno” was being used in Europe to describe bands like Kraftwerk and
-    Yellow Magic Orchestra – so that’s likely what Parrish was referring to; not
-    the Detroit Techno scene that would emerge a few years later.</span></p>
-    
-    <p class=MsoNormal style='margin-top:8.0pt;margin-right:0in;margin-bottom:8.0pt;
-    margin-left:0in;line-height:150%;background:white'><span lang=EN
-    style='font-family:Consolas;color:black'>When “Hip Hop Be Bop (Don’t Stop)” was
-    released as the album’s first single, it was a huge success. Manny was
-    headlining club shows with an entourage of dancers in ridiculous outfits. The
-    song was all over the radio (or at least, the few stations willing to cover the
-    urban-electronic niche.) However, once the full album dropped everything
-    changed.</span></p>
-    
-    <p class=MsoNormal style='margin-top:0in;margin-right:30.0pt;margin-bottom:
-    0in;margin-left:30.0pt;margin-bottom:.0001pt;line-height:150%;background:white'><span
-    lang=EN style='font-family:Consolas;color:black'>“There was a backlash in the
-    rap community because I was white and gay. I was making music that they played,
-    and then they found that I was white and gay and they pulled it. It didn’t hurt
-    sales but it was shocking.” - Man Parrish quoted in “Life and Death on the New
-    York Dance Floor, 1980-1983”</span></p>
-    
-    <p class=MsoNormal style='margin-top:8.0pt;margin-right:0in;margin-bottom:8.0pt;
-    margin-left:0in;line-height:150%;background:white'><span lang=EN
-    style='font-family:Consolas;color:black'>Be that as it may, the record was
-    still extremely influential. Along with inspiring fellow electro producers like
-    Hashim and Egyptian Lover, It’s been cited as an influence by Autechre, and
-    scores of other ambient and IDM producers that I would list if I had the
-    patience to dig through interviews. This album and later recordings by Man
-    Parrish have been sampled by 2 Live Crew, Common, and Fatboy Slim, among dozens
-    of others.</span></p>
-    
-    <p class=MsoNormal style='margin-top:8.0pt;margin-right:0in;margin-bottom:8.0pt;
-    margin-left:0in;line-height:150%;background:white'><span lang=EN
-    style='font-family:Consolas;color:black'>And there you have it. I told you this
-    Patreon would be worth it. That was basically a whole new bandsplaining video
-    script. You just had to click the links yourself. It was like a
-    paint-by-numbers, build-your-own-bandsplaining kit. Okay, until next time.</span></p>
-    <br>
+  <!-- MENU BAR -->
+  <nav class="topnav">
+    <a href="https://rat.reviews/Recent">Recent</a>
+    <a href="https://rat.reviews/Archive">Archive</a>
+    <a href="https://rat.reviews/About">About</a>
+    <a href="https://rat.reviews" class="split">Home</a>
+  </nav>
 
-<div class="review-signature">
-  <span class="sig-name">- Bowie</span>
-  <span class="sig-meta">2023-07-23</span>
-</div>
+  <!-- DOCUMENT -->
+  <div class="doc">
 
-</div>
+    <div class="content">
 
-<footer>
-  <div class="footer">
+      <!-- HEADER -->
+      <div class="review-header-wrap">
+        <div class="doc-label">Album Review / 1982</div>
+        <h1>Hey What Year Is This From?</h1>
+        <p class="sub">Man Parrish &nbsp;·&nbsp; <em>Man Parrish</em> &nbsp;·&nbsp; 1982</p>
+      </div>
+
+      <!-- BODY -->
+      <div class="prg">
+
+        <p>To the irritation of my friends, this is always the first question I ask when they show me a song. And for some reason I continue to be surprised when they have to open their phones to check. <em>"You aren't as obsessed with the chronology of music as I am?"</em> I wonder to myself. <em>"Good for you. Good for you."</em></p>
+
+        <p>I don't know why exactly, but listening to an album that was the "first" of its kind has always been more interesting to me than listening to its magnum opus. Probably because you can almost put yourself in a room with the musician, imagining the thought process that brought this strange confluence of influences together. These albums are usually a lot more playful; unencumbered by genre boundaries, or worries of commercial appeal. They can follow whatever strange or silly impulses come to their creator's mind(s).</p>
+
+        <p>Nothing is a better example of this than Man Parrish's 1982 debut album. It's a pioneering album in the genre of "Electro," but that statement alone doesn't really do it justice. It came at a time when dance music was broadly expanding its horizon. New technology advances like the Roland TR-808 meant that electronic instruments weren't merely imitating their analog counterparts. And hip-hop culture was discovering a far dirtier, edgier application of the synthesizer than Kraftwerk ever could have imagined.</p>
+
+        <p>Man Parrish certainly isn't the first all-electronic dance album, nor is it the first hip-hop one. But it combined all these brand new movements into something so much more exciting. Listening to lead single "<a href="https://www.youtube.com/watch?v=00Hc9awDXww">Hip Hop Be Bop (Don't Stop)</a>", you feel totally immersed in a sparse electronic landscape. It's groovy and enthralling, but also pensive. The chord progression here sounds more like melancholy Aphex Twin than <a href="https://www.youtube.com/watch?v=GHhD4PD75zY">what most of us think of as 80s dance</a>.</p>
+
+        <p>But let's take a step back. "Electro." What actually is this? I always assumed it just meant "electronic" with the second half of the word cut-off. But no. Lo and behold, Electro is absolutely its own thing. It's come to define the period in the early 80s when funk, hip-hop and electronic music converged to create the replacement for disco that dance clubs were sorely craving. The most commonly cited example of Electro is Afrika Bambaataa's "<a href="https://www.youtube.com/watch?v=9J3lwZjHenA">Planet Rock</a>."</p>
+
+        <p>Around the same time as "Planet Rock" a 20-something Manny Parrish was building a collection of synths and recording equipment in his parent's Brooklyn home, tracking demos for friends, and picking up odd recording gigs, including an offer to score a <a href="https://www.facebook.com/DarkEntriesRecords/videos/man-parrish-heatstroke-original-version/531913833883642/">porno flick</a> (<em>don't worry, this link is SFW</em>). This wasn't shocking to Man Parrish. Like many gay youth of his generation, he ran away from home during his teenage years. He started going to Studio 54 and Max's Kansas City, soaking up the city's new wave and club scenes <a href="https://www.youtube.com/watch?v=9MhYI1DtCIo">in all its bizarre glory</a>.</p>
+
+        <p>One day, Parrish got wind that <a href="https://www.youtube.com/watch?v=N0mzbyVwo90">the track</a> he created for that porno film was playing at New York's Anvil Club. <em>"WTF"</em> he thought, <em>"how did they even get a copy?"</em> But upon arriving and confronting the DJ, it was all good news. The DJ immediately hooked him up with a recording contract.</p>
+
+        <p>Now, "Heatstroke" isn't exactly a hip-hop track. I mean, it isn't at all. It's more like eurodisco in the style of <a href="https://www.youtube.com/watch?v=qTFEyFEu1Fk">Giorgio Moroder</a>. Still pretty darn cool. In fact, I'd like to think if I were in that adult theater hearing this song for the first time, I would walk away satisfied in more ways than one.</p>
+
+        <p>But it was after Parrish linked up with fellow producer Raul Rodriguez to create his first album that the pair decided to explore this new phenomenon of hip hop.</p>
+
+        <blockquote>
+          "When I started doing music, hip hop was not what it is today. The records that we did were street, but it wasn't rap. Rap was one thing, and then there was hip hop which was dance music. We were club kids having fun."
+          <br><br>— Man Parrish speaking to <a href="https://www.youtube.com/watch?v=jqCc5GmSId0">Red Bull Music Academy</a>
+        </blockquote>
+
+        <p>With the introduction of the Roland TR-808, Parrish was no longer limited to using those cheesy pre-programmed drum beats that come preloaded on your Casio. The pair could craft them however they liked. And, inspired by what was going on in the streets, they opted for a funkier, more active, and more hypnotic rhythm.</p>
+
+        <p>The album begins with the aforementioned "Hip Hop Be Bop (Don't Stop)" perfectly encapsulating this new creation. It's quickly followed up with <a href="https://www.youtube.com/watch?v=JivYlUexPa0">Man Made</a>, another nihilistic "street" track, but this time with a more traditional verse-chorus structure, presented via Parrish's patented vocoder.</p>
+
+        <p>Now, remember what I said earlier about how these pioneering albums tend to follow "whatever strange or silly impulses come to their creator's mind(s)," and that's part of what makes them so fun? Well the next track <a href="https://www.youtube.com/watch?v=7_9KFfbQ5e0">Together Again</a> couldn't be more of a left turn. It's basically bubblegum pop, straight from a sitcom montage. It's also completely brilliant. If it doesn't grab you on your first listen, I swear this will pop back into your head 12–36 hours later. (You will either thank me or curse me.)</p>
+
+        <p>Beginning side B of the record might just be the greatest — or at least, my personal favorite — track. <a href="https://www.youtube.com/watch?v=dFK5Uayh2lw">Six Simple Synthesizers</a> is, as the name implies, a simple concept that builds and repeats to epic proportions. If you've ever had the pleasure of routing cables in a recording studio, you really have to appreciate these lyrics.</p>
+
+        <div class="lyrics">
+          Six simple synthesizers playing on this song<br>
+          Six simple synthesizers playing all along.<br>
+          Five little filters running, doing all their best.<br>
+          Six simple synthesizers doing all the rest.<br>
+          Four funny frequencies passing on the sound.<br>
+          Three thorough sequencers going round and round.<br>
+          …
+        </div>
+
+        <p>It's literally Man Parrish describing his recording set up; nothing more, nothing less. There's no pretentiousness. There's not even a metaphor. I find it strangely cathartic and for some reason can't help blasting this with my windows down whenever it comes on.</p>
+
+        <p>The album continues with 2 other great tracks — "Techno Trax" and "Street Clap" — before concluding with the porno tune "Heatstroke." I was surprised to see the word "techno" used in a track name considering this was 3–4 years before the genre even existed. But, as it turns out, "techno" was being used in Europe to describe bands like Kraftwerk and Yellow Magic Orchestra — so that's likely what Parrish was referring to; not the Detroit Techno scene that would emerge a few years later.</p>
+
+        <p>When "Hip Hop Be Bop (Don't Stop)" was released as the album's first single, it was a huge success. Manny was headlining club shows with an entourage of dancers in ridiculous outfits. The song was all over the radio (or at least, the few stations willing to cover the urban-electronic niche.) However, once the full album dropped everything changed.</p>
+
+        <blockquote>
+          "There was a backlash in the rap community because I was white and gay. I was making music that they played, and then they found that I was white and gay and they pulled it. It didn't hurt sales but it was shocking."
+          <br><br>— Man Parrish, quoted in <em>Life and Death on the New York Dance Floor, 1980–1983</em>
+        </blockquote>
+
+        <p>Be that as it may, the record was still extremely influential. Along with inspiring fellow electro producers like Hashim and Egyptian Lover, it's been cited as an influence by Autechre, and scores of other ambient and IDM producers that I would list if I had the patience to dig through interviews. This album and later recordings by Man Parrish have been sampled by 2 Live Crew, Common, and Fatboy Slim, among dozens of others.</p>
+
+        <p>And there you have it. I told you this Patreon would be worth it. That was basically a whole new bandsplaining video script. You just had to click the links yourself. It was like a paint-by-numbers, build-your-own-bandsplaining kit. Okay, until next time.</p>
+
+        <div class="review-signature">
+          <span class="sig-name">— Bowie</span>
+          <span class="sig-meta">2023-07-23</span>
+        </div>
+
+      </div><!-- /prg -->
+
+    </div><!-- /content -->
+
+    <!-- DECORATIVE SCROLLBAR -->
+    <div class="scrollbar">
+      <div class="sb-arrow">▲</div>
+      <div class="sb-track"><div class="sb-thumb"></div></div>
+      <div class="sb-arrow-bot">▼</div>
+    </div>
+
+  </div><!-- /doc -->
+
+  <!-- STATUS BAR -->
+  <div class="statusbar">
     <p>&copy; Copyright 2026, Rat Reviews</p>
+    <div class="status-ind">
+      <div class="s-dot on"></div>
+      <div class="s-dot"></div>
+      <div class="s-dot on"></div>
+    </div>
   </div>
-</footer>
+
+</div><!-- /window -->
+
 </body>
 </html>

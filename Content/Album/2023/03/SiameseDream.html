@@ -8,16 +8,308 @@ AUTHOR: Pinky
 DATE: 2023-03-19
 -->
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link rel="shortcut icon" href="favicon.ico">
   <link rel="stylesheet" href="rat.css">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>An Interview with Pinky — Rat Reviews</title>
-  <link href='https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Blaka&family=DotGothic16&family=Abhaya+Libre&display=swap' rel='stylesheet'>
+  <title>An Interview with Pinky \\ Rat Reviews</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:ital,wght@0,400;0,600;1,400&family=DM+Mono:wght@500&display=swap" rel="stylesheet">
+  <style>
+    /* ── TOKENS ────────────────────────────────────────────────────────── */
+    :root {
+      --ink:      #111111;
+      --paper:    #f0ede6;
+      --mid:      #888888;
+      --rule:     #cccccc;
+      --red:      #c8000a;   /* primary accent — used sparingly */
+      --blue:     #0a3fc8;   /* secondary accent */
+      --yellow:   #e8c800;   /* tertiary accent */
+      --mono:     'IBM Plex Mono', monospace;
+      --display:  'Bebas Neue', sans-serif;
+      --label:    'DM Mono', monospace;
+    }
+
+    /* ── RESET ─────────────────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* ── BASE ──────────────────────────────────────────────────────────── */
+    html { font-size: 16px; scroll-behavior: smooth; }
+
+    body {
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--mono);
+      font-size: 0.92rem;
+      line-height: 1.75;
+      min-height: 100vh;
+      cursor: crosshair;
+      /* subtle grain */
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+    }
+
+    /* ── CONSTRUCTIVIST EDGE RULE — left vertical bar ──────────────────── */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0;
+      width: 6px;
+      height: 100vh;
+      background: linear-gradient(
+        to bottom,
+        var(--red)    0%,   var(--red)    33%,
+        var(--ink)    33%,  var(--ink)    66%,
+        var(--blue)   66%,  var(--blue)   100%
+      );
+      z-index: 100;
+    }
+
+    /* ── NAV ───────────────────────────────────────────────────────────── */
+    .topnav {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      display: flex;
+      align-items: center;
+      gap: 0;
+      padding: 0 0 0 24px;
+      background: var(--ink);
+      border-bottom: 3px solid var(--red);
+    }
+
+    .topnav a {
+      font-family: var(--label);
+      font-size: 0.65rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--rule);
+      text-decoration: none;
+      padding: 10px 18px;
+      border-right: 1px solid #333;
+      transition: background 0.15s, color 0.15s;
+    }
+    .topnav a:hover     { background: var(--red); color: #fff; }
+    .topnav a.split     { margin-left: auto; border-right: none; border-left: 1px solid #333; }
+    .topnav a.split:hover { background: var(--blue); color: #fff; }
+
+    /* ── LAYOUT WRAPPER ────────────────────────────────────────────────── */
+    .page {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 0 32px 120px 48px;
+    }
+
+    /* ── HEADER BLOCK ──────────────────────────────────────────────────── */
+    .review-header {
+      position: relative;
+      padding: 56px 0 40px;
+      border-bottom: 3px solid var(--ink);
+      margin-bottom: 48px;
+    }
+
+    /* Constructivist corner mark */
+    .review-header::before {
+      content: '//';
+      position: absolute;
+      top: 52px; right: 0;
+      font-family: var(--label);
+      font-size: 3rem;
+      color: var(--rule);
+      letter-spacing: -4px;
+      line-height: 1;
+    }
+
+    .type-label {
+      font-family: var(--label);
+      font-size: 0.6rem;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--mid);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .type-label::before {
+      content: '';
+      display: inline-block;
+      width: 18px; height: 2px;
+      background: var(--red);
+    }
+    .type-label .dot {
+      display: inline-block;
+      width: 6px; height: 6px;
+      background: var(--red);
+      border-radius: 50%;
+    }
+
+    .review-title {
+      font-family: var(--display);
+      font-size: clamp(3rem, 8vw, 6.5rem);
+      line-height: 0.95;
+      letter-spacing: 2px;
+      color: var(--ink);
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+
+    .review-sub {
+      font-family: var(--mono);
+      font-size: 0.85rem;
+      color: var(--mid);
+      font-style: italic;
+      letter-spacing: 1px;
+    }
+    .review-sub b { font-style: normal; color: var(--ink); font-weight: 600; }
+
+    /* Horizontal rule with yellow block accent */
+    .h-rule {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      margin: 0 0 48px;
+    }
+    .h-rule::before {
+      content: '';
+      display: block;
+      height: 3px;
+      flex: 1;
+      background: var(--ink);
+    }
+    .h-rule::after {
+      content: '';
+      display: block;
+      width: 24px; height: 24px;
+      background: var(--yellow);
+      border: 2px solid var(--ink);
+      flex-shrink: 0;
+    }
+
+    /* ── AUTHOR NOTE ────────────────────────────────────────────────────── */
+    .author-note {
+      border-left: 3px solid var(--blue);
+      padding: 14px 20px;
+      margin-bottom: 40px;
+      background: rgba(10, 63, 200, 0.04);
+      font-size: 0.85rem;
+      font-style: italic;
+      color: #444;
+    }
+
+    /* ── REVIEW BODY ────────────────────────────────────────────────────── */
+    .review-body {
+      counter-reset: exchange;
+    }
+
+    /* Every paragraph */
+    .review-body p {
+      margin-bottom: 0;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .review-body p:last-child { border-bottom: none; }
+
+    /* Spacer paragraphs — hide the &nbsp; ones gracefully */
+    .review-body p:empty,
+    .review-body p.spacer { display: none; }
+
+    /* ── Q&A STYLING ── Ape speaks (normal), Pinky replies (italic) ───── */
+
+    /* Ape lines — small caps feel */
+    .review-body p > span[lang] {
+      display: block;
+    }
+
+    /* Italic spans = Pinky — give a subtle left push */
+    .review-body p > span[lang] > i,
+    .review-body p > i > span[lang] {
+      display: block;
+      padding-left: 20px;
+      color: #333;
+      border-left: 2px solid var(--rule);
+    }
+
+    /* Footnote */
+    .review-body p:last-of-type {
+      font-size: 0.78rem;
+      color: var(--mid);
+      padding-top: 32px;
+      border-top: 1px solid var(--rule);
+      border-bottom: none;
+    }
+
+    /* Track name callouts — bold inline text */
+    .review-body b { color: var(--ink); font-weight: 600; }
+
+    /* ── SIGNATURE ──────────────────────────────────────────────────────── */
+    .review-signature {
+      display: flex;
+      justify-content: flex-end;
+      align-items: flex-end;
+      flex-direction: column;
+      gap: 4px;
+      margin-top: 56px;
+      padding-top: 24px;
+      border-top: 3px solid var(--ink);
+    }
+
+    .sig-name {
+      font-family: var(--display);
+      font-size: 2.2rem;
+      letter-spacing: 3px;
+      color: var(--ink);
+    }
+
+    .sig-meta {
+      font-family: var(--label);
+      font-size: 0.6rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--mid);
+    }
+
+    /* ── FOOTER ─────────────────────────────────────────────────────────── */
+    footer {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      z-index: 50;
+      background: var(--ink);
+      border-top: 3px solid var(--red);
+      padding: 7px 48px 7px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    footer p {
+      font-family: var(--label);
+      font-size: 0.58rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #555;
+    }
+
+    /* small red square decoration in footer */
+    footer::after {
+      content: '';
+      display: block;
+      width: 8px; height: 8px;
+      background: var(--red);
+      flex-shrink: 0;
+    }
+
+    /* ── RESPONSIVE ─────────────────────────────────────────────────────── */
+    @media (max-width: 600px) {
+      .page { padding: 0 20px 100px 28px; }
+      .review-title { font-size: clamp(2.4rem, 12vw, 4rem); }
+      .topnav a { padding: 10px 12px; font-size: 0.6rem; }
+    }
+  </style>
 </head>
-<body class="bkg" style="background-image: url(tiles.png)">
+<body>
 
 <div class="topnav">
   <a href="https://rat.reviews/Recent">Recent</a>
@@ -26,258 +318,184 @@ DATE: 2023-03-19
   <a href="https://rat.reviews" class="split">Home</a>
 </div>
 
-<div class="review-header-wrap">
-  <div class="review-title-block">
-    <h1>An Interview with Pinky</h1>
-    <p class="sub">The Smashing Pumpkins, <i>Siamese Dream</i> (1993)</p>
+<div class="page">
+
+  <!-- ── HEADER ── -->
+  <header class="review-header">
+    <div class="type-label">
+      <span class="dot"></span>
+      Album Review &nbsp;·&nbsp; 2023
+    </div>
+    <h1 class="review-title">An Interview<br>with Pinky</h1>
+    <p class="review-sub">
+      <b>The Smashing Pumpkins</b> &mdash; <i>Siamese Dream</i> (1993)
+    </p>
+  </header>
+
+  <div class="h-rule"></div>
+
+  <!-- ── AUTHOR NOTE ── -->
+  <div class="author-note">
+    Author's note: The content below is taken from an interview
+    between Ape &amp; Pinky sometime in 2021. Some liberties have been taken for
+    the sake of presentation. The thoughts and opinions have not been changed or
+    altered.
   </div>
-</div>
 
-<div class="WordSection1 prg"; style='word-wrap:break-word;text-align:left';>
-		
-		<p class=MsoNormal><span lang=EN style='font-family:"Times New Roman",serif'>&nbsp;</span></p>
-		
-		<p class=MsoNormal><i><span lang=EN style='font-family:"Times New Roman"; text-align:center; color:#B45F06'>Author’s note: The content below is taken from an interview
-		between Ape &amp; Pinky sometime in 2021. Some liberties have been taken for
-		the sake of presentation. The thoughts and opinions have not been changed or
-		altered.</span></i></p>
-		
-		<p class=MsoNormal><i><span lang=EN style='font-family:"Times New Roman",serif;
-		color:#B45F06'>&nbsp;</span></i></p>
-		
-		<p class=MsoNormal><span lang=EN style='font-family:"Times New Roman",serif'>[Ape]
-		Before you listen to the album, do you have any thoughts on the album artwork?</span></p>
-		
-		<p class=MsoNormal><span lang=EN style='font-family:"Times New Roman",serif'>&nbsp;</span></p>
-		
-		<p class=MsoNormal><span lang=EN style='font-family:"Times New Roman",serif'>[Pinky]<i>
-		No.</i></span></p>
-		
-		<p class=MsoNormal><span lang=EN style='font-family:"Times New Roman",serif'>&nbsp;</span></p>
-		
-		<p class=MsoNormal><span lang=EN style='font-family:"Times New Roman",serif'>Please?</span></p>
-		
-		<p class=MsoNormal><span lang=EN style='font-family:"Times New Roman",serif'>&nbsp;</span></p>
-		
-		<p class=MsoNormal><i><span lang=EN style='font-family:"Times New Roman",serif'>I
-		like the colors + the little girls are cute, but it makes me think the album is
-		gonna be really dark.</span></i></p>
-		
-		<p class=MsoNormal><i><span lang=EN style='font-family:"Times New Roman",serif'>&nbsp;</span></i></p>
-		
-		<p class=MsoNormal><span lang=EN style='font-family:"Times New Roman",serif'>What
-		do you expect from this album?</span></p>
-		
-		<p class=MsoNormal><span lang=EN style='font-family:"Times New Roman",serif'>&nbsp;</span></p>
-		
-		<p class=MsoNormal><i><span lang=EN style='font-family:"Times New Roman",serif'>I’m
-		expecting it to be rock music, but kinda heavy will sorta yelling singing. I
-		expect it to be punk-y + for a lot of the songs to sound the same. I expect it
-		to sound like all other 90s rock.</span></i></p>
-		
-		<p class=MsoNormal><i><span lang=EN style='font-family:"Times New Roman",serif'>&nbsp;</span></i></p>
-		
-		<p class=MsoNormal><span lang=EN style='font-family:"Times New Roman",serif'>Insightful.
-		Let’s begin with the first track - Cherub Rock?</span></p>
-		
-		<p class=MsoNormal><span lang=EN style='font-family:"Times New Roman",serif'>&nbsp;</span></p>
-		
-		<p class=MsoNormal><i><span lang=EN style='font-family:"Times New Roman",serif'>Sounds
-		like what I expected. Very muffled rock, but has a good beat. Pretty angsty
-		feeling, can’t really understand any of the lyrics. “Let me out” ? of where?
-		Decent guitar solo.</span></i></p>
-		
-		<p class=MsoNormal><i><span lang=EN style='font-family:"Times New Roman",serif'>&nbsp;</span></i></p>
-		
-		<p class=MsoNormal><span lang=EN style='font-family:"Times New Roman",serif'>Brilliant
-		observations. Next track - Quiet?</span></p>
-		
-		<p class=MsoNormal><span lang=EN style='font-family:"Times New Roman",serif'>&nbsp;</span></p>
-		
-		<p class=MsoNormal><i><span lang=EN style='font-family:"Times New Roman",serif'>I
-		like this less than the first song. Even grungier + muffly angst…feels like
-		he’s yelling a lot. Sounds like the first, but a less exciting beat.</span></i></p>
-		
-		<p class=MsoNormal><i><span lang=EN style='font-family:"Times New Roman",serif'>&nbsp;</span></i></p>
-		
-		<p class=MsoNormal><span lang=EN style='font-family:"Times New Roman",serif'>Today?</span></p>
-		
-		<p class=MsoNormal><span lang=EN style='font-family:"Times New Roman",serif'>&nbsp;</span></p>
-		
-		<p class=MsoNormal><i><span lang=EN style='font-family:"Times New Roman",serif'>I
-		think I know this one! Sounds like the “ah-ah” song. At least he’s not yelling
-		so much in this one. Was this in a movie?</span></i></p>
-		
-		<p class=MsoNormal><i><span lang=EN style='font-family:"Times New Roman",serif'>&nbsp;</span></i></p>
-		
-		<p class=MsoNormal><span lang=EN style='font-family:"Times New Roman",serif'>No
-		fucking clue, onwards - Hummer?</span></p>
-		
-		<p class=MsoNormal><span lang=EN style='font-family:"Times New Roman",serif'>&nbsp;</span></p>
-		
-		<p class=MsoNormal><i><span lang=EN style='font-family:"Times New Roman",serif'>The
-		guitar sounds the same in all of these. I like the beat in this one, pretty
-		good. Feels like the song goes on for too long? The end felt like a separate
-		song.</span></i></p>
-		
-		<p class=MsoNormal><i><span lang=EN style='font-family:"Times New Roman",serif'>&nbsp;</span></i></p>
-		
-		<p class=MsoNormal><span lang=EN style='font-family:"Times New Roman",serif'>Riveting.
-		Hoping you would have enjoyed something of this…Rocket?<br>
-		<br>
-		<i>Strong beginning. I like the guitar. Still not understanding the lyrics at
-		all, pretty good beat, but still blending into the other songs. They shall be
-		brave! I’m waiting for a stand-out song.</i></span></p>
+  <!-- ── BODY ── -->
+  <div class="review-body">
 
-        <p class=MsoNormal><span lang=EN style='font-family:"Times New Roman",serif'>&nbsp;</span></p>
-		
-		<p class=MsoNormal><span lang=EN style='font-family:"Times New Roman",serif'>Josey
-		will hate that one. Disarm?<br>
-		<br>
-		<i>This is boring.<br>
-		<br>
-		</i>…Disarm?<br>
-		<br>
-		<i>Ok!!! New kind of sounds, finally! Acoustic guitar? Church bells? Someone
-		getting married? This song also sounds kinda familiar. His voice sounds lighter
-		+ more natural here. This song sounds romantic + hopeful. B+!<br>
-		<br>
-		</i>Soma?<br>
-		<br>
-		<i>[Ape loves] this shit. I don’t really like the riff or melody + his voice is
-		very blah here. I’m bored w/ this one. I’d rather hear [Ape] do it on guitar.
-		At least it picks up later in the song. Decent guitar solo.</i></span></p>
-		
-		<p class=MsoNormal><i><span lang=EN style='font-family:"Times New Roman",serif'>&nbsp;</span></i></p>
-		
-		<p class=MsoNormal><span lang=EN style='font-family:"Times New Roman",serif'>Wonderful
-		- Geek USA?</span></p>
-		
-		<p class=MsoNormal><span lang=EN style='font-family:"Times New Roman",serif'>&nbsp;</span></p>
-		
-		<p class=MsoNormal><i><span lang=EN style='font-family:"Times New Roman",serif'>Sounds
-		like death metal. I like the out of place interlude. Goes on a bit too long +
-		sounds like 3 separate songs. Good drumming though + I like the upbeat ending.</span></i></p>
-		
-		<p class=MsoNormal><i><span lang=EN style='font-family:"Times New Roman",serif'>&nbsp;</span></i></p>
-		
-		<p class=MsoNormal><span lang=EN style='font-family:"Times New Roman",serif'>Mayonnaise?</span></p>
-		
-		<p class=MsoNormal><span lang=EN style='font-family:"Times New Roman",serif'>&nbsp;</span></p>
-		
-		<p class=MsoNormal><i><span lang=EN style='font-family:"Times New Roman",serif'>Solid,
-		standard rock beat. I hear the guitar thing [Ape] were talking about¹. This
-		feels like a pretty safe play of a song, nothing too special about it. His
-		voice sounds really good though.</span></i></p>
-		
-		<p class=MsoNormal><i><span lang=EN style='font-family:"Times New Roman",serif'>&nbsp;</span></i></p>
-		
-		<p class=MsoNormal><span lang=EN style='font-family:"Times New Roman",serif'>That
-		song came home from 3rd, good to hear. How about Spaceboy?</span></p>
-		
-		<p class=MsoNormal><span lang=EN style='font-family:"Times New Roman",serif'>&nbsp;</span></p>
-		
-		<p class=MsoNormal><i><span lang=EN style='font-family:"Times New Roman",serif'>Great
-		acoustic guitar. The background music is more interesting in this one. I like
-		how soft this is, his voice sounds natural + raw. Who is spaceboy? They won’t
-		be long for what?</span></i></p>
-		
-		<p class=MsoNormal><i><span lang=EN style='font-family:"Times New Roman",serif'>&nbsp;</span></i></p>
-		
-		<p class=MsoNormal><span lang=EN style='font-family:"Times New Roman",serif'>I
-		don’t have the answers. Anyway, let us turn things up now - Silverfuck?</span></p>
-		
-		<p class=MsoNormal><span lang=EN style='font-family:"Times New Roman",serif'>&nbsp;</span></p>
-		
-		<p class=MsoNormal><i><span lang=EN style='font-family:"Times New Roman",serif'>Annoying.</span></i></p>
-		
-		<p class=MsoNormal><i><span lang=EN style='font-family:"Times New Roman",serif'>&nbsp;</span></i></p>
-		
-		<p class=MsoNormal><span lang=EN style='font-family:"Times New Roman",serif'>Need
-		more than that.</span></p>
-		
-		<p class=MsoNormal><span lang=EN style='font-family:"Times New Roman",serif'>&nbsp;</span></p>
-		
-		<p class=MsoNormal><i><span lang=EN style='font-family:"Times New Roman",serif'>I
-		hope I find out what this means…doesn’t seem like it. I felt like that was a
-		lot of instrumental? IDK, it all blended together. Feels creepy-crawly. What
-		does Silverfuck mean??? This feels like a 10 min song + it keeps changing its
-		mind? Sounds like a car accident at the end.</span></i></p>
-		
-		<p class=MsoNormal><i><span lang=EN style='font-family:"Times New Roman",serif'>&nbsp;</span></i></p>
-		
-		<p class=MsoNormal><span lang=EN style='font-family:"Times New Roman",serif'>Best
-		opinion so far. The next track is Sweet Sweet - thoughts?</span></p>
-		
-		<p class=MsoNormal><span lang=EN style='font-family:"Times New Roman",serif'>&nbsp;</span></p>
-		
-		<p class=MsoNormal><i><span lang=EN style='font-family:"Times New Roman",serif'>Sounds
-		cute.</span></i></p>
-		
-		<p class=MsoNormal><i><span lang=EN style='font-family:"Times New Roman",serif'>&nbsp;</span></i></p>
-		
-		<p class=MsoNormal><span lang=EN style='font-family:"Times New Roman",serif'>Fantastic
-		opinion, is that all?<br>
-		<br>
-		<i>It was short + sweet, sounded calm. I wonder who he wrote it for. Much
-		shorter than anticipated.</i></span></p>
-		
-		<p class=MsoNormal><i><span lang=EN style='font-family:"Times New Roman",serif'>&nbsp;</span></i></p>
-		
-		<p class=MsoNormal><span lang=EN style='font-family:"Times New Roman",serif'>Luna?</span></p>
-		
-		<p class=MsoNormal><span lang=EN style='font-family:"Times New Roman",serif'>&nbsp;</span></p>
-		
-		<p class=MsoNormal><i><span lang=EN style='font-family:"Times New Roman",serif'>Love
-		the name. I like how chill these last two songs are. This sounds like a good
-		closer to the album - like a closing credits song. Aw, who is he in love with?
-		♥</span></i></p>
-		
-		<p class=MsoNormal><i><span lang=EN style='font-family:"Times New Roman",serif'>&nbsp;</span></i></p>
-		
-		<p class=MsoNormal><span lang=EN style='font-family:"Times New Roman",serif'>And
-		that’s the album! Sounded like it really was pulling teeth with most of those.
-		Anything specific you are taking away from the album?</span></p>
-		
-		<p class=MsoNormal><span lang=EN style='font-family:"Times New Roman",serif'>&nbsp;</span></p>
-		
-		<p class=MsoNormal><i><span lang=EN style='font-family:"Times New Roman",serif'>It’s
-		hard to extract a storyline from a rock album + to pick up the lyrics. A lot of
-		the songs blend together; but a few outliers to spice it up. The 90s seemed to
-		be very grungy + guitar-heavy. Sweet ending though.</span></i></p>
-		
-		<p class=MsoNormal><i><span lang=EN style='font-family:"Times New Roman",serif'>&nbsp;</span></i></p>
-		
-		<p class=MsoNormal><span lang=EN style='font-family:"Times New Roman",serif'>And
-		as a cherry on top, what question would you like to ask the artist?</span></p>
-		
-		<p class=MsoNormal><span lang=EN style='font-family:"Times New Roman",serif'>&nbsp;</span></p>
-		
-		<p class=MsoNormal><i><span lang=EN style='font-family:"Times New Roman",serif'>Question?
-		Why is this your band name, + who did you fall in love with?</span></i></p>
-		
-		<p class=MsoNormal><span lang=EN style='font-family:"Times New Roman",serif'>&nbsp;</span></p>
-		
-		<p class=MsoNormal><span lang=EN style='font-family:"Times New Roman",serif'>&nbsp;</span></p>
-		
-		<p class=MsoNormal><i><span lang=EN style='font-family:"Times New Roman",serif'>¹
-		The thing referenced is the feedback from the guitar heard on the guitar
-		tracks. Mainly pulled from the story that the guitar Corgan used was a $100
-		garage sale find. I, Ape, did not take the time to ever verify the legitimacy
-		of this.</span></i></p>
-		</div>
+    <p><span lang="EN">[Ape]
+    Before you listen to the album, do you have any thoughts on the album artwork?</span></p>
 
-<div class="review-signature">
-  <span class="sig-name">- Pinky</span>
-  <span class="sig-meta">2023-03-19</span>
-</div>
+    <p><span lang="EN">[Pinky] <i>No.</i></span></p>
 
-</div>
+    <p><span lang="EN">Please?</span></p>
+
+    <p><span lang="EN"><i>I like the colors + the little girls are cute, but it makes me think the album is
+    gonna be really dark.</i></span></p>
+
+    <p><span lang="EN">What do you expect from this album?</span></p>
+
+    <p><span lang="EN"><i>I'm expecting it to be rock music, but kinda heavy will sorta yelling singing. I
+    expect it to be punk-y + for a lot of the songs to sound the same. I expect it
+    to sound like all other 90s rock.</i></span></p>
+
+    <p><span lang="EN">Insightful.
+    Let's begin with the first track - Cherub Rock?</span></p>
+
+    <p><span lang="EN"><i>Sounds
+    like what I expected. Very muffled rock, but has a good beat. Pretty angsty
+    feeling, can't really understand any of the lyrics. "Let me out" ? of where?
+    Decent guitar solo.</i></span></p>
+
+    <p><span lang="EN">Brilliant
+    observations. Next track - Quiet?</span></p>
+
+    <p><span lang="EN"><i>I
+    like this less than the first song. Even grungier + muffly angst…feels like
+    he's yelling a lot. Sounds like the first, but a less exciting beat.</i></span></p>
+
+    <p><span lang="EN">Today?</span></p>
+
+    <p><span lang="EN"><i>I
+    think I know this one! Sounds like the "ah-ah" song. At least he's not yelling
+    so much in this one. Was this in a movie?</i></span></p>
+
+    <p><span lang="EN">No
+    fucking clue, onwards - Hummer?</span></p>
+
+    <p><span lang="EN"><i>The
+    guitar sounds the same in all of these. I like the beat in this one, pretty
+    good. Feels like the song goes on for too long? The end felt like a separate
+    song.</i></span></p>
+
+    <p><span lang="EN">Riveting.
+    Hoping you would have enjoyed something of this…Rocket?<br><br>
+    <i>Strong beginning. I like the guitar. Still not understanding the lyrics at
+    all, pretty good beat, but still blending into the other songs. They shall be
+    brave! I'm waiting for a stand-out song.</i></span></p>
+
+    <p><span lang="EN">Josey
+    will hate that one. Disarm?<br><br>
+    <i>This is boring.<br><br>
+    </i>…Disarm?<br><br>
+    <i>Ok!!! New kind of sounds, finally! Acoustic guitar? Church bells? Someone
+    getting married? This song also sounds kinda familiar. His voice sounds lighter
+    + more natural here. This song sounds romantic + hopeful. B+!<br><br>
+    </i>Soma?<br><br>
+    <i>[Ape loves] this shit. I don't really like the riff or melody + his voice is
+    very blah here. I'm bored w/ this one. I'd rather hear [Ape] do it on guitar.
+    At least it picks up later in the song. Decent guitar solo.</i></span></p>
+
+    <p><span lang="EN">Wonderful
+    - Geek USA?</span></p>
+
+    <p><span lang="EN"><i>Sounds
+    like death metal. I like the out of place interlude. Goes on a bit too long +
+    sounds like 3 separate songs. Good drumming though + I like the upbeat ending.</i></span></p>
+
+    <p><span lang="EN">Mayonnaise?</span></p>
+
+    <p><span lang="EN"><i>Solid,
+    standard rock beat. I hear the guitar thing [Ape] were talking about¹. This
+    feels like a pretty safe play of a song, nothing too special about it. His
+    voice sounds really good though.</i></span></p>
+
+    <p><span lang="EN">That
+    song came home from 3rd, good to hear. How about Spaceboy?</span></p>
+
+    <p><span lang="EN"><i>Great
+    acoustic guitar. The background music is more interesting in this one. I like
+    how soft this is, his voice sounds natural + raw. Who is spaceboy? They won't
+    be long for what?</i></span></p>
+
+    <p><span lang="EN">I
+    don't have the answers. Anyway, let us turn things up now - Silverfuck?</span></p>
+
+    <p><span lang="EN"><i>Annoying.</i></span></p>
+
+    <p><span lang="EN">Need
+    more than that.</span></p>
+
+    <p><span lang="EN"><i>I
+    hope I find out what this means…doesn't seem like it. I felt like that was a
+    lot of instrumental? IDK, it all blended together. Feels creepy-crawly. What
+    does Silverfuck mean??? This feels like a 10 min song + it keeps changing its
+    mind? Sounds like a car accident at the end.</i></span></p>
+
+    <p><span lang="EN">Best
+    opinion so far. The next track is Sweet Sweet - thoughts?</span></p>
+
+    <p><span lang="EN"><i>Sounds
+    cute.</i></span></p>
+
+    <p><span lang="EN">Fantastic
+    opinion, is that all?<br><br>
+    <i>It was short + sweet, sounded calm. I wonder who he wrote it for. Much
+    shorter than anticipated.</i></span></p>
+
+    <p><span lang="EN">Luna?</span></p>
+
+    <p><span lang="EN"><i>Love
+    the name. I like how chill these last two songs are. This sounds like a good
+    closer to the album - like a closing credits song. Aw, who is he in love with?
+    ♥</i></span></p>
+
+    <p><span lang="EN">And
+    that's the album! Sounded like it really was pulling teeth with most of those.
+    Anything specific you are taking away from the album?</span></p>
+
+    <p><span lang="EN"><i>It's
+    hard to extract a storyline from a rock album + to pick up the lyrics. A lot of
+    the songs blend together; but a few outliers to spice it up. The 90s seemed to
+    be very grungy + guitar-heavy. Sweet ending though.</i></span></p>
+
+    <p><span lang="EN">And
+    as a cherry on top, what question would you like to ask the artist?</span></p>
+
+    <p><span lang="EN"><i>Question?
+    Why is this your band name, + who did you fall in love with?</i></span></p>
+
+    <p><span lang="EN"><i>¹
+    The thing referenced is the feedback from the guitar heard on the guitar
+    tracks. Mainly pulled from the story that the guitar Corgan used was a $100
+    garage sale find. I, Ape, did not take the time to ever verify the legitimacy
+    of this.</i></span></p>
+
+  </div><!-- /.review-body -->
+
+  <!-- ── SIGNATURE ── -->
+  <div class="review-signature">
+    <span class="sig-name">Pinky</span>
+    <span class="sig-meta">Album &mdash; 2023-03-19</span>
+  </div>
+
+</div><!-- /.page -->
 
 <footer>
-  <div class="footer">
-    <p>&copy; Copyright 2026, Rat Reviews</p>
-  </div>
+  <p>&copy; Copyright 2026, Rat Reviews</p>
 </footer>
+
 </body>
 </html>
