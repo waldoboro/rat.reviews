@@ -8,109 +8,249 @@ AUTHOR: Ape
 DATE: 2023-02-25
 -->
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
-  <link rel="shortcut icon" href="favicon.ico">
-  <link rel="stylesheet" href="rat.css">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>jan-ken-pon — Rat Reviews</title>
-  <link href='https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Blaka&family=DotGothic16&family=Abhaya+Libre&display=swap' rel='stylesheet'>
+  <link href="https://fonts.googleapis.com/css2?family=Special+Elite&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      /* Dorothy Draper Inspired Palette for the Polygons */
+      --draper-green: #008542;
+      --draper-pink: #f4bcc6;
+      --draper-blue: #0076a8;
+      --draper-yellow: #fdb913;
+      --ink-color: #2c2c2c;
+      --paper-bg: #e8e2d6; /* Weathered cream paper */
+    }
+
+    body {
+      background-color: #d3ccc0;
+      background-image: url("https://www.transparenttextures.com/patterns/parchment.png");
+      color: var(--ink-color);
+      font-family: 'Special Elite', system-ui, -apple-system, serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* --- STICKY NAVBAR --- */
+    .topnav {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      width: 100%;
+      background: rgba(232, 226, 214, 0.9);
+      backdrop-filter: blur(5px);
+      border-bottom: 2px solid rgba(0,0,0,0.1);
+      display: flex;
+      justify-content: center;
+      padding: 10px 0;
+    }
+
+    .topnav a {
+      color: var(--ink-color);
+      text-decoration: none;
+      padding: 10px 15px;
+      font-weight: bold;
+      position: relative;
+      transition: 0.2s;
+      mix-blend-mode: multiply; /* Makes ink look like it's part of the paper */
+    }
+
+    /* Dorothy Draper Polygon Stamps */
+    .topnav a::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: -1;
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      clip-path: polygon(5% 15%, 95% 0%, 100% 85%, 15% 100%);
+    }
+
+    .topnav a:hover::before {
+      opacity: 0.8;
+      transform: scale(1.1) rotate(-2deg);
+    }
+
+    /* Polygon Colors */
+    .topnav a:nth-child(1)::before { background: var(--draper-green); }
+    .topnav a:nth-child(2)::before { background: var(--draper-pink); }
+    .topnav a:nth-child(3)::before { background: var(--draper-blue); }
+    .topnav a:nth-child(4)::before { background: var(--draper-yellow); }
+
+    /* --- LETTER CONTAINER --- */
+    .letter-sheet {
+      background: var(--paper-bg);
+      background-image: url("https://www.transparenttextures.com/patterns/cardboard-flat.png");
+      width: 90%;
+      max-width: 800px;
+      margin: 40px 0;
+      padding: 60px 50px;
+      box-shadow: 2px 5px 15px rgba(0,0,0,0.2), 0 0 40px rgba(0,0,0,0.05) inset;
+      border: 1px solid #d1c8b8;
+      position: relative;
+    }
+
+    /* Header Styling */
+    .review-header-wrap {
+      border-bottom: 1px solid rgba(0,0,0,0.1);
+      margin-bottom: 30px;
+      padding-bottom: 10px;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin: 0;
+      text-transform: lowercase; /* Stereolab aesthetic */
+    }
+
+    .sub {
+      font-style: italic;
+      opacity: 0.8;
+      margin: 5px 0;
+    }
+
+    /* The Main Body */
+    .WordSection1 {
+      line-height: 1.6;
+      font-size: 1.15rem;
+      text-align: justify;
+    }
+
+    ul {
+      list-style-type: "- ";
+      padding-left: 20px;
+    }
+
+    .review-signature {
+      margin-top: 40px;
+      font-size: 1.3rem;
+      border-top: 1px solid rgba(0,0,0,0.1);
+      padding-top: 20px;
+    }
+
+    /* --- FOOTER --- */
+    footer {
+      width: 90%;
+      max-width: 800px;
+      padding-bottom: 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.9rem;
+      opacity: 0.7;
+    }
+
+    .gif-container {
+      width: 80px;
+      height: 40px;
+      border: 1px dashed var(--ink-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Mobile Scaling */
+    @media (max-width: 600px) {
+      .letter-sheet {
+        padding: 30px 20px;
+        width: 95%;
+      }
+      h1 { font-size: 1.8rem; }
+      .topnav a { font-size: 0.8rem; padding: 10px 8px; }
+    }
+
+    /* Weathered Edge Effect */
+    .letter-sheet::after {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      box-shadow: inset 0 0 50px rgba(111, 78, 55, 0.1);
+      pointer-events: none;
+    }
+  </style>
 </head>
-<body class="bkg" style="background-image: url(tiles.png)">
+<body>
 
 <div class="topnav">
   <a href="https://rat.reviews/Recent">Recent</a>
   <a href="https://rat.reviews/Archive">Archive</a>
   <a href="https://rat.reviews/About">About</a>
-  <a href="https://rat.reviews" class="split">Home</a>
+  <a href="https://rat.reviews">Home</a>
 </div>
 
-<div class="review-header-wrap">
-  <div class="review-title-block">
-    <h1>jan-ken-pon</h1>
-    <p class="sub">Stereolab, <i>Emperor Tomato Ketchup</i> (1996)</p>
+<div class="letter-sheet">
+  <div class="review-header-wrap">
+    <div class="review-title-block">
+      <h1>jan-ken-pon</h1>
+      <p class="sub">Stereolab, <i>Emperor Tomato Ketchup</i> (1996)</p>
+    </div>
   </div>
-</div>
 
-<div class="WordSection1 prg" style="font-size:1em; word-wrap:break-word; text-align:left;">
-<br>
-<p>What a difficult band to approach not knowing the surrounding context or lore…a real brick wall that I’m afraid of touching let alone climbing (I brought a step stool so I’m down to take a peep). I feel this brick wall is guarded with the cognoscenti of art pop critics and fans - neither of whom seem too keen on letting a voyeur like me peer in. While I typically can hold a psychrophilic drive whilst in the cold shadows of gatekeepers I can’t help but feel the presence of the french language brings an unstoppable arrogance and snobbishness to their abrasive gaze.<br />
-<br><br />
-With 5 minutes of WikiSurfing I have come to learn that the album grabs the title from a Japanese short experimental film. While some of the descriptors for said movie will most likely keep me from seeking it out I do however hold some intrigue while also seeing a possible arthouse influence. This being said, the abridged version of Emperor Tomato Ketchup [film] is titled <i>Jan-ken-sensō (Rock Paper Scissors War)</i> and as I have a pseudo-complete creative freedom over how I want to review an album I see it fitting to be as obnoxious as possible and assort the tracks into a game of Rock Paper Scissors (spoiler: no one wins).<br />
-<br><br />
-<i>✋パー Paa</i></p>
-<p>The Paper is arguably the strongest of the three pawns when playing the long game, I feel this best describes the ‘labor of love’ tracks: the ‘songs that need to grow on you’.</p>
-<ul>
-<li>
-<p><i>Percolator:</i> While I find the bassline to be a fun dance to pin in on the song as a whole leaves much to be desired. Maybe I just find the songwriting a tad lazy or maybe it’s the vocals feeling a bit slapped together…either way the sharp abrasive saxophone brings the climax of the song for me.</p>
-</li>
-<li>
-<p><i>Spark Plug:</i> My gripes really seem to be in line with the track above. Although I do love the synth performance much more here it just sounds so busy and overcooked. Kinda glad it is as short as it is.</p>
-</li>
-<li>
-<p><i>Monstre Sacre</i> must be tongue in cheek because nothing is very eccentric about this track. Lyrics aside, this track does little to compliment the album and it’s slower and darker theme leaves me bored and uninterested.</p>
-</li>
-<li>
-<p>Again, repeating above I get a feel of slow dread with <i>Slow Fast Hazel</i>. The Jekyll/Hyde nature of the alternating tempo (track name is quite literal) gives me small tastes of enjoyment from the more excited vocals and some of the better drumming on the album - only to be taken back by an edging lull that leaves me unresolved and dissatisfied. <br />
-<br><br />
-<i>✌️チョキ Choki</i></p>
-</li>
-</ul>
-<p>Scissors - young, sharp, detailed - these are the tracks that are the radio hits: songs that hit right on that first listen.</p>
-<ul>
-<li>
-<p><i>Metronomic Underground:</i> What a fucking fun opener. The song opens with what I can only describe as the noise I think a lightsaber would make if I watched <i>Star Wars</i> on mute…maybe with a touch of Blue Man Group? Once the vocals come in I know I am in for a wonderful ride of an album ~ instantly drawing parallels to Deerhoof and Satomi Matsuzaki’s articulated staccato’d vocal delivery. The layers of vocals and electronics creates a soundscape that accentuates each individual instrument.</p>
-</li>
-<li>
-<p>Having a more minimal sound than some of the other tracks, <i>Olv 26</i> is a very inviting tune with some of my favorite vox so far. The xenial timbre of Lætitia Sadier’s vocal delivery gives such a warm pairing to the electronic beeps and hums.</p>
-</li>
-<li>
-<p>Side B opens with <i>Tomorrow Is Already Here</i>: a syncopated guitar/keyboard conversation culminating with the help of a building vocal mix to a delightful marimba¹ wash. Love this ditty.</p>
-</li>
-<li>
-<p>Title track <i>Emperor Tomato Ketchup</i> might be one of the most pop-y tracks thus far. The drums and bass being so locked in step leaves me helpless from melodically nodding at least one toe to the music. Malleted percussion complements my complete lack of understanding 90% of what these lyrics are about.</p>
-</li>
-<li>
-<p><i>Motoroller Scalatron</i> has me hooked immediately with the panning synths and late 60s aesthetic. The simple and repetitive lyrics build a harmonizing layer with the organ and space-cosmic digital chirps.<br />
-<br><br />
-<i>✊グー Guu</i></p>
-</li>
-</ul>
-<p>To round off the syzygy of RPS³ we have the rock. The oldest and boldest of the 3 I find this to be more ‘brut’ yet solid to the overall backbone of the album as a whole.</p>
-<ul>
-<li>
-<p><i>Cybele’s Reverie:</i> Coming in as the second track we have a more classically instrumented rock song. With more of an acoustic sound compared to the rest of the album the driving guitar and lush string arrangements complement swaying vocals and an entertaining song structure keeping the party going till the very end.</p>
-</li>
-<li>
-<p><i>Les Yper-Sound:</i> Absolute groove of a song. Driving bass brings the perfect landscape for all the classic tropes of pop to play perfectly. Nothing here is over done. Nothing seems glued together. Just a strong jam with a strong replayability potential.</p>
-</li>
-<li>
-<p>Ending out Side A we find the punch of a rock hit <i>The Noise of Carpet</i>. I can’t help but hear some Pixies in the more punk soundwall of this tune. Great hit. Play it again Johnny².</p>
-</li>
-<li>
-<p>I can’t say <i>Anonymous Collective</i> is a favorite track of mine here and I also have not been too keen on the slower tracks of this album but this one is done just so much more tastefully. The more minimal instrumentation (sleigh bells!) lays out a more confident display of songwriting and is a great end to a beautifully enjoyable album. I’m writing this too late at night again. No proofreading bc punk rock ~ ~ ~<br />
-<br><br />
-No conclusion paragraph! Eat eggs loser!</p>
-</li>
-</ul>
+  <div class="WordSection1">
+    <p>What a difficult band to approach not knowing the surrounding context or lore…a real brick wall that I’m afraid of touching let alone climbing (I brought a step stool so I’m down to take a peep). I feel this brick wall is guarded with the cognoscenti of art pop critics and fans - neither of whom seem too keen on letting a voyeur like me peer in. While I typically can hold a psychrophilic drive whilst in the cold shadows of gatekeepers I can’t help but feel the presence of the french language brings an unstoppable arrogance and snobbishness to their abrasive gaze.<br /><br />
+    
+    With 5 minutes of WikiSurfing I have come to learn that the album grabs the title from a Japanese short experimental film. While some of the descriptors for said movie will most likely keep me from seeking it out I do however hold some intrigue while also seeing a possible arthouse influence. This being said, the abridged version of Emperor Tomato Ketchup [film] is titled <i>Jan-ken-sensō (Rock Paper Scissors War)</i> and as I have a pseudo-complete creative freedom over how I want to review an album I see it fitting to be as obnoxious as possible and assort the tracks into a game of Rock Paper Scissors (spoiler: no one wins).<br /><br />
+    
+    <i>✋パー Paa</i><br />
+    The Paper is arguably the strongest of the three pawns when playing the long game, I feel this best describes the ‘labor of love’ tracks: the ‘songs that need to grow on you’.</p>
+    
+    <ul>
+      <li><i>Percolator:</i> While I find the bassline to be a fun dance to pin in on the song as a whole leaves much to be desired. Maybe I just find the songwriting a tad lazy or maybe it’s the vocals feeling a bit slapped together…either way the sharp abrasive saxophone brings the climax of the song for me.</li>
+      <li><i>Spark Plug:</i> My gripes really seem to be in line with the track above. Although I do love the synth performance much more here it just sounds so busy and overcooked. Kinda glad it is as short as it is.</li>
+      <li><i>Monstre Sacre</i> must be tongue in cheek because nothing is very eccentric about this track. Lyrics aside, this track does little to compliment the album and it’s slower and darker theme leaves me bored and uninterested.</li>
+      <li>Again, repeating above I get a feel of slow dread with <i>Slow Fast Hazel</i>. The Jekyll/Hyde nature of the alternating tempo (track name is quite literal) gives me small tastes of enjoyment from the more excited vocals and some of the better drumming on the album - only to be taken back by an edging lull that leaves me unresolved and dissatisfied.</li>
+    </ul>
 
-<div class="review-signature" style="text-align:right;">
-  <span class="sig-name">- Ape</span>
-  <span class="sig-meta">2023-02-25</span>
+    <p><i>✌️チョキ Choki</i><br />
+    Scissors - young, sharp, detailed - these are the tracks that are the radio hits: songs that hit right on that first listen.</p>
+    
+    <ul>
+      <li><i>Metronomic Underground:</i> What a fucking fun opener. The song opens with what I can only describe as the noise I think a lightsaber would make if I watched <i>Star Wars</i> on mute…maybe with a touch of Blue Man Group? Once the vocals come in I know I am in for a wonderful ride of an album ~ instantly drawing parallels to Deerhoof and Satomi Matsuzaki’s articulated staccato’d vocal delivery. The layers of vocals and electronics creates a soundscape that accentuates each individual instrument.</li>
+      <li>Having a more minimal sound than some of the other tracks, <i>Olv 26</i> is a very inviting tune with some of my favorite vox so far. The xenial timbre of Lætitia Sadier’s vocal delivery gives such a warm pairing to the electronic beeps and hums.</li>
+      <li>Side B opens with <i>Tomorrow Is Already Here</i>: a syncopated guitar/keyboard conversation culminating with the help of a building vocal mix to a delightful marimba¹ wash. Love this ditty.</li>
+      <li>Title track <i>Emperor Tomato Ketchup</i> might be one of the most pop-y tracks thus far. The drums and bass being so locked in step leaves me helpless from melodically nodding at least one toe to the music. Malleted percussion complements my complete lack of understanding 90% of what these lyrics are about.</li>
+      <li><i>Motoroller Scalatron</i> has me hooked immediately with the panning synths and late 60s aesthetic. The simple and repetitive lyrics build a harmonizing layer with the organ and space-cosmic digital chirps.</li>
+    </ul>
+
+    <p><i>✊グー Guu</i><br />
+    To round off the syzygy of RPS³ we have the rock. The oldest and boldest of the 3 I find this to be more ‘brut’ yet solid to the overall backbone of the album as a whole.</p>
+    
+    <ul>
+      <li><i>Cybele’s Reverie:</i> Coming in as the second track we have a more classically instrumented rock song. With more of an acoustic sound compared to the rest of the album the driving guitar and lush string arrangements complement swaying vocals and an entertaining song structure keeping the party going till the very end.</li>
+      <li><i>Les Yper-Sound:</i> Absolute groove of a song. Driving bass brings the perfect landscape for all the classic tropes of pop to play perfectly. Nothing here is over done. Nothing seems glued together. Just a strong jam with a strong replayability potential.</li>
+      <li>Ending out Side A we find the punch of a rock hit <i>The Noise of Carpet</i>. I can’t help but hear some Pixies in the more punk soundwall of this tune. Great hit. Play it again Johnny².</li>
+      <li>I can’t say <i>Anonymous Collective</i> is a favorite track of mine here and I also have not been too keen on the slower tracks of this album but this one is done just so much more tastefully. The more minimal instrumentation (sleigh bells!) lays out a more confident display of songwriting and is a great end to a beautifully enjoyable album. I’m writing this too late at night again. No proofreading bc punk rock ~ ~ ~<br /><br />
+      No conclusion paragraph! Eat eggs loser!</p>
+    </ul>
+
+    <div class="review-signature">
+      <span class="sig-name">- Ape</span><br>
+      <span class="sig-meta">2023-02-25</span>
+    </div>
+
+    <div style="font-size:0.8em; margin-top: 30px; border-top: 1px dotted #ccc; padding-top: 10px;">
+      <p>¹ only a guess</p>
+      <p>² I don’t know who Johnny is</p>
+      <p>³ Rock Paper Scissors: I shortened it in case I reference it again in the future but haha waited until like the end of the review to do this<i>~ zing</i></p>
+    </div>
   </div>
-<div style="text-align:left; font-size:0.8em">
-  <p>¹ only a guess</p>
-  <p>² I don’t know who Johnny is</p>
-  <p>³ Rock Paper Scissors: I shortened it in case I reference it again in the future but haha waited until like the end of the review to do this<i>~ zing</i></p>
-</div>
-
 </div>
 
 <footer>
-  <div class="footer">
-    <p>&copy; Copyright 2026, Rat Reviews</p>
+  <p>&copy; Copyright 2026, Rat Reviews</p>
+  <div class="gif-container">
+    <span>GIF</span>
   </div>
 </footer>
+
 </body>
 </html>

@@ -12,121 +12,447 @@ DATE: 2023-03-19
 <head>
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link rel="shortcut icon" href="favicon.ico">
-  <link rel="stylesheet" href="rat.css">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Las Néctares se Mezclan — Rat Reviews</title>
-  <link href='https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Blaka&family=DotGothic16&family=Abhaya+Libre&display=swap' rel='stylesheet'>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lora:ital,wght@0,400;0,500;1,400&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --red:    #C8102E;
+      --blue:   #00308F;
+      --yellow: #FFD100;
+      --black:  #000000;
+      --white:  #FFFFFF;
+      --space:  #06060d;
+      --rule:   3px solid #000;
+      --rule-thin: 1px solid #000;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { background: var(--space); }
+
+    body {
+      font-family: 'Lora', Georgia, serif;
+      background: transparent;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── STARFIELD ── */
+    #starfield {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* ── COSMIC RAY ARTIFACTS ── */
+    .ray {
+      position: fixed;
+      left: 0; width: 100vw; height: 1px;
+      pointer-events: none;
+      z-index: 1;
+    }
+    .ray-1 { top: 31%; background: linear-gradient(to right, transparent 0%, rgba(255,255,255,0.045) 40%, rgba(255,255,255,0.02) 70%, transparent 100%); }
+    .ray-2 { top: 67%; background: linear-gradient(to right, transparent 10%, rgba(200,16,46,0.06) 50%, transparent 90%); }
+
+    /* ── COORDINATE LABELS ── */
+    .coord {
+      position: fixed;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.52rem;
+      line-height: 1.7;
+      color: rgba(255,255,255,0.13);
+      letter-spacing: 0.18em;
+      pointer-events: none;
+      z-index: 1;
+      text-transform: uppercase;
+    }
+
+    /* ── PAGE WRAPPER ── */
+    .neo-page {
+      position: relative;
+      z-index: 10;
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 3.5rem 1.5rem 5rem;
+      animation: pageIn 0.35s ease-out both;
+    }
+
+    @keyframes pageIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── NAV ── */
+    .topnav {
+      display: flex;
+      align-items: stretch;
+      border: var(--rule);
+      background: var(--black);
+    }
+
+    .topnav a {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.55);
+      text-decoration: none;
+      padding: 0.75rem 1.3rem;
+      border-right: 1px solid #1f1f1f;
+      position: relative;
+      z-index: 1;
+      transition: color 0.08s;
+    }
+
+    .topnav a.split { margin-left: auto; border-right: none; border-left: 1px solid #1f1f1f; }
+
+    .topnav a::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: var(--red);
+      clip-path: polygon(4px 0%, 100% 0%, calc(100% - 4px) 100%, 0% 100%);
+      transform: translate(-4px, 3px);
+      opacity: 0;
+      transition: opacity 0.1s;
+      z-index: -1;
+    }
+
+    .topnav a:hover::before { opacity: 1; }
+    .topnav a:hover { color: #fff; }
+
+    /* ── HEADER GRID ── */
+    .header-neo {
+      display: grid;
+      grid-template-columns: 1fr 185px;
+      grid-template-rows: auto 52px;
+      border-left: var(--rule);
+      border-right: var(--rule);
+      border-bottom: var(--rule);
+    }
+
+    .cell-title {
+      grid-column: 1; grid-row: 1;
+      background: var(--white);
+      border-right: var(--rule);
+      padding: 2.8rem 2.4rem 2.2rem;
+    }
+
+    .cell-title h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.2rem, 5.5vw, 3.8rem);
+      line-height: 1;
+      letter-spacing: 0.04em;
+      color: var(--black);
+      margin-bottom: 0.7rem;
+    }
+
+    .cell-title .sub {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.67rem;
+      letter-spacing: 0.18em;
+      color: #666;
+      text-transform: uppercase;
+    }
+
+    .cell-red-top {
+      grid-column: 2; grid-row: 1;
+      background: var(--red);
+      position: relative;
+    }
+
+    /* floating artifact — small blue square offset from corner */
+    .cell-red-top::after {
+      content: '';
+      position: absolute;
+      width: 22px; height: 22px;
+      background: var(--blue);
+      border: var(--rule);
+      bottom: -14px; right: -14px;
+      z-index: 20;
+    }
+
+    .cell-yellow-strip {
+      grid-column: 1; grid-row: 2;
+      background: var(--yellow);
+      border-right: var(--rule);
+      border-top: var(--rule);
+    }
+
+    .cell-blue-sq {
+      grid-column: 2; grid-row: 2;
+      background: var(--blue);
+      border-top: var(--rule);
+    }
+
+    /* ── SHARED SECTION STYLES ── */
+    .section {
+      display: grid;
+      border-left: var(--rule);
+      border-right: var(--rule);
+      border-bottom: var(--rule);
+    }
+
+    .section-a { grid-template-columns: 56px 1fr; }
+    .section-b { grid-template-columns: 1fr 72px; }
+    .section-c { grid-template-columns: 1fr; }
+
+    .strip-blue  { background: var(--blue);  border-right: var(--rule); }
+    .strip-red   { background: var(--red);   border-left: var(--rule); }
+
+    .text-block {
+      background: var(--white);
+      padding: 2.8rem 3rem 2.4rem;
+    }
+
+    .text-block p {
+      font-size: 1.02rem;
+      line-height: 1.9;
+      color: #1a1a1a;
+      max-width: 62ch;
+      margin-bottom: 1.9rem;
+    }
+
+    .text-block p:last-of-type { margin-bottom: 0; }
+    .text-block i { font-style: italic; }
+
+    /* Mast quote — left-ruled accent */
+    .mast-quote {
+      display: block;
+      border-left: 3px solid var(--red);
+      margin: 1.5rem 0 1.5rem 0.8rem;
+      padding: 0.3rem 1.2rem;
+      font-style: italic;
+      color: #333;
+    }
+
+    /* ── YELLOW ARTIFACT BAR ── */
+    /* bleeds 22px off right as intentional artifact */
+    .artifact-bar {
+      position: relative;
+      background: var(--yellow);
+      height: 52px;
+      border-left: var(--rule);
+      border-bottom: var(--rule);
+      margin-right: -22px;
+    }
+
+    .artifact-bar::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--black);
+    }
+
+    /* ── LATIN PHRASE BLOCK ── */
+    .latin-block {
+      background: var(--white);
+      border-left: var(--rule);
+      border-right: var(--rule);
+      border-bottom: var(--rule);
+      padding: 2.4rem 2rem;
+      text-align: center;
+    }
+
+    .latin-phrase {
+      font-family: 'Lora', serif;
+      font-style: italic;
+      font-size: clamp(1.2rem, 3vw, 1.85rem);
+      color: #7a0018;
+      letter-spacing: 0.08em;
+    }
+
+    /* ── FADING COLD TEXT ── */
+    .col-dark  { color: #434343; }
+    .col-mid   { color: #666666; }
+    .col-light { color: #999999; }
+
+    /* ── SIGNATURE ── */
+    .review-signature {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      border-top: var(--rule-thin);
+      padding-top: 1.4rem;
+      margin-top: 2.4rem;
+    }
+
+    .sig-name {
+      font-family: 'Lora', serif;
+      font-style: italic;
+      font-size: 1rem;
+      color: #1a1a1a;
+    }
+
+    .sig-meta {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.18em;
+      color: #888;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      border: var(--rule);
+      border-top: none;
+      background: var(--black);
+      padding: 0.75rem 1.3rem;
+    }
+
+    footer p {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.58rem;
+      letter-spacing: 0.15em;
+      color: #3a3a3a;
+    }
+
+    /* ── MOBILE ── */
+    @media (max-width: 620px) {
+      .coord, .ray { display: none; }
+
+      .neo-page { padding: 0 0 4rem; }
+
+      .topnav a { padding: 0.7rem 0.85rem; font-size: 0.6rem; }
+
+      .header-neo {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto 44px 36px;
+      }
+
+      .cell-title    { grid-column: 1; grid-row: 1; border-right: none; border-bottom: var(--rule); }
+      .cell-red-top  { grid-column: 1; grid-row: 2; }
+      .cell-red-top::after { display: none; }
+      .cell-yellow-strip { grid-column: 1; grid-row: 3; border-right: none; }
+      .cell-blue-sq  { display: none; }
+
+      .section-a { grid-template-columns: 24px 1fr; }
+      .section-b { grid-template-columns: 1fr 24px; }
+
+      .text-block { padding: 1.8rem 1.4rem; }
+      .text-block p { max-width: 100%; font-size: 0.96rem; }
+
+      .artifact-bar { margin-right: 0; height: 36px; }
+    }
+  </style>
 </head>
-<body class="bkg" style="background-image: url(tiles.png)">
+<body>
 
-<div class="topnav">
-  <a href="https://rat.reviews/Recent">Recent</a>
-  <a href="https://rat.reviews/Archive">Archive</a>
-  <a href="https://rat.reviews/About">About</a>
-  <a href="https://rat.reviews" class="split">Home</a>
-</div>
+<canvas id="starfield"></canvas>
+<div class="ray ray-1"></div>
+<div class="ray ray-2"></div>
 
-<div class="review-header-wrap">
-  <div class="review-title-block">
-    <h1>Las Néctares se Mezclan</h1>
-    <p class="sub">D'Angelo and the Vanguard, <i>Black Messiah</i> (2014)</p>
+<div class="coord" style="top:14%; left:1.5%">RA 12h 51m<br>DEC −08° 14'</div>
+<div class="coord" style="top:40%; right:1%">NGC 4889<br>z = 0.021</div>
+<div class="coord" style="top:63%; left:1.2%">v = 6,952 km/s<br>Δt = 13.1 Gyr</div>
+<div class="coord" style="top:82%; right:1.2%">M = +11.5<br>B−V = 0.92</div>
+
+<div class="neo-page">
+
+  <nav class="topnav">
+    <a href="https://rat.reviews/Recent">Recent</a>
+    <a href="https://rat.reviews/Archive">Archive</a>
+    <a href="https://rat.reviews/About">About</a>
+    <a href="https://rat.reviews" class="split">Home</a>
+  </nav>
+
+  <!-- HEADER GRID -->
+  <div class="header-neo">
+    <div class="cell-title">
+      <h1>Las Néctares se Mezclan</h1>
+      <p class="sub">D'Angelo and the Vanguard, <i>Black Messiah</i> (2014)</p>
+    </div>
+    <div class="cell-red-top"></div>
+    <div class="cell-yellow-strip"></div>
+    <div class="cell-blue-sq"></div>
   </div>
-</div>
 
-<div class="WordSection1 prg" style="word-wrap:break-word;">
-<br>
-<p class=MsoNormal><span lang=EN style='font-family:"Times New Roman",serif'>&nbsp;</span></p>
-        
-        <p class=MsoNormal><span lang=EN style='font-family:"Times New Roman",serif'>Oh
-        geez. This is a tough one, and if I am to be honest I will probably amend and
-        revisit this one somewhere down the road. Consider this a smattered bookmark,
-        and maybe a first-impression - even if this is an album I am rather familiar
-        with. </span></p>
-        
-        <p class=MsoNormal><span lang=EN style='font-family:"Times New Roman",serif'>&nbsp;</span></p>
-        
-        <p class=MsoNormal><span lang=EN style='font-family:"Times New Roman",serif'>I
-        think a fair and necessary explanation for my approach is that my relationship
-        with D’Angelo is in parallel with my relationship with Nina Simone’s work: <i>this
-        isn’t for me</i>. I have a mild discomfort while listening to both artists in
-        that I am erring on voyeurism…which I feel is summed up nicely in a quote from
-        Gerald Mast: “<span style='background:white'>Voyeurism allows us to experience
-        all the excitement of disaster, catastrophe, and pain, to witness the most
-        horrible human events, without any danger of feeling real pain.”</span></span></p>
-        
-        <p class=MsoNormal><span lang=EN style='font-family:"Times New Roman",serif;
-        background:white'>&nbsp;</span></p>
-        
-        <p class=MsoNormal><span lang=EN style='font-family:"Times New Roman",serif'>That
-        being said, I think my unfamiliarity with D’Angelo’s catalog and career context
-        sends me into this review lacking much of the confidence I would want to really
-        formulate a strong opinion. I come to this with weak language, fear of offense,
-        and a stomach full of fruit from the tree of discomfort. </span></p>
-        
-        <p class=MsoNormal><span lang=EN style='font-family:"Times New Roman",serif'>&nbsp;</span></p>
-        
-        <p class=MsoNormal><i><span lang=EN style='font-family:Cardo;color:#660000'>porro
-        cum dolore ↣</span></i></p>
-        
-        <p class=MsoNormal><i><span lang=EN style='font-family:"Times New Roman",serif;
-        color:#660000'>&nbsp;</span></i></p>
-        
-        <p class=MsoNormal><span lang=EN style='font-family:"Times New Roman",serif'>The
-        album commences with a radio tuning into the sounds of the impending alien
-        annihilation, <span style='color:#202122;background:white'>antennæ carefully</span>
-        tuning to the opener <i>Ain’t That Easy</i>. The choral verses build a lush
-        sound that is driven by a marching bass &amp; drum mix. Wonderfully melodic
-        vocal melody, especially on the chorus. The percussive novelties added in are a
-        theme that is repeated in the album throughout. The following track contains a
-        sample from the film ‘The Murder of Fred Hampton’ - followed by largely
-        unintelligible vocals through a somewhat dissonant instrumental. </span></p>
-        
-        <p class=MsoNormal><span lang=EN style='font-family:"Times New Roman",serif'>&nbsp;</span></p>
-        
-        <p class=MsoNormal><i><span lang=EN style='font-family:"Times New Roman",serif'>The
-        Charade </span></i><span lang=EN style='font-family:"Times New Roman",serif'>takes
-        a more conventional approach with a safe and simple musical delivery throughout
-        the piece. <i>Sugah Daddy</i> &amp; <i>Really Love</i> are about as far as I
-        usually get through this album. I think they both are such a standard at this
-        point they don’t need much critique. I think they only leave room for praise as
-        pillars in soul/funk/R&amp;B history. I can’t express more how perfect these
-        two tracks really are.</span></p>
-        
-        <p class=MsoNormal><span lang=EN style='font-family:"Times New Roman",serif'>&nbsp;</span></p>
-        
-        <p class=MsoNormal><i><span lang=EN style='font-family:"Times New Roman",serif'>Back
-        to the Future</span></i><span lang=EN style='font-family:"Times New Roman",serif'>
-        comes with a poppy yet familiar vibe. The orchestration hangs nicely on the
-        backbone: a perfect splash of bitters into a strong highball of strong spirits.
-        <i>Till It’s Done </i>gives me a taste of a more gospel influenced songwriting.<i>
-        Prayer </i>takes on a darker tone - evident of the highly reverb’d backing
-        instrumentation and echoing vocals.</span></p>
-        
-        <p class=MsoNormal><span lang=EN style='font-family:"Times New Roman",serif'>&nbsp;</span></p>
-        
-        <p class=MsoNormal><span lang=EN style='font-family:"Times New Roman",serif'>Eh
-        - this review gets dry quick without touching on the lyrics. I am sitting in
-        front of a feast prepared and cooked by one of the finest musical chef’s and I
-        have only touched the side dishes and <span style='color:#434343'>my entree</span><span
-        style='color:#666666'> is getting </span><span style='color:#999999'>cold</span>.
-        I think I will tap out here. I can’t promise the deep dive this album deserves
-        - not out of an impending deadline or drained opinion pool - but rather the
-        same 3 lines sent into a thesaurus proceeding the track title in italics. I am
-        writing about the sea while ignoring the lush archipelago within. This album is
-        fantastic. My ability to convey opinion while cowering in the face of
-        bowdlerization is not.</span></p>
+  <!-- SECTION A — blue strip left, paragraphs 1–3 -->
+  <div class="section section-a">
+    <div class="strip-blue"></div>
+    <div class="text-block">
+      <p>Oh geez. This is a tough one, and if I am to be honest I will probably amend and revisit this one somewhere down the road. Consider this a smattered bookmark, and maybe a first-impression - even if this is an album I am rather familiar with.</p>
 
-<div class="review-signature">
-  <span class="sig-name">- Ape</span>
-  <span class="sig-meta">2023-03-19</span>
-</div>
+      <p>I think a fair and necessary explanation for my approach is that my relationship with D'Angelo is in parallel with my relationship with Nina Simone's work: <i>this isn't for me</i>. I have a mild discomfort while listening to both artists in that I am erring on voyeurism…which I feel is summed up nicely in a quote from Gerald Mast: <span class="mast-quote">"Voyeurism allows us to experience all the excitement of disaster, catastrophe, and pain, to witness the most horrible human events, without any danger of feeling real pain."</span></p>
 
-</div>
+      <p>That being said, I think my unfamiliarity with D'Angelo's catalog and career context sends me into this review lacking much of the confidence I would want to really formulate a strong opinion. I come to this with weak language, fear of offense, and a stomach full of fruit from the tree of discomfort.</p>
+    </div>
+  </div>
 
-<footer>
-  <div class="footer">
+  <!-- YELLOW ARTIFACT BAR -->
+  <div class="artifact-bar"></div>
+
+  <!-- LATIN PHRASE -->
+  <div class="latin-block">
+    <span class="latin-phrase">porro cum dolore ↣</span>
+  </div>
+
+  <!-- SECTION B — red strip right, paragraphs 4–6 -->
+  <div class="section section-b">
+    <div class="text-block">
+      <p>The album commences with a radio tuning into the sounds of the impending alien annihilation, antennæ carefully tuning to the opener <i>Ain't That Easy</i>. The choral verses build a lush sound that is driven by a marching bass &amp; drum mix. Wonderfully melodic vocal melody, especially on the chorus. The percussive novelties added in are a theme that is repeated in the album throughout. The following track contains a sample from the film 'The Murder of Fred Hampton' - followed by largely unintelligible vocals through a somewhat dissonant instrumental.</p>
+
+      <p><i>The Charade</i> takes a more conventional approach with a safe and simple musical delivery throughout the piece. <i>Sugah Daddy</i> &amp; <i>Really Love</i> are about as far as I usually get through this album. I think they both are such a standard at this point they don't need much critique. I think they only leave room for praise as pillars in soul/funk/R&amp;B history. I can't express more how perfect these two tracks really are.</p>
+
+      <p><i>Back to the Future</i> comes with a poppy yet familiar vibe. The orchestration hangs nicely on the backbone: a perfect splash of bitters into a strong highball of strong spirits. <i>Till It's Done</i> gives me a taste of a more gospel influenced songwriting. <i>Prayer</i> takes on a darker tone - evident of the highly reverb'd backing instrumentation and echoing vocals.</p>
+    </div>
+    <div class="strip-red"></div>
+  </div>
+
+  <!-- SECTION C — final paragraph + signature -->
+  <div class="section section-c">
+    <div class="text-block">
+      <p>Eh - this review gets dry quick without touching on the lyrics. I am sitting in front of a feast prepared and cooked by one of the finest musical chef's and I have only touched the side dishes and <span class="col-dark">my entree</span> <span class="col-mid">is getting</span> <span class="col-light">cold</span>. I think I will tap out here. I can't promise the deep dive this album deserves - not out of an impending deadline or drained opinion pool - but rather the same 3 lines sent into a thesaurus proceeding the track title in italics. I am writing about the sea while ignoring the lush archipelago within. This album is fantastic. My ability to convey opinion while cowering in the face of bowdlerization is not.</p>
+
+      <div class="review-signature">
+        <span class="sig-name">— Ape</span>
+        <span class="sig-meta">2023-03-19</span>
+      </div>
+    </div>
+  </div>
+
+  <footer>
     <p>&copy; Copyright 2026, Rat Reviews</p>
-  </div>
-</footer>
+  </footer>
+
+</div>
+
+<script>
+  (function () {
+    const canvas = document.getElementById('starfield');
+    const ctx = canvas.getContext('2d');
+
+    function draw() {
+      canvas.width  = window.innerWidth;
+      canvas.height = window.innerHeight;
+      const count = Math.floor((canvas.width * canvas.height) / 4000);
+      for (let i = 0; i < count; i++) {
+        const x = Math.random() * canvas.width;
+        const y = Math.random() * canvas.height;
+        const r = Math.random() * 1.1 + 0.1;
+        const a = Math.random() * 0.6 + 0.1;
+        ctx.beginPath();
+        ctx.arc(x, y, r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255,255,255,${a})`;
+        ctx.fill();
+      }
+      // faint blue-tinted stars
+      for (let i = 0; i < Math.floor(count * 0.07); i++) {
+        const x = Math.random() * canvas.width;
+        const y = Math.random() * canvas.height;
+        ctx.beginPath();
+        ctx.arc(x, y, 1.2, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(160,185,255,${Math.random() * 0.35 + 0.1})`;
+        ctx.fill();
+      }
+    }
+
+    draw();
+    window.addEventListener('resize', draw);
+  })();
+</script>
+
 </body>
 </html>
