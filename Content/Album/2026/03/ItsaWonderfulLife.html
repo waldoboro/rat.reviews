@@ -11,6 +11,7 @@ DATE: 2026-03-10
 <html>
 
 <head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link rel="shortcut icon" href="favicon.ico">
   <title>The Hark of Syncretism! \\ Rat Reviews</title>
@@ -49,9 +50,23 @@ DATE: 2026-03-10
       line-height: 1.8;
     }
 
+    @media (max-width: 600px) {
+  body {
+    font-size: 15px;
+  }
+    }
+
     .footjob {
       font-family: 'Palette Mosaic', system-ui;
       font-size: 1.5rem;
+    }
+
+    @media (max-width: 600px) {
+  footer {
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
+  }
     }
 
     @keyframes colorCycle {
@@ -84,12 +99,15 @@ DATE: 2026-03-10
       font-size: 11px;
       letter-spacing: 0.18em;
       text-transform: uppercase;
+      flex-wrap: wrap;
     }
 
     nav a {
       display: block;
       padding: 7px 16px;
       text-decoration: none;
+      flex: 1 1 auto;
+      text-align: center;
       color: var(--ink);
       border-right: 2px solid var(--ink);
       transition: background 0.05s, color 0.05s;
@@ -242,5 +260,6 @@ DATE: 2026-03-10
   })();
 </script>
 </body>
+
 
 </html>
