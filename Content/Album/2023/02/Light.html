@@ -15,14 +15,28 @@ DATE: 2023-02-20
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Songs From Lovely Ukraine — Rat Reviews</title>
   <style>
+    :root {
+      --bg:   #ffffff;
+      --fg:   #000000;
+      --star: 0,0,0;
+    }
+    .inverted {
+      --bg:   #000000;
+      --fg:   #ffffff;
+      --star: 255,255,255;
+    }
+
     * { margin:0; padding:0; box-sizing:border-box; }
 
+    html { background: var(--bg); }
+
     body {
-      background: #fff;
-      color: #000;
+      background: var(--bg);
+      color: var(--fg);
       font-family: monospace;
       font-size: 14px;
       line-height: 1.5;
+      transition: background 0.15s, color 0.15s;
     }
 
     canvas {
@@ -30,6 +44,50 @@ DATE: 2023-02-20
       inset: 0;
       z-index: 0;
       pointer-events: none;
+    }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: var(--bg);
+      border-bottom: 1px solid var(--fg);
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 6px;
+      transition: background 0.15s, border-color 0.15s;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    nav a, nav a:visited { color: var(--fg); text-decoration: none; }
+
+    .inv-btn {
+      margin-left: auto;
+      font-family: monospace;
+      font-size: 13px;
+      background: none;
+      border: 1px solid var(--fg);
+      cursor: pointer;
+      padding: 1px 7px 2px;
+      color: var(--fg);
+      letter-spacing: 0.05em;
+      line-height: 1.6;
+      transform: skewX(-4deg);
+      position: relative;
+      top: -1px;
+      transition: background 0.1s, color 0.1s, border-color 0.15s;
+    }
+
+    .inv-btn:hover {
+      background: var(--fg);
+      color: var(--bg);
     }
 
     #page {
@@ -40,13 +98,13 @@ DATE: 2023-02-20
       padding: 40px 20px 80px;
     }
 
-    a { color: #000; }
-    a:visited { color: #000; }
+    a, a:visited { color: var(--fg); }
 
     hr {
       border: none;
-      border-top: 1px solid #000;
+      border-top: 1px solid var(--fg);
       margin: 24px 0;
+      transition: border-color 0.15s;
     }
 
     p { margin-bottom: 16px; }
@@ -58,21 +116,24 @@ DATE: 2023-02-20
     }
   </style>
 </head>
-<body>
+<body id="body">
 
 <canvas id="c"></canvas>
 
+<nav>
+  <div class="nav-links">
+    <a href="https://rat.reviews">RAT REVIEWS</a>
+    &nbsp;/&nbsp;
+    <a href="https://rat.reviews/Recent">RECENT</a>
+    &nbsp;/&nbsp;
+    <a href="https://rat.reviews/Archive">ARCHIVE</a>
+    &nbsp;/&nbsp;
+    <a href="https://rat.reviews/About">ABOUT</a>
+  </div>
+  <button class="inv-btn" id="invBtn" title="invert">[ &#x25D1; ]</button>
+</nav>
+
 <div id="page">
-
-  <a href="https://rat.reviews">RAT REVIEWS</a>
-  &nbsp;/&nbsp;
-  <a href="https://rat.reviews/Recent">RECENT</a>
-  &nbsp;/&nbsp;
-  <a href="https://rat.reviews/Archive">ARCHIVE</a>
-  &nbsp;/&nbsp;
-  <a href="https://rat.reviews/About">ABOUT</a>
-
-  <hr>
 
   <p>
     <b>Songs From Lovely Ukraine</b><br>
@@ -108,8 +169,31 @@ DATE: 2023-02-20
 
 <script>
   const canvas = document.getElementById('c');
-  const ctx = canvas.getContext('2d');
-  const G = ['.','·','+','*',',','`',"'",'.','.','·'];
+  const ctx    = canvas.getContext('2d');
+  const body   = document.getElementById('body');
+  const btn    = document.getElementById('invBtn');
+
+  let inverted = false;
+
+  btn.addEventListener('click', function() {
+    inverted = !inverted;
+    body.classList.toggle('inverted', inverted);
+  });
+
+  // ── starfield ──
+  const G = [
+    '.','.','.','.',
+    '·','·','·',
+    ',',',',
+    '*','*',
+    '`', "'",
+    '+',
+    '˚','˚',
+    'ﾟ',
+    '✦','✦',
+    '☄',
+  ];
+
   let W, H, stars = [];
 
   function resize() {
@@ -120,33 +204,41 @@ DATE: 2023-02-20
   function star() {
     const layer = Math.floor(Math.random() * 3);
     return {
-      x: Math.random() * W,
-      y: Math.random() * H,
-      g: G[Math.floor(Math.random() * G.length)],
-      speed: 0.12 + layer * 0.22 + Math.random() * 0.1,
-      size: 9 + layer * 3,
-      a: 0.06 + layer * 0.07 + Math.random() * 0.06,
-      tw: 0.009 + Math.random() * 0.011,
-      to: Math.random() * Math.PI * 2,
-      layer
+      x:     Math.random() * W,
+      y:     Math.random() * H,
+      g:     G[Math.floor(Math.random() * G.length)],
+      speed: 0.1 + layer * 0.2 + Math.random() * 0.12,
+      size:  8 + layer * 4 + Math.random() * 3,
+      a:     0.07 + layer * 0.07 + Math.random() * 0.07,
+      tw:    0.007 + Math.random() * 0.012,
+      to:    Math.random() * Math.PI * 2,
     };
   }
 
-  function init() { stars = Array.from({length:200}, star); }
+  function init() { stars = Array.from({length: 320}, star); }
 
-  let f = 0;
+  // read current star color from CSS variable
+  function starRGB() {
+    return getComputedStyle(body).getPropertyValue('--star').trim() || '0,0,0';
+  }
+
+  let f = 0, rgb = starRGB();
+
   function draw() {
+    // refresh color every ~30 frames (cheap)
+    if (f % 30 === 0) rgb = starRGB();
+
     ctx.clearRect(0, 0, W, H);
     for (let s of stars) {
-      const tw = 0.65 + 0.35 * Math.sin(f * s.tw + s.to);
-      ctx.font = s.size + 'px monospace';
-      ctx.fillStyle = 'rgba(0,0,0,' + (s.a * tw) + ')';
+      const tw = 0.6 + 0.4 * Math.sin(f * s.tw + s.to);
+      ctx.font      = s.size + 'px monospace';
+      ctx.fillStyle = 'rgba(' + rgb + ',' + (s.a * tw) + ')';
       ctx.fillText(s.g, s.x, s.y);
       s.y += s.speed;
-      s.x += Math.sin(f * 0.004 + s.to) * s.speed * 0.1;
-      if (s.y > H + 16) { s.y = -16; s.x = Math.random() * W; }
-      if (s.x < -16) s.x = W;
-      if (s.x > W + 16) s.x = 0;
+      s.x += Math.sin(f * 0.004 + s.to) * s.speed * 0.12;
+      if (s.y > H + 20) { s.y = -20; s.x = Math.random() * W; }
+      if (s.x < -20) s.x = W;
+      if (s.x > W + 20) s.x = 0;
     }
     f++;
     requestAnimationFrame(draw);

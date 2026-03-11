@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Lines - Black Background</title>
+    <style>
+        /* Phase 1: Basic CSS Setup - Set background black and fill the screen */
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: rgb(0, 0, 0); /* Pure black background */
+            overflow: hidden; /* Prevent scrollbars when lines hit edges */
+            color: #444; /* Dim text for the instruction */
+            font-family: sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        /* The canvas is where all the drawing happens */
+        canvas {
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1; /* Place visuals behind the instruction text */
+        }
+
+        #instruction {
+            position: relative;
+            z-index: 2; /* Place instruction in front of visuals */
+            pointer-events: none; /* Make text unselectable so it doesn't interfere with mouse interaction */
+            user-select: none;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="instruction">Move Mouse<br>...to Repel...</div>
+    <canvas id="visuals"></canvas>
+
+    <script>
+        // Phase 2: JavaScript Interaction & Drawing Logic
+
+        const canvas = document.getElementById('visuals');
+        const ctx = canvas.getContext('2d');
+
+        // Initial setup for the canvas dimensions
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        // Configuration variables
+        const NUMBER_OF_LINES = (canvas.width * canvas.height) / 10000; // Adjusts line count based on screen size (Max ~200)
+        const LINE_COLOR = 'rgba(255, 255, 255, 0.8)'; // Bright white, slightly transparent
+        const MOUSE_REPULSION_RADIUS = 150; // The 'bounce' zone radius (in pixels)
+        const REPULSION_STRENGTH = 1.2; // How strongly the points are pushed away
+        const FRICTION = 0.98; // Gradual slowing (drag) so they don't move forever (0.9 to 0.99)
+        const WALL_BOUNCE = 0.9; // Elasticity when hitting the edge of the screen (0.0 to 1.0)
+
+        // Mouse coordinates store
+        let mouse = {
+            x: undefined,
+            y: undefined
+        };
+
+        // Event listener for mouse movement
+        window.addEventListener('mousemove', function(event) {
+            mouse.x = event.x;
+            mouse.y = event.y;
+        });
+
+        // Event listener for touch screens
+        window.addEventListener('touchmove', function(event) {
+            if (event.touches.length > 0) {
+                mouse.x = event.touches[0].clientX;
+                mouse.y = event.touches[0].clientY;
+            }
+        });
+
+        // Handle window resizing to keep the canvas full screen
+        window.addEventListener('resize', function() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            init(); // Re-initialize the particles upon resize
+        });
+
+        // The Particle class defines the points that form the vertices of the lines
+        class Particle {
+            constructor() {
+                // Initial position randomly across the screen
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+
+                // Initial velocity (speed and direction)
+                // Math.random() - 0.5 gives a value between -0.5 and 0.5
+                // Multiplied by 2, speed is between -1 and 1 pixels per frame.
+                this.dx = (Math.random() - 0.5) * 2;
+                this.dy = (Math.random() - 0.5) * 2;
+                this.size = 2; // Only used for draw() function, not collision
+            }
+
+            // Draw the point (optional, the user asked for *lines*)
+            // This is useful for debugging but we will make it invisible for the final visual.
+            draw() {
+                // ctx.beginPath();
+                // ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
+                // ctx.fillStyle = 'white';
+                // ctx.fill();
+            }
+
+            // The core logic of the simulation: Update position and implement physics
+            update() {
+                // 1. Check for wall collision (Standard bouncing off the screen edge)
+                if (this.x + this.size > canvas.width || this.x - this.size < 0) {
+                    this.dx = -this.dx * WALL_BOUNCE;
+                }
+                if (this.y + this.size > canvas.height || this.y - this.size < 0) {
+                    this.dy = -this.dy * WALL_BOUNCE;
+                }
+
+                // --- The "Bounce off Mouse" Logic ---
+                // We implement Magnetic Repulsion: points are pushed away from the mouse.
+
+                if (mouse.x !== undefined && mouse.y !== undefined) {
+                    // Step 1: Calculate the difference vector (distance)
+                    let dx_mouse = this.x - mouse.x;
+                    let dy_mouse = this.y - mouse.y;
+
+                    // Step 2: Calculate the magnitude of the distance (Pythagorean theorem)
+                    let distance = Math.sqrt(dx_mouse*dx_mouse + dy_mouse*dy_mouse);
+
+                    // Step 3: Check if the particle is within the 'bounce zone'
+                    if (distance < MOUSE_REPULSION_RADIUS) {
+                        // Normalize the distance vector (keeps direction, magnitude becomes 1)
+                        // The particle needs to be pushed AWAY from the mouse.
+                        // dx_mouse/distance is a vector pointing *from* the mouse *to* the particle.
+                        let normalize_dx = dx_mouse / distance;
+                        let normalize_dy = dy_mouse / distance;
+
+                        // Calculate force magnitude: Strongest when close, drops off with distance.
+                        // Force = Strength * (1 - normalized_distance)
+                        let force = (MOUSE_REPULSION_RADIUS - distance) / MOUSE_REPULSION_RADIUS;
+
+                        // Apply the acceleration vector (normalized direction * force strength) to the current velocity
+                        this.dx += normalize_dx * force * REPULSION_STRENGTH;
+                        this.dy += normalize_dy * force * REPULSION_STRENGTH;
+                    }
+                }
+                // End Repulsion logic
+
+                // --- Particle Drag ---
+                // Without friction, particles would eventually accelerate infinitely.
+                this.dx *= FRICTION;
+                this.dy *= FRICTION;
+
+                // Update the current position based on velocity
+                this.x += this.dx;
+                this.y += this.dy;
+
+                // Draw the point (invisible right now, see Draw function)
+                this.draw();
+            }
+        }
+
+        let particlesArray;
+
+        // Initialize/reset the simulation
+        function init() {
+            particlesArray = [];
+            // Dynamically scale particle count based on screen size (prevent too many or too few)
+            let dynamicParticleCount = Math.max(50, Math.min(250, NUMBER_OF_LINES));
+
+            for (let i = 0; i < dynamicParticleCount; i++) {
+                particlesArray.push(new Particle());
+            }
+        }
+
+        // The animation loop function (called every frame)
+        function animate() {
+            // Request the browser to call animate() before the next repaint
+            requestAnimationFrame(animate);
+
+            // Phase 3: The Drawing Process
+
+            // 1. Clear the entire canvas of the previous frame
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // 2. Update all particles
+            for (let i = 0; i < particlesArray.length; i++) {
+                particlesArray[i].update();
+            }
+
+            // 3. Draw the lines between nearby particles
+            // Since particles "bounce" off the mouse, the lines connecting them also shift dramatically.
+            ctx.strokeStyle = LINE_COLOR; // Define line color
+            ctx.lineWidth = 1;
+
+            // Nested loop to compare every particle to every other particle
+            for (let a = 0; a < particlesArray.length; a++) {
+                for (let b = a; b < particlesArray.length; b++) {
+                    // Check distance between particle A and particle B
+                    let dx = particlesArray[a].x - particlesArray[b].x;
+                    let dy = particlesArray[a].y - particlesArray[b].y;
+                    let distance = Math.sqrt(dx * dx + dy * dy);
+
+                    // Draw the line if the particles are close enough
+                    // Connect threshold makes the visual dynamic (looks like a shifting net)
+                    let connectThreshold = 100;
+                    if (canvas.width < 600) connectThreshold = 70; // Connect fewer lines on small screens
+
+                    if (distance < connectThreshold) {
+                        // Bonus: Dynamic Opacity based on distance (closer = brighter line)
+                        let opacity = 1 - (distance / connectThreshold);
+                        ctx.strokeStyle = `rgba(255, 255, 255, ${opacity * 0.8})`;
+
+                        ctx.beginPath();
+                        ctx.moveTo(particlesArray[a].x, particlesArray[a].y); // Start point (A)
+                        ctx.lineTo(particlesArray[b].x, particlesArray[b].y); // End point (B)
+                        ctx.stroke(); // Draw the stroke
+                    }
+                }
+            }
+        }
+
+        // Run the simulation
+        init();
+        animate();
+
+    </script>
+</body>
+</html>
