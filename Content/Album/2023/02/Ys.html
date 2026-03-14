@@ -9,57 +9,267 @@ DATE: 2023-02-27
 -->
 <!DOCTYPE html>
 <html>
+
 <head>
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link rel="shortcut icon" href="favicon.ico">
-  <link rel="stylesheet" href="rat.css">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Courage of a Clown — Rat Reviews</title>
-  <link href='https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Blaka&family=DotGothic16&family=Abhaya+Libre&display=swap' rel='stylesheet'>
+  <title>Courage of a Clown \\ Rat Reviews</title>
+  <link
+    href='https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Blaka&family=DotGothic16&family=Abhaya+Libre&display=swap'
+    rel='stylesheet'>
+
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg: #ffffff;
+      --fg: #111111;
+      --dim: #555555;
+      --border: #aaaaaa;
+      --accent: #000000;
+      --font: "Courier New", "Lucida Console", monospace;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--fg);
+      font-family: var(--font);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .page-shell {
+      max-width: 80ch;
+      margin: 0 auto;
+      padding: 1rem 1rem 4rem;
+    }
+
+    /* ── ASCII BANNER FIX ── */
+    .nfo-banner {
+      white-space: pre;
+      /* 1.65vw makes it fit perfectly on most screens. 
+         clamp() keeps it from getting too huge on desktops or too tiny to read. */
+      font-size: clamp(6px, 1.65vw, 12px); 
+      line-height: 1.1;
+      color: var(--fg);
+      margin-bottom: 1.5rem;
+      text-align: center;
+      overflow: hidden; /* Prevents accidental scrollbars */
+      display: block;
+    }
+
+    /* ── NAVBAR FIX ── */
+    .topnav {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap; /* Allows links to stack on very small phones */
+      gap: 1ch;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 0.5rem 0;
+      margin-bottom: 1.5rem;
+      font-size: 13px;
+    }
+
+    .topnav a {
+      color: var(--fg);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      text-emphasis: "x";
+    }
+
+    /* Separators that don't break the layout */
+    .topnav a:not(:last-child)::after {
+      content: "/";
+      margin-left: 1ch;
+      color: var(--border);
+    }
+
+    .topnav a:hover {
+      text-emphasis: "X";
+    }
+
+    /* Individual hover glows */
+    .topnav a:nth-child(1):hover { text-shadow: 0 0 8px #ff0000; }
+    .topnav a:nth-child(2):hover { text-shadow: 0 0 8px #00ff00; }
+    .topnav a:nth-child(3):hover { text-shadow: 0 0 8px #0000ff; }
+    .topnav a:nth-child(4):hover { text-shadow: 0 0 8px #ffff00; }
+
+    /* ── INFO BLOCK ── */
+    .nfo-infoblock {
+      border: 1px solid var(--fg);
+      margin-bottom: 1.5rem;
+    }
+
+    .nfo-infoblock-header {
+      background: var(--fg);
+      color: var(--bg);
+      padding: 0.2rem 0.6rem;
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      white-space: nowrap; 
+      overflow: hidden;       
+      text-overflow: clip;
+    }
+
+    .nfo-infoblock-body {
+      padding: 0.5rem 0.6rem;
+      font-size: 13px;
+    }
+
+    .nfo-row {
+      display: flex;
+      margin-bottom: 2px;
+    }
+
+    .nfo-key {
+      color: var(--dim);
+      min-width: 10ch;
+      flex-shrink: 0;
+    }
+
+    /* ── CONTENT ── */
+    .review-content {
+      font-size: 13px;
+      line-height: 1.8;
+      text-align: justify;
+    }
+
+    .review-content p {
+      margin-bottom: 1.5rem;
+    }
+
+    .review-signature {
+      display: flex;
+      justify-content: space-between;
+      border-top: 1px dashed var(--border);
+      padding-top: 1rem;
+      margin-top: 2rem;
+      font-size: 12px;
+      color: var(--dim);
+    }
+
+    footer {
+      margin-top: 3rem;
+      border-top: 1px solid var(--border);
+      padding-top: 0.5rem;
+      font-size: 11px;
+      color: var(--dim);
+    }
+  </style>
 </head>
-<body class="bkg" style="background-image: url(tiles.png)">
 
-<div class="topnav">
-  <a href="https://rat.reviews/Recent">Recent</a>
-  <a href="https://rat.reviews/Archive">Archive</a>
-  <a href="https://rat.reviews/About">About</a>
-  <a href="https://rat.reviews" class="split">Home</a>
-</div>
+<body>
+  <div class="page-shell">
 
-<div class="review-header-wrap">
-  <div class="review-title-block">
-    <h1>Courage of a Clown</h1>
-    <p class="sub">Joanna Newsom, <i>Ys</i> (2006)</p>
-  </div>
-</div>
+    <pre class="nfo-banner">
+ ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+ ░                                                                    ░
+ ██▀███   ▄▄▄     ▄▄▄█████▓    ██▀███  ▓█████ ██▒   █▓ ██▓▓█████  █     █░  ██████ 
+▓██ ▒ ██▒▒████▄   ▓  ██▒ ▓▒   ▓██ ▒ ██▒▓█   ▀▓██░   █▒▓██▒▓█   ▀ ▓█░ █ ░█░▒██    ▒ 
+▓██ ░▄█ ▒▒██  ▀█▄ ▒ ▓██░ ▒░   ▓██ ░▄█ ▒▒███   ▓██  █▒░▒██▒▒███   ▒█░ █ ░█ ░ ▓██▄   
+▒██▀▀█▄  ░██▄▄▄▄██░ ▓██▓ ░    ▒██▀▀█▄  ▒▓█  ▄  ▒██ █░░░██░▒▓█  ▄ ░█░ █ ░█   ▒   ██▒
+░██▓ ▒██▒ ▓█   ▓██▒ ▒██▒ ░    ░██▓ ▒██▒░▒████▒  ▒▀█░  ░██░░▒████▒░░██▒██▓ ▒██████▒▒
+░ ▒▓ ░▒▓░ ▒▒   ▓▒█░ ▒ ░░      ░ ▒▓ ░▒▓░░░ ▒░ ░  ░ ▐░  ░▓  ░░ ▒░ ░░ ▓░▒ ▒  ▒ ▒▓▒ ▒ ░
+  ░▒ ░ ▒░  ▒   ▒▒ ░   ░         ░▒ ░ ▒░ ░ ░  ░  ░ ░░   ▒ ░ ░ ░  ░  ▒ ░ ░  ░ ░▒  ░ ░
+  ░░   ░   ░   ▒    ░           ░░   ░    ░       ░░   ▒ ░   ░     ░   ░  ░  ░  ░  
+   ░           ░  ░              ░        ░  ░     ░   ░     ░  ░    ░          ░
+ ░                                                                    ░
+ ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░</pre>
 
-<div class="WordSection1 prg" style="word-wrap:break-word;">
-<br>
-<p>In New York I had a roommate who went by a self-given military title. He was an NYU film student. Odd bird. Nights when he wasn’t watching soccer at the pub down the street, he’d lie on his bed and play with a tennis ball. On its face, maybe not so unusual. People do that sort of thing to pass the time. Except this guy would bat the ball up and down, never catching it, instead pawing at it like a cat. Loudly, obliviously. Always while I was trying to proofread a final draft or when I had an important work assignment that I was preparing for. Invariably, I’d holler at him to cut it out, and he’d just lie there blinking at me, nonplussed, as if I were making a demand on him without basis.<br />
-<br><br />
-Joanna Newsom’s music reminds me of my erstwhile roommate’s sublimely annoying self-rapture, an episodic, near-fatal immersion in a world apart from the one the rest of us are trying to work in. It’s a quality cats have in abundance. Auto-possession. So does Newsom.<br />
-<br><br />
-She and her harp function as a single melodic device, lilting and meandering, weaving together lovely, if gratuitously lofty, tracts of music. <i>Ys</i> is egregiously ambitious. The credits alone evidence this. Steve Albini recorded Newsom and her trusty accomplice at The Village in Los Angeles. Van Dyke Parks arranged the orchestral bits and co-produced the record. Jim O’Rourke mixed it. All of it done in analog. All of it mastered at Abbey Road. Not to mention the supporting cast, including legendary wrecking crew bassist Leland Sklar and the ever-wry Bill Callahan, whose poignant backing vocal on ‘Only Skin’ yields one of the record’s most beautiful moments. That track, with its waltzing banjo and free-associative procession, is a definite highlight.<br />
-<br><br />
-Of course, this record makes demands on the listener. How could it not? The vocal pacing can seem relentless, redundant at times. And the songs tend to indulge in the same excesses. Newsom and harp are a self-reciprocating force that can reach a kind of ecstatic delirium made articulate through Newsom’s brainy schematics and mythic volubility. But the harpist’s poetry, while formidable, can become exasperating. She admits that she normally writes lyrics after the composition of the music. She also binds herself to complicated rhyming patterns. The result can be mawkishly intellectual. Like Broadway done by nymph-savants.<br />
-<br><br />
-The album is equal parts sprightly and serious. It bounces along with Newsom’s syllabic, topsy-turvy tenor, and it accumulates gravity when she gets bassier. ‘Emily’ finds Newsom at her most dynamic. And her most theatrical. There are suggestions of vaudeville and Shakespeare here, and mountains of alliteration in the lyric (she says so herself: ‘a table being ceaselessly set’). ‘Monkey &amp; Bear’ leans further into the cerebral showtune conceit. The Parks-administered brass and woodwinds interface nicely with the harp on this track, and the underlying narrative, for the steadfast ear and fans of Lewis Carroll alike, is an introspective trip. Newsom bares all and nothing all at once.<br />
-<br><br />
-The third track, ‘Sawdust &amp; Diamonds,’ is the most musically sophisticated of the lot. The jazzy notes here bespeak Joni’s modal moods, and Newsom’s delivery is less stagey, more insouciant. A loungy, Greenwich Village folk reservedness on this one. A whiff of cigarette smoke and the ambient warmth of a stark hot stage lamp obtain. The harpist’s fingering on this track is intricately filigreed with her vocal. A fine demonstration of Newsom’s obvious brilliance and better judgment overlapping.<br />
-<br><br />
-The looping ‘Cosmia’ wraps the record up. Unfortunately, the last track reprises much of the overwrought musical theater that submerges subtle terrestrial grace in the grandiosity of idea. That said, the thrumming culmination of ‘Cosmia,’ marked by increasingly emotional vocal repetitions and towering string stabs, gives us a departing flash of the extraordinary. I think Newsom, in the gaudily decadent parts of this record, is a victim of her own exuberant vision. Where she pulls back ever so slightly, she succeeds. I probably won’t return to this record. But that doesn’t prevent me from recommending that others listen to decide the merits of <i>Ys</i> for themselves.</p>
+    <div class="topnav">
+      <a href="https://rat.reviews">Home</a>
+      <a href="https://rat.reviews/Recent">Recent</a>
+      <a href="https://rat.reviews/Archive">Archive</a>
+      <a href="https://rat.reviews/About">About</a>
+    </div>
 
-<div class="review-signature">
-  <span class="sig-name">- Josey</span>
-  <span class="sig-meta">2023-02-27</span>
-</div>
+    <div class="nfo-infoblock">
+      <div class="nfo-infoblock-header">:: info ::::::::::::::::::::::::::::::::::::::::::::::::::</div>
+      <div class="nfo-infoblock-body">
+        <div class="nfo-row"><span class="nfo-key">[TITLE] </span><span class="nfo-val">Courage of a Clown</span></div>
+        <div class="nfo-row"><span class="nfo-key">[ARTIST] </span><span class="nfo-val">Joanna Newsom</span></div>
+        <div class="nfo-row"><span class="nfo-key">[ALBUM] </span><span class="nfo-val">Ys (2006)</span></div>
+        <div class="nfo-row"><span class="nfo-key">[TYPE] </span><span class="nfo-val">Album Review</span></div>
+        <div class="nfo-row"><span class="nfo-key">[REVIEWER] </span><span class="nfo-val">Josey</span></div>
+        <div class="nfo-row"><span class="nfo-key">[DATE] </span><span class="nfo-val">2023-02-27</span></div>
+      </div>
+    </div>
 
-</div>
+    <div class="WordSection1 prg" style="word-wrap:break-word;">
+      <br>
+      <p>In New York I had a roommate who went by a self-given military title. He was an NYU film student. Odd bird.
+        Nights when he wasn't watching soccer at the pub down the street, he'd lie on his bed and play with a tennis
+        ball. On its face, maybe not so unusual. People do that sort of thing to pass the time. Except this guy would
+        bat the ball up and down, never catching it, instead pawing at it like a cat. Loudly, obliviously. Always while
+        I was trying to proofread a final draft or when I had an important work assignment that I was preparing for.
+        Invariably, I'd holler at him to cut it out, and he'd just lie there blinking at me, nonplussed, as if I were
+        making a demand on him without basis.<br />
+        <br><br />
+        Joanna Newsom's music reminds me of my erstwhile roommate's sublimely annoying self-rapture, an episodic,
+        near-fatal immersion in a world apart from the one the rest of us are trying to work in. It's a quality cats
+        have in abundance. Auto-possession. So does Newsom.<br />
+        <br><br />
+        She and her harp function as a single melodic device, lilting and meandering, weaving together lovely, if
+        gratuitously lofty, tracts of music. <i>Ys</i> is egregiously ambitious. The credits alone evidence this. Steve
+        Albini recorded Newsom and her trusty accomplice at The Village in Los Angeles. Van Dyke Parks arranged the
+        orchestral bits and co-produced the record. Jim O'Rourke mixed it. All of it done in analog. All of it mastered
+        at Abbey Road. Not to mention the supporting cast, including legendary wrecking crew bassist Leland Sklar and
+        the ever-wry Bill Callahan, whose poignant backing vocal on 'Only Skin' yields one of the record's most
+        beautiful moments. That track, with its waltzing banjo and free-associative procession, is a definite
+        highlight.<br />
+        <br><br />
+        Of course, this record makes demands on the listener. How could it not? The vocal pacing can seem relentless,
+        redundant at times. And the songs tend to indulge in the same excesses. Newsom and harp are a self-reciprocating
+        force that can reach a kind of ecstatic delirium made articulate through Newsom's brainy schematics and mythic
+        volubility. But the harpist's poetry, while formidable, can become exasperating. She admits that she normally
+        writes lyrics after the composition of the music. She also binds herself to complicated rhyming patterns. The
+        result can be mawkishly intellectual. Like Broadway done by nymph-savants.<br />
+        <br><br />
+        The album is equal parts sprightly and serious. It bounces along with Newsom's syllabic, topsy-turvy tenor, and
+        it accumulates gravity when she gets bassier. 'Emily' finds Newsom at her most dynamic. And her most theatrical.
+        There are suggestions of vaudeville and Shakespeare here, and mountains of alliteration in the lyric (she says
+        so herself: 'a table being ceaselessly set'). 'Monkey &amp; Bear' leans further into the cerebral showtune
+        conceit. The Parks-administered brass and woodwinds interface nicely with the harp on this track, and the
+        underlying narrative, for the steadfast ear and fans of Lewis Carroll alike, is an introspective trip. Newsom
+        bares all and nothing all at once.<br />
+        <br><br />
+        The third track, 'Sawdust &amp; Diamonds,' is the most musically sophisticated of the lot. The jazzy notes here
+        bespeak Joni's modal moods, and Newsom's delivery is less stagey, more insouciant. A loungy, Greenwich Village
+        folk reservedness on this one. A whiff of cigarette smoke and the ambient warmth of a stark hot stage lamp
+        obtain. The harpist's fingering on this track is intricately filigreed with her vocal. A fine demonstration of
+        Newsom's obvious brilliance and better judgment overlapping.<br />
+        <br><br />
+        The looping 'Cosmia' wraps the record up. Unfortunately, the last track reprises much of the overwrought musical
+        theater that submerges subtle terrestrial grace in the grandiosity of idea. That said, the thrumming culmination
+        of 'Cosmia,' marked by increasingly emotional vocal repetitions and towering string stabs, gives us a departing
+        flash of the extraordinary. I think Newsom, in the gaudily decadent parts of this record, is a victim of her own
+        exuberant vision. Where she pulls back ever so slightly, she succeeds. I probably won't return to this record.
+        But that doesn't prevent me from recommending that others listen to decide the merits of <i>Ys</i> for
+        themselves.
+      </p>
 
-<footer>
-  <div class="footer">
-    <p>🄯 COPYLEFT 2026, Rat Reviews</p>
-  </div>
-</footer>
+      <div class="review-signature">
+        <span class="sig-name">- Josey</span>
+        <span class="sig-meta">2023-02-27</span>
+      </div>
+
+    </div>
+
+    <footer>
+      <div class="footer">
+        <p>🄯 COPYLEFT 2026, Rat Reviews</p>
+      </div>
+    </footer>
+
+  </div><!-- /page-shell -->
 </body>
+
 </html>

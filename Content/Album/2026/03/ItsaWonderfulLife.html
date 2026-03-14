@@ -15,21 +15,15 @@ DATE: 2026-03-10
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link rel="shortcut icon" href="favicon.ico">
   <title>The Hark of Syncretism! \\ Rat Reviews</title>
-  <link
-    href='https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Blaka&family=DotGothic16&family=Abhaya+Libre&display=swap'
+  <link href='https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Blaka&family=DotGothic16&family=Abhaya+Libre&display=swap'
     rel='stylesheet'>
   <style>
     .container {
       max-width: 800px;
-      /* Standard comfortable reading width */
       margin: 0 auto;
-      /* Centers the block horizontally */
       padding: 0 20px;
-      /* Adds a little "breathing room" on mobile */
       border-left: var(--rule);
-      /* Optional: keeps that boxed-in zine look */
       border-right: var(--rule);
-      /* Optional: keeps that boxed-in zine look */
       background-color: var(--paper);
     }
 
@@ -50,28 +44,8 @@ DATE: 2026-03-10
       line-height: 1.8;
     }
 
-    @media (max-width: 600px) {
-  body {
-    font-size: 15px;
-  }
-    }
-
-    .footjob {
-      font-family: 'Palette Mosaic', system-ui;
-      font-size: 1.5rem;
-    }
-
-    @media (max-width: 600px) {
-  footer {
-    flex-direction: column;
-    gap: 10px;
-    text-align: center;
-  }
-    }
-
     @keyframes colorCycle {
-      0% {
-        color: var(--blue);
+      0% {color: var(--blue);
       }
 
       33% {
@@ -99,15 +73,12 @@ DATE: 2026-03-10
       font-size: 11px;
       letter-spacing: 0.18em;
       text-transform: uppercase;
-      flex-wrap: wrap;
     }
 
     nav a {
       display: block;
       padding: 7px 16px;
       text-decoration: none;
-      flex: 1 1 auto;
-      text-align: center;
       color: var(--ink);
       border-right: 2px solid var(--ink);
       transition: background 0.05s, color 0.05s;
@@ -137,7 +108,6 @@ DATE: 2026-03-10
 
     /* ── Signature ────────────────────────────── */
     .review-signature {
-      border-top: var(--rule);
       padding: 0.9rem 2rem;
       display: flex;
       justify-content: space-between;
@@ -158,24 +128,31 @@ DATE: 2026-03-10
     }
 
     /* --- FOOTER --- */
-    footer {
-      width: 90%;
-      max-width: 800px;
-      padding-bottom: 40px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 0.9rem;
-      opacity: 0.7;
+    .footjob-copyleft {
+      border-top: var(--rule);
+      /* Matches your site's thick black line */
+      margin-top: 3rem;
+      padding: 1rem 0;
     }
 
-    .gif-container {
-      width: 80px;
-      height: 40px;
-      border: 1px dashed var(--ink-color);
+    .footjob-content {
       display: flex;
+      justify-content: space-between;
+      /* Pushes content to opposite ends */
       align-items: center;
-      justify-content: center;
+      /* Centers them vertically against each other */
+    }
+
+    .footjob-text {
+      text-align: left;
+      /* Ensures the text stays left-aligned */
+    }
+
+    /* The Copyleft Symbol Flip */
+    .copyleft-sym {
+      display: inline-block;
+      transform: scaleX(-1);
+      font-weight: bold;
     }
   </style>
 
@@ -195,7 +172,7 @@ DATE: 2026-03-10
     </div>
   </div>
 
-  <div class="ascii-rule" id="ascii-rule-top"></div>
+  <div class="ascii-rule ascii-rule-dynamic"></div>
 
   <div class="WordSection1 prg" style="word-wrap:break-word;">
     <br>
@@ -229,37 +206,51 @@ DATE: 2026-03-10
     </p>
     <p>In space, when I go to bed on my hamster bed, I'd be listening to this album.</p>
 
+    <div class="ascii-rule ascii-rule-dynamic"></div>
+
     <div class="review-signature">
       <span class="sig-name">- Ape</span>
       <span class="sig-meta">2026-03-10</span>
     </div>
 
   </div>
-</div>
+  <footer class="footjob-copyleft">
+  <div class="footjob-content">
+    <div class="footjob-text">
+      <p>
+        <span class="copyleft-sym">&copy;</span>
+        COPYLEFT 2026 \\ RAT REVIEWS \\ SOME RIGHTS RESERVED
+      </p>
+      <p style="font-size: 10px; opacity: 0.7;">
+        LICENSED UNDER <a href="https://creativecommons.org/licenses/by-sa/4.0/" style="color: inherit;">CC BY-SA
+          4.0</a>.
+      </p>
+    </div>
 
-<footer>
-  <p>🄯 COPYLEFT 2026, Rat Reviews</p>
-  <img src="walkin.gif" alt="Tutti Silly" style="width:50px;height:50px;">
+    <img src="walkin.gif" alt="Tutti Silly" style="width:50px;height:50px;">
   </div>
 </footer>
+</div>
+
+
 
 <script>
-  /* ── ASCII rule fill ──────────────────── */
-  (function () {
-    const el = document.getElementById('ascii-rule-top');
-    const chars = ['─', '╌', '╍', '┄', '┅', '·'];
-    function shuffle() {
+ (function () {
+  const els = document.querySelectorAll('.ascii-rule-dynamic');
+  const chars = ['─', '╌', '╍', '┄', '┅', '·'];
+  function shuffle() {
+    els.forEach(el => {
       let str = '';
       for (let i = 0; i < 120; i++) {
         str += chars[Math.floor(Math.random() * chars.length)];
       }
       el.textContent = str;
-    }
-    shuffle();
-    setInterval(shuffle, 1000);
-  })();
+    });
+  }
+  shuffle();
+  setInterval(shuffle, 1000);
+})();
 </script>
 </body>
-
 
 </html>
