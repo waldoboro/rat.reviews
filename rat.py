@@ -25,7 +25,7 @@ MARKDOWN_HINTS = (
     "- list item  |  `code`  |  +++ <br> | ~~strike~~"
 )
 
-# ── Review HTML template ────────────────── ##### ──────────────────── ##### ──────────────── ##### ───────────── ##### ────────────────
+# ── Review HTML template ───────────────────────────────────────────────────────
 
 def generate_html(title, artist, album, release_year, review_type, pub_date, review_html, author):
     current_year = datetime.date.today().year
@@ -89,21 +89,21 @@ def generate_html(title, artist, album, release_year, review_type, pub_date, rev
     </div>
 
     <script>
-      (function () {
+      (function () {{
         const els = document.querySelectorAll('.ascii-rule-dynamic');
         const chars = ['─', '╌', '╍', '┄', '┅', '·'];
-        function shuffle() {
-          els.forEach(el => {
+        function shuffle() {{
+          els.forEach(el => {{
             let str = '';
-            for (let i = 0; i < 120; i++) {
+            for (let i = 0; i < 120; i++) {{
               str += chars[Math.floor(Math.random() * chars.length)];
-            }
+            }}
             el.textContent = str;
-          });
-        }
+          }});
+        }}
         shuffle();
         setInterval(shuffle, 1000);
-      })();
+      }})();
     </script>
 
     <footer class="footjob-copyleft">
@@ -125,37 +125,36 @@ def generate_html(title, artist, album, release_year, review_type, pub_date, rev
 
   <script>
     // ── cycling noise INFO box ──
-    const NOISE_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&*!?+-=><[]{}|~';
+    const NOISE_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&*!?+-=><[]{{}}|~';
     const rn = () => NOISE_CHARS[Math.floor(Math.random() * NOISE_CHARS.length)];
     const COLS = 200;
 
     const ENTRIES = [
-      { key: 'title',    val: '{title}' },
-      { key: 'artist',   val: '{artist}'      },
-      { key: 'album',    val: '{album} ({release_year})'          },
-      { key: 'type',     val: '{review_type}'       },
-      { key: 'reviewer', val: '{author}}'              },
-      { key: 'date',     val: '{pub_date}'         },
+      {{ key: 'title',    val: '{title}' }},
+      {{ key: 'artist',   val: '{artist}' }},
+      {{ key: 'album',    val: '{album} ({release_year})' }},
+      {{ key: 'reviewer', val: '{author}' }},
+      {{ key: 'date',     val: '{pub_date}' }},
     ];
 
     const rowsWrap = document.getElementById('rowsWrap');
 
-    for (let r = 0; r < 3; r++) {
+    for (let r = 0; r < 3; r++) {{
       const row = document.createElement('div');
       row.className = 'scram-row';
-      for (let c = 0; c < COLS; c++) {
+      for (let c = 0; c < COLS; c++) {{
         const cell = document.createElement('span');
         cell.className = 'scram-cell';
         cell.textContent = rn();
         const delay    = Math.random() * 1200;
         const interval = 70 + Math.random() * 480;
-        setTimeout(() => {
-          setInterval(() => { cell.textContent = rn(); }, interval);
-        }, delay);
+        setTimeout(() => {{
+          setInterval(() => {{ cell.textContent = rn(); }}, interval);
+        }}, delay);
         row.appendChild(cell);
-      }
+      }}
       rowsWrap.appendChild(row);
-    }
+    }}
 
     const overlay = document.createElement('div');
     overlay.className = 'value-overlay';
@@ -168,17 +167,17 @@ def generate_html(title, artist, album, release_year, review_type, pub_date, rev
     const tagEl = document.getElementById('headerTag');
     let infoIdx = 0;
 
-    function cycleInfo() {
+    function cycleInfo() {{
       tagEl.classList.add('fading');
       valueEl.classList.add('fading');
-      setTimeout(() => {
+      setTimeout(() => {{
         infoIdx = (infoIdx + 1) % ENTRIES.length;
         tagEl.textContent   = ENTRIES[infoIdx].key;
         valueEl.textContent = ENTRIES[infoIdx].val;
         tagEl.classList.remove('fading');
         valueEl.classList.remove('fading');
-      }, 160);
-    }
+      }}, 160);
+    }}
 
     setInterval(cycleInfo, 2000);
 
@@ -187,68 +186,68 @@ def generate_html(title, artist, album, release_year, review_type, pub_date, rev
     const btn  = document.getElementById('invBtn');
     let inverted = false;
 
-    btn.addEventListener('click', function () {
+    btn.addEventListener('click', function () {{
       inverted = !inverted;
       body.classList.toggle('inverted', inverted);
       scrambleAll();
-    });
+    }});
 
     // ── scramble ──
     const SCHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&*!?';
     const rc = () => SCHARS[Math.floor(Math.random() * SCHARS.length)];
 
-    function collectTextNodes(root) {
+    function collectTextNodes(root) {{
       const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null);
       const nodes = [];
       let n;
-      while ((n = walker.nextNode())) {
-        if (n.textContent.trim()) nodes.push({ node: n, original: n.textContent });
-      }
+      while ((n = walker.nextNode())) {{
+        if (n.textContent.trim()) nodes.push({{ node: n, original: n.textContent }});
+      }}
       return nodes;
-    }
+    }}
 
     let scrambling = false;
 
-    function scrambleAll() {
+    function scrambleAll() {{
       if (scrambling) return;
       scrambling = true;
 
       const roots = [document.querySelector('.topnav'), document.querySelector('.page-shell')];
       const textNodes = roots.flatMap(collectTextNodes);
 
-      function junk(ch) {
-        if (ch === ' ' || ch === '\n' || ch === '\t') return ch;
+      function junk(ch) {{
+        if (ch === ' ' || ch === '\\n' || ch === '\\t') return ch;
         if (ch.codePointAt(0) > 127) return ch;
         return rc();
-      }
+      }}
 
       const duration = 950;
       const interval = 42;
       let elapsed = 0;
 
-      textNodes.forEach(({ node, original }) => {
+      textNodes.forEach(({{ node, original }}) => {{
         node.textContent = [...original].map(junk).join('');
-      });
+      }});
 
-      const tick = setInterval(() => {
+      const tick = setInterval(() => {{
         elapsed += interval;
         const progress = Math.min(elapsed / duration, 1);
 
-        textNodes.forEach(({ node, original }) => {
+        textNodes.forEach(({{ node, original }}) => {{
           const base = Math.floor(progress * original.length);
           const edge = Math.min(base + Math.floor(Math.random() * 4), original.length);
           let out = original.slice(0, edge);
           for (let i = edge; i < original.length; i++) out += junk(original[i]);
           node.textContent = out;
-        });
+        }});
 
-        if (elapsed >= duration) {
+        if (elapsed >= duration) {{
           clearInterval(tick);
-          textNodes.forEach(({ node, original }) => { node.textContent = original; });
+          textNodes.forEach(({{ node, original }}) => {{ node.textContent = original; }});
           scrambling = false;
-        }
-      }, interval);
-    }
+        }}
+      }}, interval);
+    }}
 
     window.addEventListener('DOMContentLoaded', scrambleAll);
 
@@ -271,14 +270,14 @@ def generate_html(title, artist, album, release_year, review_type, pub_date, rev
 
     let W, H, stars = [];
 
-    function resize() {
+    function resize() {{
       W = canvas.width  = window.innerWidth;
       H = canvas.height = window.innerHeight;
-    }
+    }}
 
-    function star() {
+    function star() {{
       const layer = Math.floor(Math.random() * 3);
-      return {
+      return {{
         x:     Math.random() * W,
         y:     Math.random() * H,
         g:     G[Math.floor(Math.random() * G.length)],
@@ -287,34 +286,34 @@ def generate_html(title, artist, album, release_year, review_type, pub_date, rev
         a:     0.07 + layer * 0.07 + Math.random() * 0.07,
         tw:    0.007 + Math.random() * 0.012,
         to:    Math.random() * Math.PI * 2,
-      };
-    }
+      }};
+    }}
 
-    function init() { stars = Array.from({length: 320}, star); }
+    function init() {{ stars = Array.from({{length: 320}}, star); }}
 
-    function starRGB() {
+    function starRGB() {{
       return getComputedStyle(body).getPropertyValue('--star').trim() || '0,0,0';
-    }
+    }}
 
     let f = 0, rgb = starRGB();
 
-    function draw() {
+    function draw() {{
       if (f % 30 === 0) rgb = starRGB();
       ctx.clearRect(0, 0, W, H);
-      for (let s of stars) {
+      for (let s of stars) {{
         const tw = 0.6 + 0.4 * Math.sin(f * s.tw + s.to);
         ctx.font      = s.size + 'px monospace';
         ctx.fillStyle = 'rgba(' + rgb + ',' + (s.a * tw) + ')';
         ctx.fillText(s.g, s.x, s.y);
         s.y += s.speed;
         s.x += Math.sin(f * 0.004 + s.to) * s.speed * 0.12;
-        if (s.y > H + 20) { s.y = -20; s.x = Math.random() * W; }
+        if (s.y > H + 20) {{ s.y = -20; s.x = Math.random() * W; }}
         if (s.x < -20) s.x = W;
         if (s.x > W + 20) s.x = 0;
-      }
+      }}
       f++;
       requestAnimationFrame(draw);
-    }
+    }}
 
     window.addEventListener('resize', resize);
     resize();
@@ -379,13 +378,9 @@ def publish_review():
     rel_path = str((out_dir / filename).relative_to(SCRIPT_DIR)).replace("\\", "/")
 
     # ── Render markdown ────────────────────────────────────────────────────
-    # nl2br turns single newlines into <br> so paragraph breaks are preserved
-    rendered = markdown.markdown(content, extensions=["extra", "nl2br"])
-    rendered = rendered.replace("<p>", '<p class="MsoNormal">')
-    # Add <br> when +++ is entered
     content = content.replace('\n+++\n', '\n<br>\n')
     rendered = markdown.markdown(content, extensions=["extra", "nl2br"])
-    # Use <i>/<b> instead of semantic <em>/<strong> to match site style
+    rendered = rendered.replace("<p>", '<p class="MsoNormal">')
     rendered = rendered.replace("<em>", "<i>").replace("</em>", "</i>")
     rendered = rendered.replace("<strong>", "<b>").replace("</strong>", "</b>")
 
@@ -420,7 +415,7 @@ DATE: {pub_date}
         f"✓ {filename}\n→ {out_dir.relative_to(SCRIPT_DIR)}{asset_msg}"
     )
 
-# ── Archive builder ────────────────── ##### ──────────────────── ##### ──────────────── ##### ───────────── ##### ────────────────
+# ── Archive builder ────────────────────────────────────────────────────────────
 
 def update_archive():
     current_year = datetime.date.today().year
@@ -462,7 +457,6 @@ def update_archive():
 
     entries.sort(key=lambda x: x["date"], reverse=True)
 
-    # Group by year → month
     grouped: dict = {}
     for e in entries:
         y = e["date"].year
@@ -516,15 +510,14 @@ def update_archive():
     with open(archive_path, "w", encoding="utf-8") as f:
         f.write(full_archive)
 
-#### ── Recent Builder ────────────────── ##### ──────────────────── ##### ──────────────── ##### ───────────── ##### ────────────────
+# ── Recent Builder ─────────────────────────────────────────────────────────────
 
-MAX_RECENT = 13  # how many entries to keep before dropping the oldest
+MAX_RECENT = 13
 
 def update_recent(title, artist, album, release_year, review_type, pub_date, author, rel_path):
     recent_path = SCRIPT_DIR / "Recent.html"
     current_year = datetime.date.today().year
 
-    # ── Read all entries from metadata comments in Content/ ───────────────
     entries = []
     for html_file in CONTENT_DIR.rglob("*.html"):
         try:
@@ -556,11 +549,9 @@ def update_recent(title, artist, album, release_year, review_type, pub_date, aut
             "link_title": meta.get("TITLE", ""),
         })
 
-    # ── Sort newest first, keep only MAX_RECENT ───────────────────────────
     entries.sort(key=lambda x: x["date"], reverse=True)
     entries = entries[:MAX_RECENT]
 
-    # ── Render entry blocks ────────────────────────────────────────────────
     def render_entry(e):
         return (
             f'  <a class="link" href="{e["href"]}">\n'
@@ -620,7 +611,6 @@ root.configure(bg=BG)
 root.resizable(True, True)
 root.minsize(700, 700)
 
-# ── helper to make a labeled row ──────────────────────────────────────────────
 def labeled_entry(parent, label_text, width=52):
     row = tk.Frame(parent, bg=BG)
     row.pack(fill="x", padx=20, pady=(8, 0))
@@ -631,13 +621,11 @@ def labeled_entry(parent, label_text, width=52):
     e.pack(fill="x", ipady=4)
     return e
 
-# ── Title block ────────────────────────────────────────────────────────────────
 header = tk.Frame(root, bg=ACCENT, pady=10)
 header.pack(fill="x")
 tk.Label(header, text="RAT REVIEWS  //  PUBLISHER",
          bg=ACCENT, fg=BG, font=("Courier New", 13, "bold")).pack()
 
-# ── Collapsible metadata section ──────────────────────────────────────────────
 meta_visible = tk.BooleanVar(value=True)
 meta_frame = tk.Frame(root, bg=BG)
 
@@ -647,7 +635,6 @@ def toggle_meta():
         meta_toggle_btn.config(text="▶  REVIEW DETAILS")
         meta_visible.set(False)
     else:
-        # Re-pack BEFORE the hints/text area
         meta_frame.pack(fill="x", after=meta_toggle_btn)
         meta_toggle_btn.config(text="▼  REVIEW DETAILS")
         meta_visible.set(True)
@@ -664,7 +651,6 @@ meta_toggle_btn = tk.Button(
 meta_toggle_btn.pack(fill="x", padx=20, pady=(10, 0))
 meta_frame.pack(fill="x")
 
-# ── Fields ─────────────────────────────────────────────────────────────────────
 title_entry  = labeled_entry(meta_frame, "Review Title")
 artist_entry = labeled_entry(meta_frame, "Artist")
 album_entry  = labeled_entry(meta_frame, "Album")
@@ -672,7 +658,6 @@ year_entry   = labeled_entry(meta_frame, "Release Year", width=12)
 type_entry   = labeled_entry(meta_frame, "Review Type  (e.g. Albums, Tracks, Essays — sets export folder)", width=30)
 author_entry = labeled_entry(meta_frame, "Author  (signature shown on page)", width=30)
 
-# ── Date override ──────────────────────────────────────────────────────────────
 date_frame = tk.Frame(meta_frame, bg=BG)
 date_frame.pack(fill="x", padx=20, pady=(10, 0))
 
@@ -703,14 +688,12 @@ date_entry = tk.Entry(
 date_entry.pack(side="left", padx=(10, 0), ipady=4)
 tk.Label(date_frame, text="YYYY-MM-DD", bg=BG, fg="#777777", font=("Courier New", 9)).pack(side="left", padx=6)
 
-# ── Markdown hints ─────────────────────────────────────────────────────────────
 hints_frame = tk.Frame(root, bg="#222222", pady=6, padx=12)
 hints_frame.pack(fill="x", padx=20, pady=(12, 0))
 tk.Label(hints_frame, text="📝 " + MARKDOWN_HINTS,
          bg="#222222", fg="#aaaaaa", font=("Courier New", 8),
          wraplength=640, justify="left", anchor="w").pack(fill="x")
 
-# ── Review text area ───────────────────────────────────────────────────────────
 text_frame = tk.Frame(root, bg=BG)
 text_frame.pack(fill="both", expand=True, padx=20, pady=(6, 0))
 tk.Label(text_frame, text="Review Body (Markdown)", bg=BG, fg=ACCENT, font=FONT_LG, anchor="w").pack(fill="x")
@@ -723,7 +706,6 @@ review_text = scrolledtext.ScrolledText(
 )
 review_text.pack(fill="both", expand=True)
 
-# ── Publish button ─────────────────────────────────────────────────────────────
 btn_frame = tk.Frame(root, bg=BG)
 btn_frame.pack(fill="x", padx=20, pady=14)
 
@@ -763,6 +745,5 @@ clear_btn = tk.Button(
     activebackground=BORDER, activeforeground=FG
 )
 clear_btn.pack(side="right", padx=(0, 10))
-
 
 root.mainloop()
