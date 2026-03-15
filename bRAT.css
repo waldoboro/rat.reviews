@@ -1,0 +1,234 @@
+ <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg: #ffffff;
+      --fg: #111111;
+      --dim: #555555;
+      --border: #aaaaaa;
+      --accent: #000000;
+      --font: "Courier New", "Lucida Console", monospace;
+      --star: 0,0,0;
+    }
+
+    .inverted {
+      --bg: #000000;
+      --fg: #eeeeee;
+      --dim: #aaaaaa;
+      --border: #555555;
+      --accent: #ffffff;
+      --star: 255,255,255;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--fg);
+      font-family: var(--font);
+      font-size: 14px;
+      line-height: 1.6;
+      transition: background 0.15s, color 0.15s;
+    }
+
+    canvas {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .page-shell {
+      position: relative;
+      z-index: 1;
+      max-width: 80ch;
+      margin: 0 auto;
+      padding: 1rem 1rem 4rem;
+    }
+
+    .nfo-banner {
+      white-space: pre;
+      font-size: clamp(6px, 1.65vw, 12px);
+      line-height: 1.1;
+      color: var(--fg);
+      margin-bottom: 1.5rem;
+      text-align: center;
+      overflow: hidden;
+      display: block;
+      transition: color 0.15s;
+    }
+
+    .topnav {
+      display: flex;
+      justify-content: space-evenly;
+      flex-wrap: wrap;
+      gap: 1ch;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 0.5rem 0;
+      margin-bottom: 1.5rem;
+      font-size: 13px;
+      position: -webkit-sticky;
+      position: sticky;
+      top: 0;
+      background: var(--bg);
+      z-index: 100;
+      transition: background 0.15s, border-color 0.15s;
+    }
+
+    .topnav a {
+      color: var(--fg);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      transition: color 0.15s;
+    }
+
+    .ascii-rule {
+      font-size: 10px;
+      letter-spacing: 0;
+      color: #aaa;
+      user-select: none;
+      white-space: nowrap;
+      margin: 1.5rem 0;
+      overflow: hidden;
+    }
+
+    .topnav a:not(:last-child)::after {
+      content: "/";
+      margin-left: 1ch;
+      color: var(--border);
+    }
+
+    .inv-btn {
+      font-family: monospace;
+      font-size: 13px;
+      background: none;
+      border: 1px solid var(--fg);
+      cursor: pointer;
+      padding: 1px 7px 2px;
+      color: var(--fg);
+      letter-spacing: 0.05em;
+      line-height: 1.6;
+      transform: skewX(-4deg);
+      transition: background 0.1s, color 0.1s, border-color 0.15s;
+    }
+
+    .inv-btn:hover {
+      background: var(--fg);
+      color: var(--bg);
+    }
+
+    /* ── INFO BLOCK (cycling noise) ── */
+    .nfo-infoblock {
+      border: 1px solid var(--fg);
+      margin-bottom: 1.5rem;
+      transition: border-color 0.15s;
+    }
+
+    .nfo-infoblock-header {
+      background: var(--fg);
+      color: var(--bg);
+      padding: 0.2rem 0.6rem;
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      white-space: nowrap;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      transition: background 0.15s, color 0.15s;
+    }
+
+    .header-prefix { flex-shrink: 0; }
+    .header-fill   { flex: 1; overflow: hidden; white-space: nowrap; }
+
+    .header-tag {
+      display: inline-block;
+      transition: opacity 0.15s;
+    }
+    .header-tag.fading { opacity: 0; }
+
+    .rows-wrap {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .scram-row {
+      display: flex;
+      width: calc(100% + 8rem);
+      margin-left: -4rem;
+      height: 1.9rem;
+      align-items: center;
+    }
+
+    .scram-cell {
+      font-family: "Courier New", "Lucida Console", monospace;
+      font-size: 12px;
+      line-height: 1;
+      width: 1ch;
+      text-align: center;
+      flex-shrink: 0;
+      color: rgba(0,0,0,0.1);
+      transition: color 0.15s;
+    }
+
+    .inverted .scram-cell {
+      color: rgba(255,255,255,0.15);
+    }
+
+    .value-overlay {
+      position: absolute;
+      top: 1.9rem;
+      left: 0;
+      right: 0;
+      height: 1.9rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    .value-text {
+      font-family: "Courier New", "Lucida Console", monospace;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--fg);
+      letter-spacing: 0.04em;
+      transition: opacity 0.15s;
+    }
+    .value-text.fading { opacity: 0; }
+
+    /* ── CONTENT ── */
+    .review-signature {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 2rem;
+      font-size: 12px;
+      color: var(--dim);
+      transition: color 0.15s;
+    }
+
+    .footjob-copyleft {
+      border-top: var(--rule);
+      margin-top: 3rem;
+      padding: 1rem 0;
+    }
+
+    .footjob-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footjob-text { text-align: left; }
+
+    .copyleft-sym {
+      display: inline-block;
+      transform: scaleX(-1);
+      font-weight: bold;
+    }
+  </style>

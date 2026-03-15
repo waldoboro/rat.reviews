@@ -175,10 +175,74 @@ DATE: 2023-02-20
 
   let inverted = false;
 
-  btn.addEventListener('click', function() {
+  // ── scramble ──
+  const CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&*!?';
+  const rc = () => CHARS[Math.floor(Math.random() * CHARS.length)];
+
+  function collectTextNodes(root) {
+    const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null);
+    const nodes = [];
+    let n;
+    while ((n = walker.nextNode())) {
+      if (n.textContent.trim()) nodes.push({ node: n, original: n.textContent });
+    }
+    return nodes;
+  }
+
+  let scrambling = false;
+
+  function scrambleAll() {
+    if (scrambling) return;
+    scrambling = true;
+
+    const roots = [document.querySelector('.nav-links'), document.getElementById('page')];
+    const textNodes = roots.flatMap(collectTextNodes);
+
+    // Scramble a character: preserve whitespace, keep non-ASCII (emoji, unicode) as-is
+    function junk(ch) {
+      if (ch === ' ' || ch === '\n' || ch === '\t') return ch;
+      if (ch.codePointAt(0) > 127) return ch; // leave unicode glyphs alone
+      return rc();
+    }
+
+    const duration = 950;
+    const interval = 42;
+    let elapsed = 0;
+
+    // Start fully scrambled
+    textNodes.forEach(({ node, original }) => {
+      node.textContent = [...original].map(junk).join('');
+    });
+
+    const tick = setInterval(() => {
+      elapsed += interval;
+      const progress = Math.min(elapsed / duration, 1);
+
+      textNodes.forEach(({ node, original }) => {
+        // Reveal left-to-right with a soft random edge so it doesn't look mechanical
+        const base = Math.floor(progress * original.length);
+        const edge = Math.min(base + Math.floor(Math.random() * 4), original.length);
+        let out = original.slice(0, edge);
+        for (let i = edge; i < original.length; i++) out += junk(original[i]);
+        node.textContent = out;
+      });
+
+      if (elapsed >= duration) {
+        clearInterval(tick);
+        textNodes.forEach(({ node, original }) => { node.textContent = original; });
+        scrambling = false;
+      }
+    }, interval);
+  }
+
+  btn.addEventListener('click', function () {
     inverted = !inverted;
     body.classList.toggle('inverted', inverted);
+    scrambleAll();
   });
+
+  // trigger on load
+  window.addEventListener('DOMContentLoaded', scrambleAll);
 
   // ── starfield ──
   const G = [
@@ -217,7 +281,6 @@ DATE: 2023-02-20
 
   function init() { stars = Array.from({length: 320}, star); }
 
-  // read current star color from CSS variable
   function starRGB() {
     return getComputedStyle(body).getPropertyValue('--star').trim() || '0,0,0';
   }
@@ -225,7 +288,6 @@ DATE: 2023-02-20
   let f = 0, rgb = starRGB();
 
   function draw() {
-    // refresh color every ~30 frames (cheap)
     if (f % 30 === 0) rgb = starRGB();
 
     ctx.clearRect(0, 0, W, H);

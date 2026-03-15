@@ -34,296 +34,44 @@ def generate_html(title, artist, album, release_year, review_type, pub_date, rev
 <head>
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link rel="shortcut icon" href="favicon.ico">
-  <link rel="stylesheet" href="bRAT.css">
+  <link rel="stylesheet" href="rat.css">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{title} \\ Rat Reviews</title>
+  <title>{title} — Rat Reviews</title>
   <link href='https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Blaka&family=DotGothic16&family=Abhaya+Libre&display=swap' rel='stylesheet'>
 </head>
-<body id="body">
+<body class="bkg" style="background-image: url(tiles.png)">
 
-  <canvas id="c"></canvas>
+<div class="topnav">
+  <a href="https://rat.reviews/Recent">Recent</a>
+  <a href="https://rat.reviews/Archive">Archive</a>
+  <a href="https://rat.reviews/About">About</a>
+  <a href="https://rat.reviews" class="split">Home</a>
+</div>
 
-  <div class="page-shell">
+<div class="review-header-wrap">
+  <div class="review-title-block">
+    <h1>{title}</h1>
+    <p class="sub">{artist}, <i>{album}</i> ({release_year})</p>
+  </div>
+</div>
 
-    <pre class="nfo-banner">
- ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
- ░                                                                    ░
- ██▀███   ▄▄▄     ▄▄▄█████▓    ██▀███  ▓█████ ██▒   █▓ ██▓▓█████  █     █░  ██████ 
-▓██ ▒ ██▒▒████▄   ▓  ██▒ ▓▒   ▓██ ▒ ██▒▓█   ▀▓██░   █▒▓██▒▓█   ▀ ▓█░ █ ░█░▒██    ▒ 
-▓██ ░▄█ ▒▒██  ▀█▄ ▒ ▓██░ ▒░   ▓██ ░▄█ ▒▒███   ▓██  █▒░▒██▒▒███   ▒█░ █ ░█ ░ ▓██▄   
-▒██▀▀█▄  ░██▄▄▄▄██░ ▓██▓ ░    ▒██▀▀█▄  ▒▓█  ▄  ▒██ █░░░██░▒▓█  ▄ ░█░ █ ░█   ▒   ██▒
-░██▓ ▒██▒ ▓█   ▓██▒ ▒██▒ ░    ░██▓ ▒██▒░▒████▒  ▒▀█░  ░██░░▒████▒░░██▒██▓ ▒██████▒▒
-░ ▒▓ ░▒▓░ ▒▒   ▓▒█░ ▒ ░░      ░ ▒▓ ░▒▓░░░ ▒░ ░  ░ ▐░  ░▓  ░░ ▒░ ░░ ▓░▒ ▒  ▒ ▒▓▒ ▒ ░
-  ░▒ ░ ▒░  ▒   ▒▒ ░   ░         ░▒ ░ ▒░ ░ ░  ░  ░ ░░   ▒ ░ ░ ░  ░  ▒ ░ ░  ░ ░▒  ░ ░
-  ░░   ░   ░   ▒    ░           ░░   ░    ░       ░░   ▒ ░   ░     ░   ░  ░  ░  ░  
-   ░           ░  ░              ░        ░  ░     ░   ░     ░  ░    ░          ░
- ░                                                                    ░
- ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░</pre>
+<div class="WordSection1 prg" style="word-wrap:break-word;">
+<br>
+{review_html}
 
-    <div class="topnav">
-      <a href="https://rat.reviews">Home</a>
-      <a href="https://rat.reviews/Recent">Recent</a>
-      <a href="https://rat.reviews/Archive">Archive</a>
-      <a href="https://rat.reviews/About">About</a>
-      <button class="inv-btn" id="invBtn" title="invert">[ &#x25D1; ]</button>
-    </div>
+<div class="review-signature">
+  <span class="sig-name">- {author}</span>
+  <span class="sig-meta">{pub_date}</span>
+</div>
 
-    <div class="nfo-infoblock">
-      <div class="nfo-infoblock-header">
-        <span class="header-prefix">:: [</span><span class="header-tag" id="headerTag">title</span><span class="header-prefix">] </span><span class="header-fill">:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::</span>
-      </div>
-      <div class="rows-wrap" id="rowsWrap"></div>
-    </div>
+</div>
 
-    <div style="word-wrap:break-word;">
-      <br>
-      {review_html}
-
-      <div class="review-signature">
-        <span class="sig-name">- {author}</span>
-        <span class="sig-meta">{pub_date}</span>
-      </div>
-
-      <div class="ascii-rule ascii-rule-dynamic"></div>
-
-    </div>
-
-    <script>
-      (function () {
-        const els = document.querySelectorAll('.ascii-rule-dynamic');
-        const chars = ['─', '╌', '╍', '┄', '┅', '·'];
-        function shuffle() {
-          els.forEach(el => {
-            let str = '';
-            for (let i = 0; i < 120; i++) {
-              str += chars[Math.floor(Math.random() * chars.length)];
-            }
-            el.textContent = str;
-          });
-        }
-        shuffle();
-        setInterval(shuffle, 1000);
-      })();
-    </script>
-
-    <footer class="footjob-copyleft">
-      <div class="footjob-content">
-        <div class="footjob-text">
-          <p>
-            <span class="copyleft-sym">&copy;</span>
-            COPYLEFT {current_year} \\ RAT REVIEWS \\ SOME RIGHTS RESERVED
-          </p>
-          <p style="font-size: 10px; opacity: 0.7;">
-            LICENSED UNDER <a href="https://creativecommons.org/licenses/by-sa/4.0/" style="color: inherit;">CC BY-SA 4.0</a>.
-          </p>
-        </div>
-        <img src="walkin.gif" alt="Tutti Silly" style="width:50px;height:50px;">
-      </div>
-    </footer>
-
-  </div><!-- /page-shell -->
-
-  <script>
-    // ── cycling noise INFO box ──
-    const NOISE_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&*!?+-=><[]{}|~';
-    const rn = () => NOISE_CHARS[Math.floor(Math.random() * NOISE_CHARS.length)];
-    const COLS = 200;
-
-    const ENTRIES = [
-      { key: 'title',    val: '{title}' },
-      { key: 'artist',   val: '{artist}'      },
-      { key: 'album',    val: '{album} ({release_year})'          },
-      { key: 'type',     val: '{review_type}'       },
-      { key: 'reviewer', val: '{author}}'              },
-      { key: 'date',     val: '{pub_date}'         },
-    ];
-
-    const rowsWrap = document.getElementById('rowsWrap');
-
-    for (let r = 0; r < 3; r++) {
-      const row = document.createElement('div');
-      row.className = 'scram-row';
-      for (let c = 0; c < COLS; c++) {
-        const cell = document.createElement('span');
-        cell.className = 'scram-cell';
-        cell.textContent = rn();
-        const delay    = Math.random() * 1200;
-        const interval = 70 + Math.random() * 480;
-        setTimeout(() => {
-          setInterval(() => { cell.textContent = rn(); }, interval);
-        }, delay);
-        row.appendChild(cell);
-      }
-      rowsWrap.appendChild(row);
-    }
-
-    const overlay = document.createElement('div');
-    overlay.className = 'value-overlay';
-    const valueEl = document.createElement('span');
-    valueEl.className = 'value-text';
-    valueEl.textContent = ENTRIES[0].val;
-    overlay.appendChild(valueEl);
-    rowsWrap.appendChild(overlay);
-
-    const tagEl = document.getElementById('headerTag');
-    let infoIdx = 0;
-
-    function cycleInfo() {
-      tagEl.classList.add('fading');
-      valueEl.classList.add('fading');
-      setTimeout(() => {
-        infoIdx = (infoIdx + 1) % ENTRIES.length;
-        tagEl.textContent   = ENTRIES[infoIdx].key;
-        valueEl.textContent = ENTRIES[infoIdx].val;
-        tagEl.classList.remove('fading');
-        valueEl.classList.remove('fading');
-      }, 160);
-    }
-
-    setInterval(cycleInfo, 2000);
-
-    // ── contrast toggle ──
-    const body = document.getElementById('body');
-    const btn  = document.getElementById('invBtn');
-    let inverted = false;
-
-    btn.addEventListener('click', function () {
-      inverted = !inverted;
-      body.classList.toggle('inverted', inverted);
-      scrambleAll();
-    });
-
-    // ── scramble ──
-    const SCHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&*!?';
-    const rc = () => SCHARS[Math.floor(Math.random() * SCHARS.length)];
-
-    function collectTextNodes(root) {
-      const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null);
-      const nodes = [];
-      let n;
-      while ((n = walker.nextNode())) {
-        if (n.textContent.trim()) nodes.push({ node: n, original: n.textContent });
-      }
-      return nodes;
-    }
-
-    let scrambling = false;
-
-    function scrambleAll() {
-      if (scrambling) return;
-      scrambling = true;
-
-      const roots = [document.querySelector('.topnav'), document.querySelector('.page-shell')];
-      const textNodes = roots.flatMap(collectTextNodes);
-
-      function junk(ch) {
-        if (ch === ' ' || ch === '\n' || ch === '\t') return ch;
-        if (ch.codePointAt(0) > 127) return ch;
-        return rc();
-      }
-
-      const duration = 950;
-      const interval = 42;
-      let elapsed = 0;
-
-      textNodes.forEach(({ node, original }) => {
-        node.textContent = [...original].map(junk).join('');
-      });
-
-      const tick = setInterval(() => {
-        elapsed += interval;
-        const progress = Math.min(elapsed / duration, 1);
-
-        textNodes.forEach(({ node, original }) => {
-          const base = Math.floor(progress * original.length);
-          const edge = Math.min(base + Math.floor(Math.random() * 4), original.length);
-          let out = original.slice(0, edge);
-          for (let i = edge; i < original.length; i++) out += junk(original[i]);
-          node.textContent = out;
-        });
-
-        if (elapsed >= duration) {
-          clearInterval(tick);
-          textNodes.forEach(({ node, original }) => { node.textContent = original; });
-          scrambling = false;
-        }
-      }, interval);
-    }
-
-    window.addEventListener('DOMContentLoaded', scrambleAll);
-
-    // ── starfield ──
-    const canvas = document.getElementById('c');
-    const ctx    = canvas.getContext('2d');
-
-    const G = [
-      '.','.','.','.',
-      '·','·','·',
-      ',',',',
-      '*','*',
-      '`', "'",
-      '+',
-      '˚','˚',
-      'ﾟ',
-      '✦','✦',
-      '☄',
-    ];
-
-    let W, H, stars = [];
-
-    function resize() {
-      W = canvas.width  = window.innerWidth;
-      H = canvas.height = window.innerHeight;
-    }
-
-    function star() {
-      const layer = Math.floor(Math.random() * 3);
-      return {
-        x:     Math.random() * W,
-        y:     Math.random() * H,
-        g:     G[Math.floor(Math.random() * G.length)],
-        speed: 0.1 + layer * 0.2 + Math.random() * 0.12,
-        size:  8 + layer * 4 + Math.random() * 3,
-        a:     0.07 + layer * 0.07 + Math.random() * 0.07,
-        tw:    0.007 + Math.random() * 0.012,
-        to:    Math.random() * Math.PI * 2,
-      };
-    }
-
-    function init() { stars = Array.from({length: 320}, star); }
-
-    function starRGB() {
-      return getComputedStyle(body).getPropertyValue('--star').trim() || '0,0,0';
-    }
-
-    let f = 0, rgb = starRGB();
-
-    function draw() {
-      if (f % 30 === 0) rgb = starRGB();
-      ctx.clearRect(0, 0, W, H);
-      for (let s of stars) {
-        const tw = 0.6 + 0.4 * Math.sin(f * s.tw + s.to);
-        ctx.font      = s.size + 'px monospace';
-        ctx.fillStyle = 'rgba(' + rgb + ',' + (s.a * tw) + ')';
-        ctx.fillText(s.g, s.x, s.y);
-        s.y += s.speed;
-        s.x += Math.sin(f * 0.004 + s.to) * s.speed * 0.12;
-        if (s.y > H + 20) { s.y = -20; s.x = Math.random() * W; }
-        if (s.x < -20) s.x = W;
-        if (s.x > W + 20) s.x = 0;
-      }
-      f++;
-      requestAnimationFrame(draw);
-    }
-
-    window.addEventListener('resize', resize);
-    resize();
-    init();
-    draw();
-  </script>
-
+<footer>
+  <div class="footer">
+    <p>&copy; Copyright {current_year}, Rat Reviews</p>
+  </div>
+</footer>
 </body>
-
 </html>
 """
 
