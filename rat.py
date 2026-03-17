@@ -61,16 +61,16 @@ def generate_html(title, artist, album, release_year, review_type, pub_date, rev
  ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░</pre>
 
     <div class="topnav">
-      <a href="https://rat.reviews">Home</a>
-      <a href="https://rat.reviews/Recent">Recent</a>
-      <a href="https://rat.reviews/Archive">Archive</a>
-      <a href="https://rat.reviews/About">About</a>
+      <a href="https://rat.reviews">[Home]</a>
+      <a href="https://rat.reviews/Recent">[Recent]</a>
+      <a href="https://rat.reviews/Archive">[Archive]</a>
+      <a href="https://rat.reviews/About">[About]</a>
       <button class="inv-btn" id="invBtn" title="invert">[ &#x25D1; ]</button>
     </div>
 
     <div class="nfo-infoblock">
       <div class="nfo-infoblock-header">
-        <span class="header-prefix">:: [</span><span class="header-tag" id="headerTag">title</span><span class="header-prefix">] </span><span class="header-fill">:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::</span>
+        <span class="header-prefix">::[</span><span class="header-tag" id="headerTag">title</span><span class="header-prefix">] </span><span class="header-fill">::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::</span>
       </div>
       <div class="rows-wrap" id="rowsWrap"></div>
     </div>
@@ -83,8 +83,6 @@ def generate_html(title, artist, album, release_year, review_type, pub_date, rev
         <span class="sig-name">- {author}</span>
         <span class="sig-meta">{pub_date}</span>
       </div>
-
-      <div class="ascii-rule ascii-rule-dynamic"></div>
 
     </div>
 
@@ -125,16 +123,16 @@ def generate_html(title, artist, album, release_year, review_type, pub_date, rev
 
   <script>
     // ── cycling noise INFO box ──
-    const NOISE_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&*!?+-=><[]{{}}|~';
+    const NOISE_CHARS = 'ABCDEFGHIJKLMCDEFภาพคือสิ่งที่เรGHIJstrj KLM友情は私たちみんですNOPSTUVWXYZ0123456789@#$%&*!?+-=><[]{}|~';
     const rn = () => NOISE_CHARS[Math.floor(Math.random() * NOISE_CHARS.length)];
     const COLS = 200;
 
     const ENTRIES = [
-      {{ key: 'title',    val: '{title}' }},
-      {{ key: 'artist',   val: '{artist}' }},
-      {{ key: 'album',    val: '{album} ({release_year})' }},
-      {{ key: 'reviewer', val: '{author}' }},
-      {{ key: 'date',     val: '{pub_date}' }},
+      {{ key: 'title',        val: '{title}' }},
+      {{ key: 'artist',       val: '{artist}' }},
+      {{ key: 'album',        val: '{album} ({release_year})' }},
+      {{ key: 'reviewer',     val: '{author}' }},
+      {{ key: 'review date',  val: '{pub_date}' }},
     ];
 
     const rowsWrap = document.getElementById('rowsWrap');
@@ -193,7 +191,7 @@ def generate_html(title, artist, album, release_year, review_type, pub_date, rev
     }});
 
     // ── scramble ──
-    const SCHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&*!?';
+    const SCHARS = 'ABCDEFGHIJKLMCDEFภาพคือสิ่งที่เรGHIJstrj KLM友情は私たちみんですNOPSTUVWXYZ0123456789@#$%&*!?+-=><[]|~';
     const rc = () => SCHARS[Math.floor(Math.random() * SCHARS.length)];
 
     function collectTextNodes(root) {{

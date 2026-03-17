@@ -86,18 +86,7 @@
       transition: color 0.15s;
     }
 
-    .ascii-rule {
-      font-size: 10px;
-      letter-spacing: 0;
-      color: #aaa;
-      user-select: none;
-      white-space: nowrap;
-      margin: 1.5rem 0;
-      overflow: hidden;
-    }
-
     .topnav a:not(:last-child)::after {
-      content: "/";
       margin-left: 1ch;
       color: var(--border);
     }
@@ -147,6 +136,7 @@
 
     .header-tag {
       display: inline-block;
+      font-variant: small-caps;
       transition: opacity 0.15s;
     }
     .header-tag.fading { opacity: 0; }
@@ -189,12 +179,13 @@
       align-items: center;
       justify-content: center;
       pointer-events: none;
+      text-shadow: 0px 0px 12px #FFFFFF;
       z-index: 2;
     }
 
     .value-text {
       font-family: "Courier New", "Lucida Console", monospace;
-      font-size: 13px;
+      font-size: 1.1em;
       font-weight: 700;
       color: var(--fg);
       letter-spacing: 0.04em;
@@ -218,10 +209,20 @@
       padding: 1rem 0;
     }
 
+    /* ── CONTENT ──────────────────────────────────────── */
     .footjob-content {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      text-shadow: 0px 0px 12px rgba(0,0,0,0.4);
+      border-top: 2px groove #332A19;
+    }
+
+    @keyframes colorCycle {
+      0% {color: #1a2fc0;}
+      33% {color: #ff5733;}
+      66% {color: #33ff57;}
+      100% {color: #1a2fc0;}
     }
 
     .footjob-text { text-align: left; }
@@ -230,5 +231,9 @@
       display: inline-block;
       transform: scaleX(-1);
       font-weight: bold;
+      color: #1a2fc0;
+      font-size: 1.5em;
+      vertical-align: middle;
+      animation: colorCycle 10s infinite;
     }
   </style>

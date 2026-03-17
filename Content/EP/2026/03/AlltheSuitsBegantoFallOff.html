@@ -39,16 +39,16 @@ DATE: 2026-03-15
  ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░</pre>
 
     <div class="topnav">
-      <a href="https://rat.reviews">Home</a>
-      <a href="https://rat.reviews/Recent">Recent</a>
-      <a href="https://rat.reviews/Archive">Archive</a>
-      <a href="https://rat.reviews/About">About</a>
+      <a href="https://rat.reviews">[Home]</a>
+      <a href="https://rat.reviews/Recent">[Recent]</a>
+      <a href="https://rat.reviews/Archive">[Archive]</a>
+      <a href="https://rat.reviews/About">[About]</a>
       <button class="inv-btn" id="invBtn" title="invert">[ &#x25D1; ]</button>
     </div>
 
     <div class="nfo-infoblock">
       <div class="nfo-infoblock-header">
-        <span class="header-prefix">:: [</span><span class="header-tag" id="headerTag">title</span><span class="header-prefix">] </span><span class="header-fill">:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::</span>
+        <span class="header-prefix">::[</span><span class="header-tag" id="headerTag">title</span><span class="header-prefix">] </span><span class="header-fill">::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::</span>
       </div>
       <div class="rows-wrap" id="rowsWrap"></div>
     </div>
@@ -64,27 +64,7 @@ DATE: 2026-03-15
         <span class="sig-meta">2026-03-15</span>
       </div>
 
-      <div class="ascii-rule ascii-rule-dynamic"></div>
-
     </div>
-
-    <script>
-      (function () {
-        const els = document.querySelectorAll('.ascii-rule-dynamic');
-        const chars = ['─', '╌', '╍', '┄', '┅', '·'];
-        function shuffle() {
-          els.forEach(el => {
-            let str = '';
-            for (let i = 0; i < 120; i++) {
-              str += chars[Math.floor(Math.random() * chars.length)];
-            }
-            el.textContent = str;
-          });
-        }
-        shuffle();
-        setInterval(shuffle, 1000);
-      })();
-    </script>
 
     <footer class="footjob-copyleft">
       <div class="footjob-content">
@@ -105,16 +85,16 @@ DATE: 2026-03-15
 
   <script>
     // ── cycling noise INFO box ──
-    const NOISE_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&*!?+-=><[]{}|~';
+    const NOISE_CHARS = 'ABCDEFGHIJKLMCDEFภาพคือสิ่งที่เรGHIJstrj KLM友情は私たちみんですNOPSTUVWXYZ0123456789@#$%&*!?+-=><[]{}|~';
     const rn = () => NOISE_CHARS[Math.floor(Math.random() * NOISE_CHARS.length)];
     const COLS = 200;
 
     const ENTRIES = [
-      { key: 'title',    val: 'In Good Hands' },
-      { key: 'artist',   val: 'The Mercury Program' },
-      { key: 'album',    val: 'All the Suits Began to Fall Off (2001)' },
-      { key: 'reviewer', val: 'Ape' },
-      { key: 'date',     val: '2026-03-15' },
+      { key: 'title',       val: 'In Good Hands' },
+      { key: 'artist',      val: 'The Mercury Program' },
+      { key: 'album',       val: 'All the Suits Began to Fall Off (2001)' },
+      { key: 'reviewer',    val: 'Ape' },
+      { key: 'review date', val: '2026-03-15' },
     ];
 
     const rowsWrap = document.getElementById('rowsWrap');
@@ -173,7 +153,7 @@ DATE: 2026-03-15
     });
 
     // ── scramble ──
-    const SCHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&*!?';
+    const SCHARS = 'ABCDEFภาพคือสิ่งที่เรGHIJstrj KLM友情は私たちみんですNOPQRSTUVWXYZ0123456789@#$%&*!?';
     const rc = () => SCHARS[Math.floor(Math.random() * SCHARS.length)];
 
     function collectTextNodes(root) {
