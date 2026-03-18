@@ -77,9 +77,14 @@ hr.line {
 }
 
 .topnav a:hover {
-  background-color: #EDAA25;
-  color: black;
+  border-bottom: 3px solid #000;
+  margin-bottom: -3px; /* prevents layout shift from the border */
 }
+    .topnav a:nth-child(1):hover { background-color: #FFE500; color: #010221; } /* Reviews  */
+    .topnav a:nth-child(2):hover { background-color: #0f2cc1; color: #ffffff; } /* Archive  */
+    .topnav a:nth-child(3):hover { background-color: #cf0a0a; color: #ffffff; } /* About    */
+    .topnav a.split:hover        { background-color: #0ead25; color: #010221; } /* Home     */
+
 
 .topnav a.split {
   float: right;

@@ -1,55 +1,303 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link rel="shortcut icon" href="favicon.ico">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Rat Reviews</title>
   <link rel="stylesheet" href="rat.css">
-  <link href='https://fonts.googleapis.com/css?family=Blaka|DotGothic16|Abhaya+Libre' rel='stylesheet'>
-<style>
+  <link href="https://fonts.googleapis.com/css2?family=Blaka&family=DotGothic16&family=Abhaya+Libre&display=swap" rel="stylesheet">
+  <style>
 
-</style>
+    body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+    /* ── CONVERGENCE EFFECT (intro paragraph) ── */
+    .fx-converge {
+      display: block;
+      position: relative;
+      isolation: isolate;
+    }
+    .fx-converge::before,
+    .fx-converge::after {
+      content: attr(data-text);
+      position: absolute; top: 0; left: 0;
+      pointer-events: none;
+      mix-blend-mode: multiply;
+      width: 100%;
+      white-space: normal;
+      font-size: inherit;
+      font-style: inherit;
+      font-family: inherit;
+      line-height: inherit;
+    }
+    .fx-converge::before {
+      color: #e8000d;
+      opacity: 0.45;
+      animation: cvR 9s ease-in-out infinite;
+    }
+    .fx-converge::after {
+      color: #0047ff;
+      opacity: 0.45;
+      animation: cvB 9s ease-in-out infinite;
+    }
+    @keyframes cvR {
+      0%,100% { transform: translate(0,0); }
+      20%      { transform: translate(-3px,-1px); }
+      45%      { transform: translate(-5px, 2px); }
+      70%      { transform: translate(-2px,-2px); }
+    }
+    @keyframes cvB {
+      0%,100% { transform: translate(0,0); }
+      20%      { transform: translate(3px, 1px); }
+      45%      { transform: translate(5px,-2px); }
+      70%      { transform: translate(2px, 2px); }
+    }
+
+    /* ── MAIN BOX ── */
+    main {
+      border: solid;
+      background-color: white;
+      box-shadow: 10px 10px #0A7373;
+      color: #010221;
+      font-family: 'DotGothic16', serif;
+      text-align: center;
+      padding: 3% 5% 2%;
+      font-size: 1.1em;
+      border-radius: 12px;
+      margin: 1rem auto !important;
+      width: calc(100% - 2rem);
+    }
+
+    @media (min-width: 600px) {
+      main {
+        max-width: 780px;
+        margin: 6% auto;
+        font-size: 1.25em;
+        padding: 3% 5% 2%;
+      }
+    }
+
+    /* ── INTRO (above tabs) ── */
+    .intro {
+      padding: 0 0 0.75rem;
+      font-style: italic;
+      line-height: 1.7;
+    }
+
+    /* ── NAVBAR  ── */
+    .topnav {
+  border-bottom: 2px solid #000;
+}
+.topnav a:hover {
+  border-bottom: 3px solid #000;
+  margin-bottom: -3px; /* prevents layout shift from the border */
+}
+    .topnav a:nth-child(1):hover { background-color: #FFE500; color: #010221; } /* Reviews  */
+    .topnav a:nth-child(2):hover { background-color: #0f2cc1; color: #ffffff; } /* Archive  */
+    .topnav a:nth-child(3):hover { background-color: #cf0a0a; color: #ffffff; } /* About    */
+    .topnav a.split:hover        { background-color: #0ead25; color: #010221; } /* Home     */
+
+    /* ── CONTENT BOX (tabs + panels) ── */
+    .content-box {
+      background: rgba(255,255,255,0.95);
+      border: 1px solid #ddd;
+      text-align: left;
+    }
+
+    /* ── TAB BAR ── */
+    .tab-bar {
+      display: flex;
+      flex-wrap: wrap;
+      border-bottom: 1px solid #ddd;
+      padding: 0 1rem;
+    }
+    .tab-btn {
+      font-family: 'DotGothic16', monospace;
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #aaa;
+      background: none;
+      border: none;
+      padding: 0.6rem 0.6rem 0.6rem 0;
+      margin-right: 1.2rem;
+      cursor: pointer;
+      position: relative;
+      transition: color 0.2s;
+    }
+    .tab-btn::after {
+      content: '';
+      position: absolute; bottom: -1px; left: 0; right: 0;
+      height: 1px;
+      background: #010221;
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.2s ease;
+    }
+    .tab-btn:hover  { color: #555; }
+    .tab-btn.active { color: #010221; }
+    .tab-btn.active::after { transform: scaleX(1); }
+
+    /* ── TAB PANELS ── */
+    .tab-panel { display: none; }
+    .tab-panel.active {
+      display: block;
+      animation: fadeUp 0.25s ease;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(4px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .tab-panel p {
+      padding: 1.4rem 1.2rem;
+      font-size: 0.95rem;
+      color: #333;
+      line-height: 1.8;
+    }
+
+    /* ── FOOTER ── */
+
+    footer.footjob-copyleft {
+  margin-top: auto;
+}
+
+    .footjob-content {
+      padding: 0.1rem 1.25rem;
+      background: #000000;
+      color: white;
+      display: flex;
+      overflow: visible;  /* allow the circle to escape upward */
+      position: relative;
+      justify-content: space-between;
+      align-items: center;
+      text-shadow: 0px 0px 12px rgba(0,0,0,0.4);
+      border-top: 2px groove #332A19;
+      flex-wrap: wrap;
+      font-family: 'DotGothic16';
+      gap: 0.5rem;
+    }
+    @keyframes colorCycle {
+      0%   { color: #1a2fc0; }
+      33%  { color: #ff5733; }
+      66%  { color: #33ff57; }
+      100% { color: #1a2fc0; }
+    }
+    .footjob-text { text-align: left; }
+    .copyleft-sym {
+      display: inline-block;
+      font-family: 'Share Tech Mono';
+      transform: scaleX(-1);
+      font-weight: bold;
+      color: #1a2fc0;
+      font-size: 1.5em;
+      vertical-align: middle;
+      animation: colorCycle 10s infinite;
+    }
+
+    .gif-circle {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  top: -15px;        /* how far it pokes above the footer */
+  margin-bottom: -15px; /* pull it back so it doesn't add height */
+}
+
+  </style>
 </head>
 <body class="bkg">
 
+<!-- NAVBAR -->
 <div class="topnav">
   <a class="active" href="https://rat.reviews/Recent">Reviews</a>
   <a href="https://rat.reviews/Archive">Archive</a>
-  <a href="https://rat.reviews/About"><u>About</u></a>
+  <a href="https://rat.reviews/About">About</a>
   <a href="https://rat.reviews" class="split">Home</a>
 </div>
 
-<p class="prg">
+<!-- MAIN -->
+<main>
 
+  <!-- Intro with convergence effect -->
+  <div class="intro">
+    <p class="fx-converge" data-text="&gt; Born spiritually during 2022 (and coming to fruition in early 2023) two strapping young whipper-snappers bonded over music with a magnetic energy: but in the spirit of magnets this is a case of opposites attracting.">&gt; Born spiritually during 2022 (and coming to fruition in early 2023) two strapping young whipper-snappers bonded over music with a magnetic energy: but in the spirit of magnets this is a case of opposites attracting.</p>
+  <br>
+    <p>Descriptors as Follows:</p>
+  </div>
 
-    Born spiritually during 2022 (and coming to fruition in early 2023)
-    two strapping young whipper-snappers bonded over music with a magnetic 
-    energy: but in the spirit of magnets this is a case of opposites attracting. <br><br>
-    <i>Descripors as follows:</i> 
-    <br><br>
-    <b>Ape </b>~ 
-    Side A, 45s, Oxford Commas, Coupes, Vexillology, Cryptomnesia, Caravels,
-    Breadboards, Aortas, Redundancy, and Greatest Hits. 
-    <br> <br>
-    <b>Josey </b> ~
-    Deep Cuts, 33s, Bolo Ties, Wood Splinters, Vaudeville, Recursive Laments, Casual Fridays, 
-    Paranormal Sitzmarks, BetaMax, Polished Turquoise, Draft Beer, and Back Side.
-    <br> <br>
-    <b>Nova </b> ~
-    2 Stroke, Carbonation, Homily, Baritone, Ribbon Mic, Love Salvo, Low-Low Loquacious, 
-    Clipping, Licensed, Cogent Captivity, Bon Vivant, Salad Daze,
-    <i>『 is believed to be Emil Milan 』</i>
-    <br> <br>
-    <b>Bowie</b> ~ Deep Depths
-    <br> <br>
-    <b>Pinky </b> ~ Speed Limits, Black Beans
+  <!-- Tabbed content -->
+  <div class="content-box">
 
-</p>
+    <div class="tab-bar" role="tablist">
+      <button class="tab-btn active" role="tab" data-target="t1">Ape</button>
+      <button class="tab-btn" role="tab" data-target="t2">Bowie</button>
+      <button class="tab-btn" role="tab" data-target="t3">Josie</button>
+      <button class="tab-btn" role="tab" data-target="t4">Nova</button>
+      <button class="tab-btn" role="tab" data-target="t5">Pinky</button>
+    </div>
 
+    <div class="tab-panel active" id="t1" role="tabpanel">
+      <p>Side A, 45s, Oxford Commas, Coupes, Vexillology, Cryptomnesia, Caravels,
+      Breadboards, Aortas, Redundancy, and Greatest Hits.</p>
+    </div>
+
+    <div class="tab-panel" id="t2" role="tabpanel">
+      <p>Deep Depths, Katydids, Kansas, Late Nights, Alpine Butterfly Bends, Paint Chips, Cotton.</p>
+    </div>
+
+    <div class="tab-panel" id="t3" role="tabpanel">
+      <p>Deep Cuts, 33s, Bolo Ties, Wood Splinters, Vaudeville, Recursive Laments, Casual Fridays,
+      Paranormal Sitzmarks, BetaMax, Polished Turquoise, Draft Beer, and Back Side.</p>
+    </div>
+
+    <div class="tab-panel" id="t4" role="tabpanel">
+      <p>2 Stroke, Carbonation, Crown Sinnet, Homily, Baritone, Ribbon Mic, Love Salvo, Low-Low Loquacious,
+      Clipping, Licensed, Cogent Captivity, Bon Vivant, Salad Daze,
+      <i>『 is believed to be Emil Milan 』</i></p>
+    </div>
+
+    <div class="tab-panel" id="t5" role="tabpanel">
+      <p>Speed Limits, Black Beans, Linen, Deactivated Ammoniun Thioglycolate, Oxytocin, Sand.</p>
+    </div>
+
+  </div><!-- /.content-box -->
+
+</main>
+
+<!-- FOOTER -->
+<footer class="footjob-copyleft">
+  <div class="footjob-content">
+    <div class="footjob-text">
+      <p>
+        <span class="copyleft-sym">&copy;</span>
+        COPYLEFT 2026
+      </p>
+    </div>
+    <div class="gif-circle">
+  <img src="walkin.gif" alt="Tutti Silly" style="width:44px;height:44px;">
+</div>
+  </div>
+</footer>
+
+<script>
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById(btn.dataset.target).classList.add('active');
+    });
+  });
+</script>
 
 </body>
-<footer><div class="footer">
-  <p>&copy; Copyright 2023, Rat Review</p>
-</div></footer>
 </html>

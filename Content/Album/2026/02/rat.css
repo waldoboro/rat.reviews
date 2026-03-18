@@ -1,3 +1,16 @@
+ :root {
+      --black: #0a0a0a;
+      --white: #f5f0e8;
+      --yellow: #FFE500;
+      --teal: #0f2cc1;
+      --orange: #cf0a0a;
+      --sage: #0ead25;
+      --shadow: 5px 5px 0px var(--black);
+      --shadow-lg: 8px 8px 0px var(--black);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
 .bkg{
 	background-color: #ecede6;
 	background-image: url("tiles.png");
@@ -64,9 +77,14 @@ hr.line {
 }
 
 .topnav a:hover {
-  background-color: #EDAA25;
-  color: black;
+  border-bottom: 3px solid #000;
+  margin-bottom: -3px; /* prevents layout shift from the border */
 }
+    .topnav a:nth-child(1):hover { background-color: #FFE500; color: #010221; } /* Reviews  */
+    .topnav a:nth-child(2):hover { background-color: #0f2cc1; color: #ffffff; } /* Archive  */
+    .topnav a:nth-child(3):hover { background-color: #cf0a0a; color: #ffffff; } /* About    */
+    .topnav a.split:hover        { background-color: #0ead25; color: #010221; } /* Home     */
+
 
 .topnav a.split {
   float: right;
