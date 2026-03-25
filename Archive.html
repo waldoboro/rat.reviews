@@ -10,6 +10,73 @@
   <style>
     ul.a { list-style-type: circle; padding: 0 8%; }
     .list { color: black; font-size: 1em; text-decoration: none; }
+
+    body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.prg {
+  flex: 1;
+}
+
+footer.footjob-copyleft {
+  margin-top: auto;
+}
+
+     /* ── FOOTER ── */
+
+    footer.footjob-copyleft {
+  margin-top: auto;
+}
+
+    .footjob-content {
+      padding: 0.1rem 1.25rem;
+      background: #000000;
+      color: white;
+      display: flex;
+      overflow: visible;  /* allow the circle to escape upward */
+      position: relative;
+      justify-content: space-between;
+      align-items: center;
+      text-shadow: 0px 0px 12px rgba(0,0,0,0.4);
+      border-top: 2px groove #332A19;
+      flex-wrap: wrap;
+      font-family: 'DotGothic16';
+      gap: 0.5rem;
+    }
+    @keyframes colorCycle {
+      0%   { color: #1a2fc0; }
+      33%  { color: #ff5733; }
+      66%  { color: #33ff57; }
+      100% { color: #1a2fc0; }
+    }
+    .footjob-text { text-align: left; }
+    .copyleft-sym {
+      display: inline-block;
+      font-family: 'Share Tech Mono';
+      transform: scaleX(-1);
+      font-weight: bold;
+      color: #1a2fc0;
+      font-size: 1.5em;
+      vertical-align: middle;
+      animation: colorCycle 10s infinite;
+    }
+
+    .gif-circle {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  top: -15px;        /* how far it pokes above the footer */
+  margin-bottom: -15px; /* pull it back so it doesn't add height */
+}
   </style>
 </head>
 <body class="bkg">
@@ -60,6 +127,19 @@
 </ul>
 
 </div>
-<footer><div class="footer"><p>&copy; Copyright 2026, Rat Reviews</p></div></footer>
+<!-- FOOTER -->
+<footer class="footjob-copyleft">
+  <div class="footjob-content">
+    <div class="footjob-text">
+      <p>
+        <span class="copyleft-sym">&copy;</span>
+        COPYLEFT 2026
+      </p>
+    </div>
+    <div class="gif-circle">
+  <img src="walkin.gif" alt="Tutti Silly" style="width:44px;height:44px;">
+</div>
+  </div>
+</footer>
 </body>
 </html>

@@ -499,7 +499,20 @@ def update_archive():
 <div class="prg" style="font-size:1em; text-align:left;">
 {archive_body}
 </div>
-<footer><div class="footer"><p>&copy; Copyright {current_year}, Rat Reviews</p></div></footer>
+<!-- FOOTER -->
+<footer class="footjob-copyleft">
+  <div class="footjob-content">
+    <div class="footjob-text">
+      <p>
+        <span class="copyleft-sym">&copy;</span>
+        COPYLEFT {current_year}
+      </p>
+    </div>
+    <div class="gif-circle">
+  <img src="walkin.gif" alt="Tutti Silly" style="width:44px;height:44px;">
+</div>
+  </div>
+</footer>
 </body>
 </html>
 """
@@ -585,9 +598,20 @@ def update_recent(title, artist, album, release_year, review_type, pub_date, aut
 </p>
 
 </body>
-<footer><div class="footer">
-  <p>&copy; Copyright {current_year}, Rat Reviews</p>
-</div></footer>
+<!-- FOOTER -->
+<footer class="footjob-copyleft">
+  <div class="footjob-content">
+    <div class="footjob-text">
+      <p>
+        <span class="copyleft-sym">&copy;</span>
+        COPYLEFT {current_year}
+      </p>
+    </div>
+    <div class="gif-circle">
+  <img src="walkin.gif" alt="Tutti Silly" style="width:44px;height:44px;">
+</div>
+  </div>
+</footer>
 </html>
 """
     with open(recent_path, "w", encoding="utf-8") as f:
